@@ -7,17 +7,20 @@ INCLUDES = includes/
 
 SRC = srcs/
 
-FLAGS = -Wall -Wextra -Werror -L. -lftprintf -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -ltermcap -lncurses -L. -lftprintf -g3 -fsanitize=address
 
 CC = gcc $(FLAGS)
 
 FILES = mishell.c welcome.c \
 		builtins/pwd.c builtins/env.c \
-		builtins/cd.c \
-		env/env_lst.c env/env_edit.c\
+		builtins/cd.c builtins/export.c \
+		builtins/unset.c \
+		env/env_lst.c env/env_edit.c \
+		env/env_to_tab.c env/env_remove.c \
 		utils/cmd_handler.c \
 		utils/trim_args.c utils/exit.c \
-		utils/init_env.c
+		utils/init_env.c utils/translate.c \
+		perso/donut.c
 
 RM = rm -f
 

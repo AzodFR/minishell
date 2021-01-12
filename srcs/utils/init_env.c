@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:14:19 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/08 17:51:00 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 10:51:54 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ char	*get_name(char *s)
 	char	*name;
 
 	i = -1;
-	while(s[++i] != '=')
+	while (s[++i] != '=')
 		;
 	if (!(name = wrmalloc(i + 1 * sizeof(char))))
 		ft_exit(MALLOC);
 	i = -1;
-	while(s[++i] != '=')
+	while (s[++i] != '=')
 		name[i] = s[i];
 	name[i] = 0;
 	return (name);
@@ -34,6 +34,7 @@ char	*get_value(char *s)
 	int		i;
 	int		j;
 	char	*value;
+
 	i = -1;
 	j = 0;
 	while (s[++i] != '=')
@@ -54,7 +55,6 @@ t_env	*init_env(char **env)
 {
 	t_env	*lst;
 	int		i;
-	
 
 	i = 0;
 	if (!(lst = wrmalloc(sizeof(t_env))))

@@ -25,7 +25,7 @@ FILES = ft_atoi.c ft_isalpha.c \
 		ft_split.c ft_digitlen.c \
 		ft_itoa.c ft_strmapi.c \
 		ft_bzero.c ft_itoa_base.c \
-		ft_ulltoa_base.c \
+		ft_ulltoa_base.c ft_advanced_sort_tab.c \
 		ft_putchar_fd.c ft_putstr_fd.c \
 		ft_putendl_fd.c ft_putnbr_fd.c \
 		ft_putstrchr_fd.c ft_putstr_len.c \

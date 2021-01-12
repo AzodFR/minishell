@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:52:33 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/08 18:38:02 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 13:58:39 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@ t_env	*env_find(t_env *env, char *name)
 			return (tmp);
 		tmp = tmp->next;
 	}
-	if (!(tmp = wrmalloc(sizeof(t_env))))
-		ft_exit(MALLOC);
-	tmp = ft_envnew(name, NULL);
-	ft_envadd_back(&env, tmp);
-	return (tmp);
+	return (NULL);
 }
 
 void	env_edit_value(t_env *env, char *value)
 {
 	wrfree(env->value);
 	env->value = ft_strdup(value);
+}
+
+void	env_edit_state(t_env *env, int value)
+{
+	env->state = value;
 }

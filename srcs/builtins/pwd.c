@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:36:44 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/08 11:46:46 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/11 10:45:08 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ int		get_pwd(void)
 
 	getcwd(path, 10000);
 	ft_printf("%s\n", path);
-	return(SUCCESS);
+	return (SUCCESS);
 }

@@ -1,36 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_advanced_sort_tab.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/05 13:23:16 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 11:33:14 by thjacque         ###   ########lyon.fr   */
+/*   Created: 2020/10/21 11:52:39 by thjacque          #+#    #+#             */
+/*   Updated: 2021/01/12 18:43:29 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strncmp(const char *s1, const char *s2, size_t n)
+void	ft_swap_tab(char **one, char **two)
 {
-	size_t		i;
+	char *swap;
 
-	i = 0;
-	if (!n)
-		return (0);
-	while (s1[i] && s2[i] && (i < n - 1) && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	swap = *one;
+	*one = *two;
+	*two = swap;
 }
 
-int		ft_strcmp(char *s1, char *s2)
+void	ft_advanced_sort_string_tab(char **teub, int (*cmp)(char *, char *))
 {
-	size_t		i;
+	int		i;
+	int		j;
 
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	i = -1;
+	while (teub[++i])
+	{
+		j = 0;
+		while (teub[j])
+		{
+			if ((*cmp)(teub[i], teub[j]) < 0)
+				ft_swap_tab(&teub[i], &teub[j]);
+			j++;
+		}
+	}
 }
-

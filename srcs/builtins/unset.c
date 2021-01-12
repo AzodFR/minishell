@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 16:25:27 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 17:26:38 by thjacque         ###   ########lyon.fr   */
+/*   Created: 2021/01/12 10:47:47 by thjacque          #+#    #+#             */
+/*   Updated: 2021/01/12 11:04:40 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-char	*get_msg(int code)
+int		unset(t_env *env, char **args)
 {
-	if (code == EXIT_SUCCESS)
-		return ("SUCCESS");
-	if (code == EXIT_FAILED)
-		return ("EXIT FAILED");
-	if (code == MALLOC)
-		return ("MALLOC ERROR");
-	if (code == QUIT)
-		return ("SUCCESS");
-	if (code == BAD_ENV)
-		return ("CORRUPTED ENV");
-	return (NULL);
-}
+	int		i;
 
-void	ft_exit(int code)
-{
-	ft_printf("exit\n");
-	if (code != 0 && code != 4)
-		ft_printf("Status: %s\n", get_msg(code));
-	wrdestroy();
-	exit(code);
+	i = 0;
+	if (!args[1])
+		return (SUCCESS);
+	while (args[++i])
+		ft_env_remove_if(&env, args[i], ft_strcmp);
+	return (SUCCESS);
 }

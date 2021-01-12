@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 17:10:18 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/08 11:35:20 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/12 18:44:08 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ void	welc_msg(void)
 	welcome2();
 }
 
-void welcome(char **env)
+void	welcome(char **env)
 {
 	pid_t		prog;
-	char		*tab[] = {NULL};
-	
+	char		*teub[1];
+
+	teub[0] = NULL;
 	if (!(prog = fork()))
-		execve("/usr/bin/clear", tab,env);
+		execve("/usr/bin/clear", teub, env);
 	wait(&prog);
 	welc_msg();
 }
