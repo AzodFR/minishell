@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:19:11 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/11 13:30:39 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:24:03 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_env		*ft_envnew(char *name, char *value)
 	elem->name = name;
 	elem->value = value;
 	elem->state = value ? 2 : 1;
-	//dprintf(1, "%s=%s --> %d\n",name,value,elem->state);
 	elem->next = NULL;
 	return (elem);
 }

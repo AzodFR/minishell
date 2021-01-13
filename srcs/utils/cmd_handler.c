@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 15:55:23 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/13 13:44:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,22 @@ void	underscore(t_env *env, char **args)
 	env_edit_value(env_find(env, "_"), args[--i]);
 }
 
-int		handler(char *cmd, t_all *all, t_env *env)
+int		end_ling(t_all *all, int ret, char *s)
 {
-	int		ret;
+	if (ret < 0)
+	{
+		ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
+		ft_printf("%s: command not found\n", s);
+	}
+	all->state = ret;
+	return (ret);
+}
+
+int		handler(char *cmd, t_all *all, t_env *env, int ret)
+{
 	char	**args;
 
 	args = trim_args(cmd, ' ');
-	ret = 0;
 	if (!args[0])
 		return (1);
 	underscore(env, args);
@@ -91,17 +100,13 @@ int		handler(char *cmd, t_all *all, t_env *env)
 		ret = export_env(env, args);
 	else if (!ft_strncmp(args[0], "unset", 6))
 		ret = unset(env, args);
-	else if (!ft_strncmp(args[0], "donut",6))
+	else if (!ft_strncmp(args[0], "echo", 5))
+		ret = do_echo(args);
+	else if (!ft_strncmp(args[0], "donut", 6))
 		ret = main_donut();
 	else if (!ft_strncmp(args[0], "exit", 6))
 		ft_exit(EXIT_SUCCESS);
 	else
 		ret = search_cmd(env, args, -1);
-	if (ret < 0)
-	{
-		ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
-		ft_printf("%s: command not found\n", args[0]);
-	}
-	all->state = ret;
-	return (ret);
+	return (end_ling(all, ret, args[0]));
 }

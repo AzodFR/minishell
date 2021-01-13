@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 10:47:47 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 13:23:05 by thjacque         ###   ########lyon.fr   */
+/*   Created: 2021/01/13 13:04:59 by thjacque          #+#    #+#             */
+/*   Updated: 2021/01/13 13:23:51 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-int		unset(t_env *env, char **args)
+int		do_echo(char **args)
 {
-	int		i;
+	int i;
+	int j;
 
-	i = 0;
+	j = 0;
 	if (!args[1])
-		return (SUCCESS);
-	while (args[++i])
-		ft_env_remove_if(&env, args[i], ft_strcmp);
+		ft_printf("\n");
+	else
+	{
+		if (!ft_strncmp(args[1], "-n", 3) && (j = 1))
+			i = 1;
+		else
+			i = 0;
+		while (args[++i])
+			ft_printf("%c%s", i != j + 1 ? ' ' : 0, args[i]);
+		if (!j)
+			ft_printf("\n");
+	}
 	return (SUCCESS);
 }

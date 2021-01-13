@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   commands.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/12 10:47:47 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 13:23:05 by thjacque         ###   ########lyon.fr   */
+/*   Created: 2021/01/13 15:18:46 by thjacque          #+#    #+#             */
+/*   Updated: 2021/01/13 15:20:42 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mishell.h"
+#ifndef COMMANDS_H
+# define COMMANDS_H
+# include "libft.h"
 
-int		unset(t_env *env, char **args)
+typedef struct		s_cmd
 {
-	int		i;
+	void			*content;
+	t_list			*args;
+	struct s_cmd	*next;
+}					t_cmd;
 
-	i = 0;
-	if (!args[1])
-		return (SUCCESS);
-	while (args[++i])
-		ft_env_remove_if(&env, args[i], ft_strcmp);
-	return (SUCCESS);
-}
+#endif
