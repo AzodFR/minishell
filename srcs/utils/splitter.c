@@ -6,19 +6,19 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/14 17:27:18 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 19:02:53 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-char		*sep_blocks(char *s, int *i, char c, char *string)
+char		*sep_blocks(char *s, int *i, char c, char *string, t_all *a)
 {
 	char	*tmp;
 	char	*tmp2;
 	int		j;
 	
-	j = 1;
+	j = 0;
 	while (s[j])
 	{
 		if (s[j - 1] == '\\' && s[j] == c)
@@ -31,6 +31,8 @@ char		*sep_blocks(char *s, int *i, char c, char *string)
 	if (s[j] != c)
 		return (NULL);
 	tmp = ft_strndup(s, j);
+	if (c == '\"')
+		tmp = ft_translate(tmp, get_env_st(NULL), a, -1);
 	tmp2 = ft_strjoin(string, tmp);
 	wrfree(tmp);
 	wrfree(string);
@@ -105,19 +107,19 @@ void	get_blocks(char **teub, char *s, t_all *a, int *j)
 		if (!s[i])
 			break;
 		if (!a->flag_esc && (s[i] == '\'' | s[i] == '\"') && (c = s[i]))
-			string = sep_blocks(&s[i + 1], &i, c, string);
+			string = sep_blocks(&s[i + 1], &i, c, string,a);
 		else if (s[i] == ' ')
 		{
 			while (s[i] == ' ' && s[i])
 				i++;
 			i--;
-			teub[++k] = ft_strdup(ft_strtrim(string, " "));
+			teub[++k] = ft_strdup(string);
 			wrfree(string);
 			string = ft_strdup("");
 		}
 		else if (!a->flag_esc && s[i] == ';')
 		{
-			teub[++k] = ft_strdup(ft_strtrim(string, " "));
+			teub[++k] = ft_strdup(string);
 			wrfree(string);
 			*j = i;
 			teub[++k] = 0;
@@ -129,7 +131,7 @@ void	get_blocks(char **teub, char *s, t_all *a, int *j)
 			a->flag_esc = 0;
 		}	
 	}
-	teub[++k] = ft_strdup(ft_strtrim(string, " "));
+	teub[++k] = ft_strdup(string);
 	wrfree(string);
 	teub[++k] = 0;
 	return ;
