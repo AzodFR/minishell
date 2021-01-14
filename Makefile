@@ -7,7 +7,7 @@ INCLUDES = includes/
 
 SRC = srcs/
 
-FLAGS = -Wall -Wextra -Werror -ltermcap -lncurses -L. -lftprintf -g3 -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g3 -ltermcap -lncurses -L. -lftprintf -fsanitize=address
 
 CC = gcc $(FLAGS)
 
@@ -20,7 +20,8 @@ FILES = mishell.c welcome.c \
 		utils/cmd_handler.c \
 		utils/trim_args.c utils/exit.c \
 		utils/init_env.c utils/translate.c \
-		utils/splitter.c \
+		utils/splitter.c utils/splitter_count.c \
+		utils/prepare_array.c \
 		perso/donut.c
 
 RM = rm -f

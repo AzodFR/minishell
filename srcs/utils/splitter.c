@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 16:49:49 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 17:27:18 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,64 +50,87 @@ char		*add_one(char *s, char c)
 	return (tmp);
 }
 
-void	splitter(char *s, t_all *a)
+char	*stran(char *s, int *i, t_all *all, char *string)
 {
-	t_list		*cmds;
+	int	j;
+	char *tmp;
+	char *ret;
+	char state[2];
+	t_env	*env;
+	
+	j = 1;
+	state[1] = 0;
+	env = get_env_st(NULL);
+	ret = ft_strdup(string);
+	while (s[*i + j] && (ft_isalnum(s[*i + j]) ||
+	(j == 1 && s[*i + j] == '?') || s[*i + j] == '_'))
+		if ((j++ == 1 && s[*i + j - 1] == '?'))
+			break ;
+	tmp = ft_strndup(&s[*i + 1], j - 1);
+	wrfree(string);
+	*i += j;
+	if (!ft_strncmp(tmp, "?", 1) && (state[0] = all->state + '0'))
+		string = ft_strjoin(ret, state);
+	else if (env_find(env, tmp))
+		string = ft_strjoin(ret, env_find(env, tmp)->value);
+	else
+		string = ft_strjoin(ret, "");
+	wrfree(tmp);
+	wrfree(ret);
+	return (string);
+}
+
+void	get_blocks(char **teub, char *s, t_all *a, int *j)
+{
 	char		*string;
 	char		c;
 	int			i;
+	int			k;
 
-	i = -1;
-	if (!(cmds = wrmalloc(sizeof(t_list))))
-		ft_exit(MALLOC);
+	i = *j;
+	k = -1;
 	string = ft_strdup("");
-	a->flag_quote = 0;
-	a->flag_esc = 0;
 	a->flag_cmd = 0;
 	while (s[++i])
 	{
+		if (i == *j + 1 && !a->flag_cmd && s[i] == ' ' && (a->flag_cmd = 1))
+			while (s[++i] == ' ' && s[i])
+				;
 		if ( i > 0 && s[i - 1] == '\\')
 			a->flag_esc = 1;
 		if (s[i] == '\\')
 			continue ;
+		if (!a->flag_esc && s[i] == '$')
+			string = stran(s, &i, a, string);
+		if (!s[i])
+			break;
 		if (!a->flag_esc && (s[i] == '\'' | s[i] == '\"') && (c = s[i]))
+			string = sep_blocks(&s[i + 1], &i, c, string);
+		else if (s[i] == ' ')
 		{
-			if (!(string = sep_blocks(&s[i + 1], &i, c, string)))
-				if ((a->flag_quote = 1))
-					break ;
+			while (s[i] == ' ' && s[i])
+				i++;
+			i--;
+			teub[++k] = ft_strdup(ft_strtrim(string, " "));
+			wrfree(string);
+			string = ft_strdup("");
 		}
 		else if (!a->flag_esc && s[i] == ';')
 		{
-			if (!a->flag_cmd && (a->flag_cmd = 1))
-				cmds = ft_lstnew(ft_strdup(string));
-			else
-				ft_lstadd_back(&cmds, ft_lstnew(ft_strdup(string)));
+			teub[++k] = ft_strdup(ft_strtrim(string, " "));
 			wrfree(string);
-			string = ft_strdup("");
+			*j = i;
+			teub[++k] = 0;
+			return ;
 		}
 		else
 		{
 			string = add_one(string, s[i]);
 			a->flag_esc = 0;
-		}
-		
+		}	
 	}
-	
-	if (a->flag_quote)
-	{
-		ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
-		ft_printf("You need to close your quotes\n");
-		return ;
-	}
-	if (!a->flag_cmd && (a->flag_cmd = 1))
-				cmds = ft_lstnew(ft_strdup(string));
-	else
-		ft_lstadd_back(&cmds, ft_lstnew(ft_strdup(string)));
+	teub[++k] = ft_strdup(ft_strtrim(string, " "));
 	wrfree(string);
-	while (cmds)
-	{
-		ft_printf("|%s|\n", cmds->content);
-		cmds = cmds->next;
-	}
+	teub[++k] = 0;
 	return ;
 }

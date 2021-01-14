@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 16:11:08 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 18:07:56 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,15 @@ void			ft_remove_elem(t_env **ptr_back, t_env **ptr);
 /*
 **
 */
-int				handler(char *cmd, t_all *all, t_env *env,int ret);
+int				handler(char **cmd, t_all *all, t_env *env,int ret);
 char			**trim_args(char *line, char c);
 void			ft_exit(int code);
 char			*ft_translate( char *s, t_env *env, t_all *all, int i);
-void			splitter(char *s, t_all *a);
+void			get_blocks(char **teub, char *s, t_all *a, int *j);
+int				splitter_counter_cmd(char *s, t_all *a, int i);
+int				splitter_counter_args(char *s, t_all *a, int *j);
+char			***prepare_array(char *line, t_all *all);
+char			*recreate(char *s, int *i, char *r, int j);
 
 int			main_donut(void);
 t_env		*get_env_st(t_env *env);

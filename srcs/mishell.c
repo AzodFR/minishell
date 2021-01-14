@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 16:11:58 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 18:05:14 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 void		treat(char *line, t_all *all, t_env *env)
 {
-	char	**args;
+	char	***args;
 	int		i;
-
-	splitter(line, all);
-	args = trim_args(line, ';');
+	
+	args = prepare_array(line, all);
 	i = -1;
 	while (args[++i])
-	{
-		args[i] = ft_translate(args[i], env, all, -1);
 		handler(args[i], all, env, 0);
-	}
 }
 
 void		loop(t_env *envp)

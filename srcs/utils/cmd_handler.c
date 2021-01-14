@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 13:44:17 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/14 18:08:34 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,8 @@ int		end_ling(t_all *all, int ret, char *s)
 	return (ret);
 }
 
-int		handler(char *cmd, t_all *all, t_env *env, int ret)
+int		handler(char **args, t_all *all, t_env *env, int ret)
 {
-	char	**args;
-
-	args = trim_args(cmd, ' ');
 	if (!args[0])
 		return (1);
 	underscore(env, args);
