@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/11 10:44:27 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 17:10:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ int		change_dir(t_env *env, char **args)
 
 	if (!args[1])
 		path = ft_strdup(env_find(env, "HOME")->value);
+	else if (args[1][0] == '.')
+		path = ft_strdup(env_find(env, "PWD")->value);
 	else
 		path = ft_strdup(args[1]);
-	if (args[1][0] == '~')
+	if (args[1] && args[1][0] == '~')
 		path = home(env, path);
 	if (chdir(path) < 0)
 	{
@@ -53,7 +55,10 @@ int		change_dir(t_env *env, char **args)
 		wrfree(path);
 		return (FAILED);
 	}
-	env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD")->value);
+	if (env_find(env, "OLDPWD"))
+		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD")->value);
+	else
+		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD")->value)));
 	env_edit_value(env_find(env, "PWD"), getcwd(test, 10000));
 	wrfree(path);
 	return (SUCCESS);

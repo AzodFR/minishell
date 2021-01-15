@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/14 15:28:55 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:05:29 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		sep_count(char *s, int *i, char c)
 {
 	int		j;
-	
+
 	j = 0;
 	while (s[j])
 	{
@@ -48,7 +48,7 @@ int		print_error_quote(void)
 	return (-1);
 }
 
-int	splitter_counter_cmd(char *s, t_all *a, int i)
+int		splitter_counter_cmd(char *s, t_all *a, int i)
 {
 	char		c;
 	int			cmds;
@@ -59,7 +59,7 @@ int	splitter_counter_cmd(char *s, t_all *a, int i)
 		if (!a->flag_cmd && (a->flag_cmd = 1))
 			while (s[i] == ' ')
 				i++;
-		if ( i > 0 && s[i - 1] == '\\')
+		if (i > 0 && s[i - 1] == '\\')
 			a->flag_esc = 1;
 		if (s[i] == '\\')
 			continue ;
@@ -69,17 +69,15 @@ int	splitter_counter_cmd(char *s, t_all *a, int i)
 				if ((a->flag_quote = 1))
 					break ;
 		}
-		else if (!a->flag_esc && (s[i] == ';' && s[i+1]) && (++cmds))
+		else if (!a->flag_esc && (s[i] == ';' && s[i + 1]) && (++cmds))
 			a->flag_cmd = 0;
 		else
 			a->flag_esc = 0;
-	}	
-	if (a->flag_quote)
-		return (print_error_quote());
-	return (cmds);
+	}
+	return (a->flag_quote ? print_error_quote() : cmds);
 }
 
-int	splitter_counter_args(char *s, t_all *a, int *j)
+int		splitter_counter_args(char *s, t_all *a, int *j)
 {
 	char		c;
 	int			i;
@@ -96,13 +94,9 @@ int	splitter_counter_args(char *s, t_all *a, int *j)
 			a->flag_esc = 1;
 		if (s[i] == '\\')
 			continue ;
-		if (!a->flag_esc && (s[i] == '\'' | s[i] == '\"') && (c = s[i]))
-		{
-			if (sep_count(&s[i + 1], &i, c) < 0)
-				if ((a->flag_quote = 1))
-					break ;
-			++count;	
-		}
+		if (!a->flag_esc && (s[i] == '\'' | s[i] == '\"') 
+				&& (c = s[i]) && (++count))
+			sep_count(&s[i + 1], &i, c);
 		if (s[i] == ' ' && count++)
 		{
 			while (s[++i] == ' ' && s[i])
@@ -113,9 +107,7 @@ int	splitter_counter_args(char *s, t_all *a, int *j)
 			return (count);
 		else
 			a->flag_esc = 0;
-	}	
-	if (a->flag_quote)
-		return (print_error_quote());
+	}
 	(*j = i);
-	return (count);
+	return (a->flag_quote ? print_error_quote() : count);
 }

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/14 19:02:53 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:14:57 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char		*sep_blocks(char *s, int *i, char c, char *string, t_all *a)
 	char	*tmp;
 	char	*tmp2;
 	int		j;
-	
+
 	j = 0;
 	while (s[j])
 	{
@@ -52,29 +52,32 @@ char		*add_one(char *s, char c)
 	return (tmp);
 }
 
-char	*stran(char *s, int *i, t_all *all, char *string)
+char		*stran(char *s, int *i, t_all *all, char *string)
 {
-	int	j;
-	char *tmp;
-	char *ret;
-	char state[2];
-	t_env	*env;
-	
+	int		j;
+	char	*tmp;
+	char	*ret;
+	char	state[2];
+
 	j = 1;
 	state[1] = 0;
-	env = get_env_st(NULL);
 	ret = ft_strdup(string);
-	while (s[*i + j] && (ft_isalnum(s[*i + j]) ||
-	(j == 1 && s[*i + j] == '?') || s[*i + j] == '_'))
-		if ((j++ == 1 && s[*i + j - 1] == '?'))
-			break ;
+	if (!ft_isdigit(s[*i + j]) && s[*i + j] != ' ')
+	{
+		while (s[*i + j] && (ft_isalnum(s[*i + j]) ||
+		(j == 1 && s[*i + j] == '?') || s[*i + j] == '_'))
+			if ((j++ == 1 && s[*i + j - 1] == '?'))
+				break ;
+	}
+	else
+		++j;
 	tmp = ft_strndup(&s[*i + 1], j - 1);
 	wrfree(string);
 	*i += j;
 	if (!ft_strncmp(tmp, "?", 1) && (state[0] = all->state + '0'))
 		string = ft_strjoin(ret, state);
-	else if (env_find(env, tmp))
-		string = ft_strjoin(ret, env_find(env, tmp)->value);
+	else if (env_find(get_env_st(NULL), tmp))
+		string = ft_strjoin(ret, env_find(get_env_st(NULL), tmp)->value);
 	else
 		string = ft_strjoin(ret, "");
 	wrfree(tmp);
@@ -82,15 +85,17 @@ char	*stran(char *s, int *i, t_all *all, char *string)
 	return (string);
 }
 
-void	get_blocks(char **teub, char *s, t_all *a, int *j)
+void		get_blocks(char **teub, char *s, int *j)
 {
 	char		*string;
 	char		c;
 	int			i;
 	int			k;
+	t_all *a;
 
 	i = *j;
 	k = -1;
+	a = get_all_st(NULL);
 	string = ft_strdup("");
 	a->flag_cmd = 0;
 	while (s[++i])
@@ -98,16 +103,16 @@ void	get_blocks(char **teub, char *s, t_all *a, int *j)
 		if (i == *j + 1 && !a->flag_cmd && s[i] == ' ' && (a->flag_cmd = 1))
 			while (s[++i] == ' ' && s[i])
 				;
-		if ( i > 0 && s[i - 1] == '\\')
+		if (i > 0 && s[i - 1] == '\\')
 			a->flag_esc = 1;
-		if (s[i] == '\\')
+		if (s[i] == '\\' && (a->flag_esc = 1))
 			continue ;
-		if (!a->flag_esc && s[i] == '$')
+		while (!a->flag_esc && s[i] == '$' && s[i + 1] != ' ')
 			string = stran(s, &i, a, string);
 		if (!s[i])
-			break;
+			break ;
 		if (!a->flag_esc && (s[i] == '\'' | s[i] == '\"') && (c = s[i]))
-			string = sep_blocks(&s[i + 1], &i, c, string,a);
+			string = sep_blocks(&s[i + 1], &i, c, string, a);
 		else if (s[i] == ' ')
 		{
 			while (s[i] == ' ' && s[i])
@@ -129,7 +134,7 @@ void	get_blocks(char **teub, char *s, t_all *a, int *j)
 		{
 			string = add_one(string, s[i]);
 			a->flag_esc = 0;
-		}	
+		}
 	}
 	teub[++k] = ft_strdup(string);
 	wrfree(string);

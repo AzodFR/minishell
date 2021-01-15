@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:55:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 13:28:48 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 13:23:16 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,31 @@ void	stop_at_equal(char **teub, int i)
 			j++;
 		teub[i][j] = 0;
 	}
+}
+
+char	*escape(char *s)
+{
+	char	*tmp;
+	int		i;
+	int		j;
+
+	i = -1;
+	j = 0;
+	while (s[++i])
+		if (s[i] == '"' || s[i] == '$')
+			j++;
+	if (!(tmp = wrmalloc((ft_strlen(s) + j + 1) * sizeof(char))))
+		ft_exit(MALLOC);
+	j = 0;
+	i = -1;
+	while (s[++i])
+	{
+		if (s[i] == '"' || s[i] == '$')
+			tmp[i + j++] = '\\';
+		tmp[i + j] = s[i];
+	}
+	tmp[i + j] = 0;
+	return (tmp);
 }
 
 int		print_export(t_env *env)
@@ -45,7 +70,8 @@ int		print_export(t_env *env)
 		act = env_find(env, envlist[i]);
 		c = act->state ? '=' : 0;
 		q = act->state ? '"' : 0;
-		ft_printf("declare -x %s%c%c%s%c\n", act->name, c, q, act->value, q);
+		ft_printf("declare -x %s%c%c%s%c\n", act->name, c, q,
+		escape(act->value), q);
 		act = act->next;
 	}
 	return (1);
@@ -59,7 +85,7 @@ int		treat_export(char *arg, t_env *env)
 		env_edit_state(env_find(env, arg), 0);
 		return (1);
 	}
-	else if (!ft_strchr(arg, '"') && !ft_strchr(arg, '\''))
+	else if (!ft_strchr(arg, '"') || !ft_strchr(arg, '\''))
 	{
 		if (!env_find(env, get_name(arg)))
 			ft_envadd_back(&env, ft_envnew(get_name(arg), get_value(arg)));

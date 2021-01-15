@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/14 18:07:56 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 17:04:03 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include <signal.h>
 # include <curses.h>
 # include <term.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 typedef struct			s_all
 {
@@ -51,7 +53,7 @@ typedef struct			s_env
 	struct s_env	*next;
 }						t_env;
 void			welcome(char **env);
-void			loop(t_env *envp);
+void			loop(int fd);
 /*
 **	BUILTINS
 */
@@ -84,11 +86,13 @@ int				handler(char **cmd, t_all *all, t_env *env,int ret);
 char			**trim_args(char *line, char c);
 void			ft_exit(int code);
 char			*ft_translate( char *s, t_env *env, t_all *all, int i);
-void			get_blocks(char **teub, char *s, t_all *a, int *j);
+void			get_blocks(char **teub, char *s, int *j);
 int				splitter_counter_cmd(char *s, t_all *a, int i);
 int				splitter_counter_args(char *s, t_all *a, int *j);
 char			***prepare_array(char *line, t_all *all);
+char			*backavoid(char *s);
 char			*recreate(char *s, int *i, char *r, int j);
+t_all			*get_all_st(t_all *all);
 
 int			main_donut(void);
 t_env		*get_env_st(t_env *env);

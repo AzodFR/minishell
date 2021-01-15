@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:04:59 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 13:23:51 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/15 14:10:46 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		do_echo(char **args)
 		else
 			i = 0;
 		while (args[++i])
-			ft_printf("%c%s", i != j + 1 ? ' ' : 0, args[i]);
+			ft_printf("%c%s", (i != j + 1 && ft_strlen(args[i])) ? ' ' : 0, args[i]);
 		if (!j)
 			ft_printf("\n");
 	}
