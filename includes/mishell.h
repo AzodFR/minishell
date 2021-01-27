@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mishell.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/15 17:04:03 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/01/27 16:02:00 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,22 @@ typedef struct			s_env
 	int				state;
 	struct s_env	*next;
 }						t_env;
+
+/*
+**	TYPE 5 = ">>"
+**	TYPE 4 = "<"
+**	TYPE 3 = ">"
+**	TYPE 2 = "|"
+**	TYPE 1 = ";"
+**	TYPE 0 = "blabla"
+*/
+typedef struct			s_type
+{
+	char			type;
+	char			*content;
+	struct s_type	*next;
+}						t_type;
+
 void			welcome(char **env);
 void			loop(int fd);
 /*
