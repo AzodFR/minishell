@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 14:19:39 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 14:32:42 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char		**prep_cmd(t_type *begin, int i)
 	line = ft_strdup("");
 	while (++j < i)
 	{
-		line = ft_strjoin(line, begin->type == 6 ? ft_strtrim(begin->content, "\'\"") : check_translation(ft_strtrim(begin->content, "\'\"")));
+		line = ft_strjoin(line,ft_strtrim(begin->content, "\'\""));
 		begin = begin->next;
 	}
 	args = ft_split(line, ' ');
