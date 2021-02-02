@@ -6,9 +6,10 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 14:28:36 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 14:30:45 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MISHELL_H
 # define MISHELL_H
@@ -69,6 +70,7 @@ typedef struct			s_type
 	char			type;
 	char			*content;
 	struct s_type	*next;
+	struct s_type	*prev;
 }						t_type;
 
 void			welcome(char **env);

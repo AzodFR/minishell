@@ -6,7 +6,7 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 13:32:26 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 14:28:15 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,12 @@ t_type	*create_struc(char *line, int i, char type, t_type *str_type)
 	temp->content[y] = 0;
 	temp->type = type;
 	temp->next = NULL;
+	temp->prev = NULL;
 	if (str_type == NULL)
 		return (temp);
 	while (str_type->next != NULL)
 		str_type = str_type->next;
+	temp->prev = str_type;
 	str_type->next = temp;
 	return (save_first);
 }
@@ -90,6 +92,23 @@ int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u)
 	return (i + 1);
 }
 
+int		moov_type(int u, char *line)
+{
+	int y;
+
+	y = u;
+	if (line[y] == '>')
+	{
+		while (y > 0 && line[y] == '>')
+			y--;
+		while (y > 0 && ft_isalnum(line[y]))
+			y--;
+		if (y > 0 && line[y] == ' ')
+			return (y + 1);
+	}
+	return (u);
+}
+
 t_type	*split_type(char *line, char *line_p)
 {
 	t_type	*f_type;
@@ -107,14 +126,14 @@ t_type	*split_type(char *line, char *line_p)
 			return (0);
 		if (line_p[i] == '0' && check_type(line, i, '0') != type)
 		{
-			f_type = create_struc(line + u, i - u - 1,
-				check_type(line, i - 1, '0'), f_type);
+			f_type = create_struc(line + moov_type(u, line), moov_type(i, line)
+				- moov_type(u, line) - 1, check_type(line, i - 1, '0'), f_type);
 			u = i;
 		}
 	}
 	if (u != i)
-		f_type = create_struc(line + u, i - u - 1,
-			check_type(line, i - 1, '0'), f_type);
+		f_type = create_struc(line + moov_type(u, line), moov_type(i, line)
+			- moov_type(u, line) - 1, check_type(line, i - 1, '0'), f_type);
 	wrfree(line_p);
 	return (f_type);
 }
@@ -179,6 +198,7 @@ t_type *prepare_array(char *line)
 		ft_printf("%s               %i\n", tmp->content, tmp->type);
 		if (tmp->type == 0 || tmp->type == 7)
 			ft_printf("%s               %i\n", check_translation(tmp->content), tmp->type);
+		ft_printf("prev: %s\n", tmp->prev ? tmp->prev->content : NULL);
 		ft_printf("-----------------------\n");
 		tmp = tmp->next;
 	}
