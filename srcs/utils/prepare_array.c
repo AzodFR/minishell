@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_array.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 11:28:02 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 12:42:53 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,28 @@ char	check_type(char *str, int i, char c)
 	return (0);
 }
 
-int		jump_cote(char *line, int i, char *line_p)
+int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u)
 {
 	char	c;
+	int		y;
 
+	y = i;
 	if ((line[i] == '\'' || line[i] == '\"') && line_p[i] == '0')
 	{
 		c = line[i];
+		if (i > 0)
+			str_type[0] = create_struc(line - u[0], i - 1,
+				check_type(line, 0, '0'), str_type[0]);
 		i++;
 		while (line[i] && (!(line[i] == c && line_p[i] == '0')))
 			i++;
 		if (!(line[i]))
 			return (-1);
+		else if (line[i] == '\"')
+			str_type[0] = create_struc(line + y, i - y, 7, str_type[0]);
+		else
+			str_type[0] = create_struc(line + y, i - y, 6, str_type[0]);
+		u[0] = i + 1;
 	}
 	return (i);
 }
@@ -89,12 +99,11 @@ t_type	*split_type(char *line, char *line_p)
 
 	f_type = NULL;
 	u = 0;
-	i = 0;
-	type = check_type(line, 0, '0');
-	while (line[0] && line[i])
+	i = -1;
+	while (line[++i])
 	{
 		type = check_type(line, i, line_p[i]);
-		if ((i = jump_cote(line, i + 1, line_p)) == -1)
+		if ((i = jump_cote(line, i, line_p, &f_type, &u)) == -1)
 			return (0);
 		if (line_p[i] == '0' && check_type(line, i, '0') != type)
 		{
@@ -104,7 +113,8 @@ t_type	*split_type(char *line, char *line_p)
 		}
 	}
 	if (u != i)
-		f_type = create_struc(line + u, i - u - 1, check_type(line, i - 1, '0'), f_type);
+		f_type = create_struc(line + u, i - u - 1,
+			check_type(line, i - 1, '0'), f_type);
 	wrfree(line_p);
 	return (f_type);
 }
@@ -146,11 +156,11 @@ char	*check_translation(char *s)
 			++i;
 		}
 		if (!s[i])
-			break;
+			break ;
 		if (s[i] == '$' && !esc)
 			r = stran(s, &i, get_all_st(NULL), r);
 		if (!s[i])
-			break;
+			break ;
 		r = add_one(r, s[i]);
 	}
 	return (r);
