@@ -6,7 +6,7 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 13:26:35 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 13:32:26 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u)
 	{
 		c = line[i];
 		if (i > u[0])
-			str_type[0] = create_struc(&line[u[0]], i - 1 - u[0] , check_type(line , 0, '0'), str_type[0]);
+			str_type[0] = create_struc(&line[u[0]], i - 1 - u[0],
+				check_type(line, 0, '0'), str_type[0]);
 		i++;
 		while (line[i] && (!(line[i] == c && line_p[i] == '0')))
 			i++;
@@ -86,7 +87,7 @@ int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u)
 			str_type[0] = create_struc(line + y, i - y, 6, str_type[0]);
 		u[0] = i + 1;
 	}
-	return (i);
+	return (i + 1);
 }
 
 t_type	*split_type(char *line, char *line_p)
@@ -104,7 +105,6 @@ t_type	*split_type(char *line, char *line_p)
 		type = check_type(line, i, line_p[i]);
 		if ((i = jump_cote(line, i, line_p, &f_type, &u)) == -1)
 			return (0);
-		i++;
 		if (line_p[i] == '0' && check_type(line, i, '0') != type)
 		{
 			f_type = create_struc(line + u, i - u - 1,
@@ -113,7 +113,8 @@ t_type	*split_type(char *line, char *line_p)
 		}
 	}
 	if (u != i)
-		f_type = create_struc(line + u, i - u - 1, check_type(line, i - 1, '0'), f_type);
+		f_type = create_struc(line + u, i - u - 1,
+			check_type(line, i - 1, '0'), f_type);
 	wrfree(line_p);
 	return (f_type);
 }
