@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 15:48:49 by thjacque          #+#    #+#             */
-/*   Updated: 2020/12/14 13:31:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 10:26:58 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,5 @@ int					print_direct(const char *format);
 int					read_format(const char *format, va_list ap);
 int					ft_printf(const char *format,
 					...) __attribute__((format(printf,1,2)));
+int					ft_dprintf(int fd, const char *format, ...);
 #endif

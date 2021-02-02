@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_array.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/28 16:49:05 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 11:17:55 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ t_type	*split_type(char *line, char *line_p)
 		}
 	}
 	if (u != i)
-		create_struc(line + u, i - u - 1, check_type(line, i - 1, '0'), f_type);
+		f_type = create_struc(line + u, i - u - 1, check_type(line, i - 1, '0'), f_type);
 	wrfree(line_p);
 	return (f_type);
 }
@@ -139,46 +139,50 @@ char	*line_pre(char *line)
 	return (line_temp);
 }
 
+char	*check_translation(char *s)
+{
+	int		i;
+	char	*r;
+	int		esc;
+
+	i = -1;
+	r = ft_strdup("");
+	while (s[++i])
+	{
+		esc = 0;
+		if (s[i] == '\\')
+		{
+			esc = 1;
+			++i;
+		}
+		if (!s[i])
+			break;
+		if (s[i] == '$' && !esc)
+			r = stran(s, &i, get_all_st(NULL), r);
+		if (!s[i])
+			break;
+		if (!esc)
+			r = add_one(r, s[i]);
+	}
+	return (r);
+}
+
 char	***prepare_array(char *line, t_all *all)
 {
-	char	***teub;
-	int		cmds;
-	int		i;
-	int		j;
-	int		args;
-
-
 //	LAUCHER DE MA FONCTION
 	t_type	*first_type;
+	t_type	*tmp;
 
 	first_type = split_type(line, line_pre(line));
-	while (first_type)
+	tmp = first_type;
+	while (tmp)
 	{
-		ft_printf("%s               %i\n", first_type->content, first_type->type);
-		first_type = first_type->next;
+		ft_printf("%s               %i\n", tmp->content, tmp->type);
+		if (!tmp->type)
+			ft_printf("%s               %i\n", check_translation(tmp->content), tmp->type);
+		ft_printf("-----------------------\n");
+		tmp = tmp->next;
 	}
-// RESET DE LINE
-	line = strdup("");
-
-
-	if ((cmds = splitter_counter_cmd(line, all, -1)) < 0)
-		return (NULL);
-	if (!(teub = wrmalloc((cmds + 1) * sizeof(char**))))
-		ft_exit(MALLOC);
-	if (!(teub[cmds] = wrmalloc(1 * sizeof(char*))))
-		ft_exit(MALLOC);
-	set_value(teub, cmds, &i, &j);
-	while (++i < cmds)
-	{
-		if ((args = splitter_counter_args(line, all, &j)) < 0)
-			return (NULL);
-		if (!(teub[i] = wrmalloc((args + 1) * sizeof(char**))))
-			ft_exit(MALLOC);
-		if (!(teub[i][args] = wrmalloc(1 * sizeof(char*))))
-			ft_exit(MALLOC);
-		teub[i][args] = 0;
-		fill_teub(teub[i], line, all);
-		handler(teub[i], all, get_env_st(NULL), 0);
-	}
-	return (teub);
+	tmp = first_type;
+	return (NULL);
 }

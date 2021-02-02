@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mishell.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/27 16:02:00 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 10:57:43 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ char			***prepare_array(char *line, t_all *all);
 char			*backavoid(char *s);
 char			*recreate(char *s, int *i, char *r, int j);
 t_all			*get_all_st(t_all *all);
+
+char		*stran(char *s, int *i, t_all *all, char *string);
+char		*add_one(char *s, char c);
 
 int			main_donut(void);
 t_env		*get_env_st(t_env *env);
