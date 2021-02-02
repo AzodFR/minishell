@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 10:39:26 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 11:22:47 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void		treat(char *line, t_all *all)
 {
 	char	***args;
 	int		i;
-	args = prepare_array(line, all);
+	args = prepare_array(line);
 	i = -1;
 	if (args == NULL)
 		all->state = 0;

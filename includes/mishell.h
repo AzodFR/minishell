@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 10:57:43 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 11:22:32 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char			*ft_translate( char *s, t_env *env, t_all *all, int i);
 void			get_blocks(char **teub, char *s, int *j);
 int				splitter_counter_cmd(char *s, t_all *a, int i);
 int				splitter_counter_args(char *s, t_all *a, int *j);
-char			***prepare_array(char *line, t_all *all);
+char			***prepare_array(char *line);
 char			*backavoid(char *s);
 char			*recreate(char *s, int *i, char *r, int j);
 t_all			*get_all_st(t_all *all);

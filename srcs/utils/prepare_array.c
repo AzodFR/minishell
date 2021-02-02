@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 11:17:55 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 11:22:18 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,12 @@ char	*check_translation(char *s)
 			r = stran(s, &i, get_all_st(NULL), r);
 		if (!s[i])
 			break;
-		if (!esc)
-			r = add_one(r, s[i]);
+		r = add_one(r, s[i]);
 	}
 	return (r);
 }
 
-char	***prepare_array(char *line, t_all *all)
+char	***prepare_array(char *line)
 {
 //	LAUCHER DE MA FONCTION
 	t_type	*first_type;
