@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mishell.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 12:43:26 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 12:50:31 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void			ft_exit(int code);
 char			*ft_translate( char *s, t_env *env, t_all *all, int i);
 int				splitter_counter_cmd(char *s, t_all *a, int i);
 int				splitter_counter_args(char *s, t_all *a, int *j);
-char			***prepare_array(char *line);
+t_type *prepare_array(char *line);
 char			*backavoid(char *s);
 char			*recreate(char *s, int *i, char *r, int j);
 t_all			*get_all_st(t_all *all);
