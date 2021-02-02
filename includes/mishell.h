@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 12:50:31 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 14:28:36 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct			s_all
 	int		flag_quote;
 	int		flag_cmd;
 	int		flag_esc;
+	int		fd[3];
 }						t_all;
 
 /*
@@ -116,4 +117,5 @@ char		*add_one(char *s, char c);
 
 int			main_donut(void);
 t_env		*get_env_st(t_env *env);
+char	*check_translation(char *s);
 #endif

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 12:51:10 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 14:19:39 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,51 @@ t_type		*find_next_type(t_type *begin)
 	return (NULL);
 }
 
+char		**prep_cmd(t_type *begin, int i)
+{
+	t_type *tmp;
+	char 	**args;
+	char	*line;
+	int		j;
+
+	tmp = begin;
+	while (tmp)
+	{
+		++i;
+		if (tmp->type  > 0 && tmp->type < 6)
+			break;
+		tmp = tmp->next;
+	}
+	if (!(args = malloc((i + 1) * sizeof(char *))))
+		ft_exit(MALLOC);
+	if (!(args[i] = malloc(1 * sizeof(char))))
+		ft_exit(MALLOC);
+	args[i] = 0;
+	j = -1;
+	line = ft_strdup("");
+	while (++j < i)
+	{
+		line = ft_strjoin(line, begin->type == 6 ? ft_strtrim(begin->content, "\'\"") : check_translation(ft_strtrim(begin->content, "\'\"")));
+		begin = begin->next;
+	}
+	args = ft_split(line, ' ');
+	return (args);
+}
 void		treat(char *line)
 {
 	t_type *begin;
+	t_type *tmp;
+	t_type *next;
 
-	
 	begin = prepare_array(line);
-
-	
+	tmp = begin;
+	while (tmp)
+	{
+		if (!(next = find_next_type(tmp)))
+			handler(prep_cmd(tmp, 0), get_all_st(NULL), get_env_st(NULL), 0);
+		dup2(get_all_st(NULL)->fd[1], 1);
+		tmp = next;
+	}
 }
 
 void		loop(int fd)
@@ -44,6 +81,9 @@ void		loop(int fd)
 
 	ret = 1;
 	a.state = 1;
+	a.fd[0] = dup(0);
+	a.fd[1] = dup(1);
+	a.fd[2] = dup(2);
 	get_all_st(&a);
 	while (ret)
 	{
