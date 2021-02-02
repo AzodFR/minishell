@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 14:32:42 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 16:30:38 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_type		*find_next_type(t_type *begin)
 	tmp = begin;
 	while (tmp)
 	{
-		if (tmp->type > 1 && tmp->type < 6)
+		if (tmp->type > 0 && tmp->type < 6)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -50,7 +50,8 @@ char		**prep_cmd(t_type *begin, int i)
 	line = ft_strdup("");
 	while (++j < i)
 	{
-		line = ft_strjoin(line,ft_strtrim(begin->content, "\'\""));
+		if (begin->type == 0 || begin->type > 5)
+			line = ft_strjoin(line,ft_strtrim(begin->content, "\'\""));
 		begin = begin->next;
 	}
 	args = ft_split(line, ' ');
@@ -61,15 +62,31 @@ void		treat(char *line)
 	t_type *begin;
 	t_type *tmp;
 	t_type *next;
+	int		fd[2];
 
 	begin = prepare_array(line);
 	tmp = begin;
 	while (tmp)
 	{
-		if (!(next = find_next_type(tmp)))
+		next = find_next_type(tmp);
+		if (!next || next->type == 1)
+		{
+			dup2(get_all_st(NULL)->fd[1], 1);
+			close(fd[0]);
+			close(fd[1]);
 			handler(prep_cmd(tmp, 0), get_all_st(NULL), get_env_st(NULL), 0);
-		dup2(get_all_st(NULL)->fd[1], 1);
-		tmp = next;
+			dup2(get_all_st(NULL)->fd[0], 0);
+		}
+		else if (next->type == 2)
+		{
+			pipe(fd);
+			dup2(fd[1], 1);
+			dup2(fd[0], 0);
+			handler(prep_cmd(tmp, 0), get_all_st(NULL), get_env_st(NULL), 0);
+		}
+		else if (next->type > 2 && next->type < 6)
+			ft_printf("Redirect please !\n");
+		tmp = next ? next->next : next;
 	}
 }
 
@@ -80,14 +97,14 @@ void		loop(int fd)
 	t_all	a;
 
 	ret = 1;
-	a.state = 1;
+	a.state = 0;
 	a.fd[0] = dup(0);
 	a.fd[1] = dup(1);
 	a.fd[2] = dup(2);
 	get_all_st(&a);
 	while (ret)
 	{
-		ft_printf("\033[32mMiShell \033[%dm~ \033[0m", a.state ? 36 : 31);
+		ft_printf("\033[32mMiShell \033[%dm~ \033[0m", !a.state ? 36 : 31);
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
 			treat(line);

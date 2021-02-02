@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/15 17:10:17 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 16:13:02 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,6 @@ int		change_dir(t_env *env, char **args)
 
 	if (!args[1])
 		path = ft_strdup(env_find(env, "HOME")->value);
-	else if (args[1][0] == '.')
-		path = ft_strdup(env_find(env, "PWD")->value);
 	else
 		path = ft_strdup(args[1]);
 	if (args[1] && args[1][0] == '~')

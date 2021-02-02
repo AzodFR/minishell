@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 14:30:45 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 15:34:19 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 # define MISHELL_H
 # define EXIT_SUCCESS 0
 # define EXIT_FAILED 1
-# define SUCCESS 1
-# define FAILED 0
+# define SUCCESS 0
+# define FAILED 1
 # define MALLOC 2
 # define QUIT 3
 # define BAD_ENV 4

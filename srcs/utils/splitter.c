@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 11:29:40 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 15:51:19 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,8 @@ char		*stran(char *s, int *i, t_all *all, char *string)
 	int		j;
 	char	*tmp;
 	char	*ret;
-	char	state[2];
 
 	j = 1;
-	state[1] = 0;
 	ret = ft_strdup(string);
 	if (!ft_isdigit(s[*i + j]) && s[*i + j] != ' ')
 	{
@@ -74,8 +72,8 @@ char		*stran(char *s, int *i, t_all *all, char *string)
 	tmp = ft_strndup(&s[*i + 1], j - 1);
 	wrfree(string);
 	*i += j;
-	if (!ft_strncmp(tmp, "?", 1) && (state[0] = all->state + '0'))
-		string = ft_strjoin(ret, state);
+	if (!ft_strncmp(tmp, "?", 1))
+		string = ft_strjoin(ret, ft_itoa(all->state));
 	else if (env_find(get_env_st(NULL), tmp))
 		string = ft_strjoin(ret, env_find(get_env_st(NULL), tmp)->value);
 	else

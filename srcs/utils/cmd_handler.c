@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/14 18:08:34 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 15:33:33 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int		end_ling(t_all *all, int ret, char *s)
 {
 	if (ret < 0)
 	{
+		ret = 127;
 		ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
 		ft_printf("%s: command not found\n", s);
 	}
