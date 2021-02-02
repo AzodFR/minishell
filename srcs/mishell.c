@@ -6,20 +6,34 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 11:22:47 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 12:51:10 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-void		treat(char *line, t_all *all)
+t_type		*find_next_type(t_type *begin)
 {
-	char	***args;
-	int		i;
-	args = prepare_array(line);
-	i = -1;
-	if (args == NULL)
-		all->state = 0;
+	t_type *tmp;
+	
+	tmp = begin;
+	while (tmp)
+	{
+		if (tmp->type > 1 && tmp->type < 6)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+void		treat(char *line)
+{
+	t_type *begin;
+
+	
+	begin = prepare_array(line);
+
+	
 }
 
 void		loop(int fd)
@@ -36,7 +50,7 @@ void		loop(int fd)
 		ft_printf("\033[32mMiShell \033[%dm~ \033[0m", a.state ? 36 : 31);
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
-			treat(line, &a);
+			treat(line);
 		wrfree(line);
 	}
 	if (ret < 0)

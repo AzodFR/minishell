@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_array.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 12:42:53 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 12:59:46 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ char	*check_translation(char *s)
 	return (r);
 }
 
-char	***prepare_array(char *line)
+t_type *prepare_array(char *line)
 {
 //	LAUCHER DE MA FONCTION
 	t_type	*first_type;
@@ -177,11 +177,11 @@ char	***prepare_array(char *line)
 	while (tmp)
 	{
 		ft_printf("%s               %i\n", tmp->content, tmp->type);
-		if (!tmp->type)
+		if (tmp->type == 0 || tmp->type == 7)
 			ft_printf("%s               %i\n", check_translation(tmp->content), tmp->type);
 		ft_printf("-----------------------\n");
 		tmp = tmp->next;
 	}
 	tmp = first_type;
-	return (NULL);
+	return (first_type);
 }
