@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/15 14:14:57 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 11:29:40 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,61 +83,4 @@ char		*stran(char *s, int *i, t_all *all, char *string)
 	wrfree(tmp);
 	wrfree(ret);
 	return (string);
-}
-
-void		get_blocks(char **teub, char *s, int *j)
-{
-	char		*string;
-	char		c;
-	int			i;
-	int			k;
-	t_all *a;
-
-	i = *j;
-	k = -1;
-	a = get_all_st(NULL);
-	string = ft_strdup("");
-	a->flag_cmd = 0;
-	while (s[++i])
-	{
-		if (i == *j + 1 && !a->flag_cmd && s[i] == ' ' && (a->flag_cmd = 1))
-			while (s[++i] == ' ' && s[i])
-				;
-		if (i > 0 && s[i - 1] == '\\')
-			a->flag_esc = 1;
-		if (s[i] == '\\' && (a->flag_esc = 1))
-			continue ;
-		while (!a->flag_esc && s[i] == '$' && s[i + 1] != ' ')
-			string = stran(s, &i, a, string);
-		if (!s[i])
-			break ;
-		if (!a->flag_esc && (s[i] == '\'' | s[i] == '\"') && (c = s[i]))
-			string = sep_blocks(&s[i + 1], &i, c, string, a);
-		else if (s[i] == ' ')
-		{
-			while (s[i] == ' ' && s[i])
-				i++;
-			i--;
-			teub[++k] = ft_strdup(string);
-			wrfree(string);
-			string = ft_strdup("");
-		}
-		else if (!a->flag_esc && s[i] == ';')
-		{
-			teub[++k] = ft_strdup(string);
-			wrfree(string);
-			*j = i;
-			teub[++k] = 0;
-			return ;
-		}
-		else
-		{
-			string = add_one(string, s[i]);
-			a->flag_esc = 0;
-		}
-	}
-	teub[++k] = ft_strdup(string);
-	wrfree(string);
-	teub[++k] = 0;
-	return ;
 }

@@ -6,21 +6,11 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 11:22:18 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/02 11:28:02 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
-
-void	fill_teub(char **teub, char *line, t_all *a)
-{
-	static	int		j = -1;
-
-	a->flag_quote = 0;
-	a->flag_esc = 0;
-	a->flag_cmd = 0;
-	get_blocks(teub, line, &j);
-}
 
 void	set_value(char ***teub, int cmds, int *i, int *j)
 {
