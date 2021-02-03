@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 17:31:20 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 17:47:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void		loop(int fd)
 	get_all_st(&a);
 	while (ret)
 	{
-		//ft_printf("\033[32mMiShell \033[%dm~ \033[0m", !a.state ? 36 : 31);
+		ft_printf("\033[32mMiShell \033[%dm~ \033[0m", !a.state ? 36 : 31);
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
 			treat(line);
@@ -166,7 +166,7 @@ int			main(int ac, char **av, char **envp)
 	int		fd;
 
 	(void)av[ac];
-	//welcome(envp);
+	welcome(envp);
 	fd = 0;
 	if (ac == 2)
 		fd = open(av[1], O_RDONLY);
