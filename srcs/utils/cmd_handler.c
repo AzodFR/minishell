@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 15:33:33 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 12:47:57 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		search_cmd_local(t_env *env, char **args)
 			execve(tmp2, args, env_to_tab(env));
 		wait(&prog);
 		wrfree(tmp2);
-		return (1);
+		return (0);
 	}
 	wrfree(tmp2);
 	return (-1);
@@ -68,7 +68,8 @@ void	underscore(t_env *env, char **args)
 	i = -1;
 	while (args[++i])
 		;
-	env_edit_value(env_find(env, "_"), args[--i]);
+		--i;
+	env_edit_value(env_find(env, "_"), args[i]);
 }
 
 int		end_ling(t_all *all, int ret, char *s)
@@ -85,24 +86,25 @@ int		end_ling(t_all *all, int ret, char *s)
 
 int		handler(char **args, t_all *all, t_env *env, int ret)
 {
+
 	if (!args[0])
 		return (1);
 	underscore(env, args);
-	if (!ft_strncmp(args[0], "pwd", 4))
+	if (!ft_strncmp(ft_tolowers(args[0]), "pwd", 4))
 		ret = get_pwd();
-	else if (!ft_strncmp(args[0], "env", 4))
+	else if (!ft_strncmp(ft_tolowers(args[0]), "env", 4))
 		ret = get_env(env);
-	else if (!ft_strncmp(args[0], "cd", 3))
+	else if (!ft_strncmp(ft_tolowers(args[0]), "cd", 3))
 		ret = change_dir(env, args);
-	else if (!ft_strncmp(args[0], "export", 7))
+	else if (!ft_strncmp(ft_tolowers(args[0]), "export", 7))
 		ret = export_env(env, args);
-	else if (!ft_strncmp(args[0], "unset", 6))
+	else if (!ft_strncmp(ft_tolowers(args[0]), "unset", 6))
 		ret = unset(env, args);
-	else if (!ft_strncmp(args[0], "echo", 5))
+	else if (!ft_strncmp(ft_tolowers(args[0]), "echo", 5))
 		ret = do_echo(args);
-	else if (!ft_strncmp(args[0], "donut", 6))
+	else if (!ft_strncmp(ft_tolowers(args[0]), "donut", 6))
 		ret = main_donut();
-	else if (!ft_strncmp(args[0], "exit", 6))
+	else if (!ft_strncmp(ft_tolowers(args[0]), "exit", 6))
 		ft_exit(EXIT_SUCCESS);
 	else
 		ret = search_cmd(env, args, -1);

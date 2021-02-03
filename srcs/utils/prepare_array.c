@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 15:40:09 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 16:28:47 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_type	*create_struc(char *line, int i, char type, t_type *str_type)
 		y++;
 	}
 	temp->content[y] = 0;
+	/*if (!ft_strlen(temp->content))
+		return (str_type);*/
 	temp->type = type;
 	temp->next = NULL;
 	temp->prev = NULL;
@@ -63,6 +65,8 @@ char	check_type(char *str, int i, char c)
 		return (2);
 	else if (str[i] == ';')
 		return (1);
+	else if (str[i] == ' ' || str[i] == '\t')
+		return (8);
 	return (0);
 }
 
@@ -71,7 +75,7 @@ int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u)
 	char	c;
 	int		y;
 
-	y = i;
+	y = i + 1;
 	if ((line[i] == '\'' || line[i] == '\"') && line_p[i] == '0')
 	{
 		c = line[i];
@@ -84,9 +88,9 @@ int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u)
 		if (!(line[i]))
 			return (-1);
 		else if (line[i] == '\"')
-			str_type[0] = create_struc(line + y, i - y, 7, str_type[0]);
+			str_type[0] = create_struc(line + y, i - y - 1, 7, str_type[0]);
 		else
-			str_type[0] = create_struc(line + y, i - y, 6, str_type[0]);
+			str_type[0] = create_struc(line + y, i - y - 1, 6, str_type[0]);
 		u[0] = i + 1;
 	}
 	return (i + 1);
@@ -126,8 +130,8 @@ t_type	*split_type(char *line, char *line_p)
 			return (0);
 		if (line_p[i] == '0' && check_type(line, i, '0') != type)
 		{
-			f_type = create_struc(line + moov_type(u, line), moov_type(i, line)
-				- moov_type(u, line) - 1, check_type(line, i - 1, '0'), f_type);
+				f_type = create_struc(line + moov_type(u, line), moov_type(i, line)
+					- moov_type(u, line) - 1, check_type(line, i - 1, '0'), f_type);
 			u = i;
 		}
 	}
@@ -176,11 +180,12 @@ char	*check_translation(char *s)
 		}
 		if (!s[i])
 			break;
-		if (s[i] == '$' && !esc)
+		while (s[i] == '$' && !esc && s[i + 1] && s[i + 1] != ' ')
 			r = stran(s, &i, get_all_st(NULL), r);
 		if (!s[i])
 			break;
 		r = add_one(r, s[i]);
+		
 	}
 	return (r);
 }
@@ -195,10 +200,14 @@ t_type *prepare_array(char *line)
 	tmp = first_type;
 	while (tmp)
 	{
-		//ft_printf("%s               %i\n", tmp->content, tmp->type);
+		//ft_printf("|%s|               %i\n", tmp->content, tmp->type);
 		if (tmp->type == 0 || tmp->type == 7)
+		{
+			if (tmp->type == 0 && tmp->content[0] == '~' && (!tmp->content[1] || tmp->content[1] == '/'))
+				tmp->content = ft_strjoin(env_find(get_env_st(NULL), "HOME")->value, tmp->content + 1);
 			tmp->content =  check_translation(tmp->content);
-		//ft_printf("-----------------------\n");
+		}
+	//	ft_printf("-----------------------\n");
 		tmp = tmp->next;
 	}
 	tmp = first_type;

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:05:23 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 18:43:29 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 09:55:22 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,5 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 void				*wrmalloc(unsigned long size);
 int					wrfree(void *ptr);
 void				wrdestroy(void);
+char		*ft_tolowers(char *s);
 #endif

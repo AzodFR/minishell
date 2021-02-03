@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:25:27 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 10:36:12 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 14:47:00 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ char	*get_msg(int code)
 
 void	ft_exit(int code)
 {
-	ft_printf("exit\n");
+	ft_dprintf(2,"exit\n");
 	if (code != 0 && code != 4)
-		ft_printf("Status: %s\n", get_msg(code));
+		ft_dprintf(2,"Status: %s\n", get_msg(code));
 	wrdestroy();
-	exit(code);
+	exit(get_all_st(NULL)->state);
 }

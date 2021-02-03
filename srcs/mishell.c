@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 16:30:38 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 17:31:20 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ char		**prep_cmd(t_type *begin, int i)
 {
 	t_type *tmp;
 	char 	**args;
-	char	*line;
 	int		j;
+	int		last;
 
 	tmp = begin;
 	while (tmp)
@@ -41,20 +41,43 @@ char		**prep_cmd(t_type *begin, int i)
 			break;
 		tmp = tmp->next;
 	}
-	if (!(args = malloc((i + 1) * sizeof(char *))))
+	if (!(args = wrmalloc((i + 1) * sizeof(char *))))
 		ft_exit(MALLOC);
-	if (!(args[i] = malloc(1 * sizeof(char))))
+	if (!(args[i] = wrmalloc(1 * sizeof(char))))
 		ft_exit(MALLOC);
 	args[i] = 0;
 	j = -1;
-	line = ft_strdup("");
-	while (++j < i)
+	last = 0;
+	get_all_st(NULL)->flag_quote = 0;
+	while (++j < i && begin)
 	{
-		if (begin->type == 0 || begin->type > 5)
-			line = ft_strjoin(line,ft_strtrim(begin->content, "\'\""));
+		if(begin && begin->type == 0 && !ft_strlen(begin->content))
+				while (begin && begin->type == 0 && !ft_strlen(begin->content))
+					begin = begin->next;
+		if (!begin)
+			break;
+		if (j + 1 == i)
+			args[last++] = ft_strdup(begin->content);
+		else if ((begin->type < 1 || (begin->type < 8 && begin->type > 5)))
+		{
+			if (begin->next && ((begin->next->type > 5 && begin->next->type < 8) || begin->next->type < 1) && ++j)
+			{
+				args[++last - 1] = ft_strjoin(begin->content, begin->next->content);
+				begin = begin->next;
+				while (begin->next && ((begin->next->type > 5 && begin->next->type < 8) || begin->next->type < 1) && ++j)
+				{
+					args[last - 1] = ft_strjoin(args[last - 1], begin->next->content);
+					begin = begin->next;
+				}
+			}
+			else
+				args[last++] = ft_strdup(begin->content);
+		}
+		if (j + 1 == i && begin->type >= 6)
+			get_all_st(NULL)->flag_quote = 1;
 		begin = begin->next;
 	}
-	args = ft_split(line, ' ');
+	args[last] = 0;
 	return (args);
 }
 void		treat(char *line)
@@ -66,6 +89,7 @@ void		treat(char *line)
 
 	begin = prepare_array(line);
 	tmp = begin;
+	pipe(fd);
 	while (tmp)
 	{
 		next = find_next_type(tmp);
@@ -79,15 +103,18 @@ void		treat(char *line)
 		}
 		else if (next->type == 2)
 		{
-			pipe(fd);
 			dup2(fd[1], 1);
 			dup2(fd[0], 0);
+			close(fd[0]);
+			close(fd[1]);
 			handler(prep_cmd(tmp, 0), get_all_st(NULL), get_env_st(NULL), 0);
 		}
 		else if (next->type > 2 && next->type < 6)
 			ft_printf("Redirect please !\n");
 		tmp = next ? next->next : next;
 	}
+	close(fd[0]);
+	close(fd[1]);
 }
 
 void		loop(int fd)
@@ -104,7 +131,7 @@ void		loop(int fd)
 	get_all_st(&a);
 	while (ret)
 	{
-		ft_printf("\033[32mMiShell \033[%dm~ \033[0m", !a.state ? 36 : 31);
+		//ft_printf("\033[32mMiShell \033[%dm~ \033[0m", !a.state ? 36 : 31);
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
 			treat(line);
@@ -139,7 +166,7 @@ int			main(int ac, char **av, char **envp)
 	int		fd;
 
 	(void)av[ac];
-	welcome(envp);
+	//welcome(envp);
 	fd = 0;
 	if (ac == 2)
 		fd = open(av[1], O_RDONLY);

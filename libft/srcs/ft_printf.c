@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 15:51:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 10:32:55 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 13:43:02 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		ft_printf(const char *format, ...)
 int		ft_dprintf(int fd, const char *format, ...)
 {
 	int		ret;
-	int back;
+	int		back;
 	va_list ap;
 
 	ret = 0;

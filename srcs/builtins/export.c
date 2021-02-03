@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:55:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/15 13:23:16 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/03 09:33:06 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int		print_export(t_env *env)
 		escape(act->value), q);
 		act = act->next;
 	}
-	return (1);
+	return (0);
 }
 
 int		treat_export(char *arg, t_env *env)
@@ -83,7 +83,7 @@ int		treat_export(char *arg, t_env *env)
 	{
 		ft_envadd_back(&env, ft_envnew(arg, ""));
 		env_edit_state(env_find(env, arg), 0);
-		return (1);
+		return (0);
 	}
 	else if (!ft_strchr(arg, '"') || !ft_strchr(arg, '\''))
 	{
@@ -92,9 +92,9 @@ int		treat_export(char *arg, t_env *env)
 		else
 			env_edit_value(env_find(env, get_name(arg)), get_value(arg));
 		env_edit_state(env_find(env, get_name(arg)), 2);
-		return (1);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int		export_env(t_env *env, char **args)
@@ -105,7 +105,7 @@ int		export_env(t_env *env, char **args)
 	if (!args[1])
 		return (print_export(env));
 	i = 0;
-	ret = 0;
+	ret = 1;
 	while (args[++i])
 	{
 		if (args[i][0] == '=' && !(ret = 0))
