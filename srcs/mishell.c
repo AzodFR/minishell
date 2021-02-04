@@ -56,8 +56,8 @@ char		**prep_cmd(t_type *begin, int i)
 					begin = begin->next;
 		if (!begin)
 			break;
-		if (j + 1 == i)
-			args[last++] = ft_strdup(begin->content);
+		//if (j + 1 == i)
+		//	args[last++] = ft_strdup(begin->content);
 		else if ((begin->type < 1 || (begin->type < 8 && begin->type > 5)))
 		{
 			if (begin->next && ((begin->next->type > 5 && begin->next->type < 8) || begin->next->type < 1) && ++j)
@@ -87,7 +87,12 @@ void		treat(char *line)
 	t_type *next;
 	int		fd[2];
 
-	begin = prepare_array(line);
+	if (!(begin = prepare_array(line)))
+	{
+		
+		get_all_st(NULL)->state = 1;
+		return ;
+	}
 	tmp = begin;
 	pipe(fd);
 	while (tmp)

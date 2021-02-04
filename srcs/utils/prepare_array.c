@@ -35,8 +35,6 @@ t_type	*create_struc(char *line, int i, char type, t_type *str_type)
 		y++;
 	}
 	temp->content[y] = 0;
-	/*if (!ft_strlen(temp->content))
-		return (str_type);*/
 	temp->type = type;
 	temp->next = NULL;
 	temp->prev = NULL;
@@ -196,17 +194,27 @@ t_type *prepare_array(char *line)
 	t_type	*first_type;
 	t_type	*tmp;
 
-	first_type = split_type(line, line_pre(line));
+	if (!(first_type = split_type(line, line_pre(line))))
+	{
+		ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0mPlease close your quotes.\n");
+		return (NULL);
+	}
 	tmp = first_type;
 	while (tmp)
 	{
-		//ft_printf("|%s|               %i\n", tmp->content, tmp->type);
+		ft_printf("|%s|               %i\n", tmp->content, tmp->type);
 		if (tmp->type == 0 || tmp->type == 7)
 		{
 			if (tmp->type == 0 && tmp->content[0] == '~' && (!tmp->content[1] || tmp->content[1] == '/'))
 				tmp->content = ft_strjoin(env_find(get_env_st(NULL), "HOME")->value, tmp->content + 1);
 			tmp->content =  check_translation(tmp->content);
 		}
+		else if (tmp->type == 2)
+			if (!ft_strncmp(tmp->content, "||", 2) || !tmp->next)
+			{
+				ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0msyntax error near unexpected token `|'\n");
+				return (NULL);
+			}
 	//	ft_printf("-----------------------\n");
 		tmp = tmp->next;
 	}

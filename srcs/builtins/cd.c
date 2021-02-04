@@ -48,8 +48,8 @@ int		change_dir(t_env *env, char **args)
 		path = home(env, path);
 	if (chdir(path) < 0)
 	{
-		ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
-		ft_printf("cd: %s: %s\n", path, strerror(errno));
+		ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2,"cd: %s: %s\n", path, strerror(errno));
 		wrfree(path);
 		return (FAILED);
 	}

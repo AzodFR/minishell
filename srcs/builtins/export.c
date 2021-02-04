@@ -110,8 +110,8 @@ int		export_env(t_env *env, char **args)
 	{
 		if (args[i][0] == '=' && !(ret = 0))
 		{
-			ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
-			ft_printf("export: `%s`: not a valid identifier\n", args[i]);
+			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+			ft_dprintf(2, "export: `%s`: not a valid identifier\n", args[i]);
 		}
 		else
 			ret = treat_export(args[i], env);
