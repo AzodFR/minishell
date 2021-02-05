@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 12:47:57 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/05 11:39:44 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,12 @@ int		search_cmd_local(t_env *env, char **args)
 	char		test[10000];
 	char		*tmp;
 	char		*tmp2;
-	pid_t		prog;
 
 	tmp = ft_strjoin(getcwd(test, 10000), "/");
 	tmp2 = ft_strjoin(tmp, args[0]);
 	if (!stat(tmp2, &buff))
 	{
-		if (!(prog = fork()))
-			execve(tmp2, args, env_to_tab(env));
-		wait(&prog);
+		execve(tmp2, args, env_to_tab(env));
 		wrfree(tmp2);
 		return (0);
 	}
@@ -40,7 +37,6 @@ int		search_cmd(t_env *env, char **args, int i)
 	char		**path;
 	char		*tmp;
 	char		*tmp2;
-	pid_t		prog;
 
 	path = ft_split(env_find(env, "PATH")->value, ':');
 	while (path[++i])
@@ -50,9 +46,7 @@ int		search_cmd(t_env *env, char **args, int i)
 		wrfree(tmp);
 		if (!stat(tmp2, &buff))
 		{
-			if (!(prog = fork()))
-				execve(tmp2, args, env_to_tab(env));
-			wait(&prog);
+			execve(tmp2, args, env_to_tab(env));
 			wrfree(tmp2);
 			return (1);
 		}
@@ -84,9 +78,11 @@ int		end_ling(t_all *all, int ret, char *s)
 	return (ret);
 }
 
-int		handler(char **args, t_all *all, t_env *env, int ret)
+int		handler(char **args, t_env *env, int ret)
 {
+	t_all *all;
 
+	all = get_all_st(NULL);
 	if (!args[0])
 		return (1);
 	underscore(env, args);

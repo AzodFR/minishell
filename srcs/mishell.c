@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 17:47:17 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/05 14:24:48 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ char		**prep_cmd(t_type *begin, int i)
 void		treat(char *line)
 {
 	t_type *begin;
-	t_type *tmp;
-	t_type *next;
-	int		fd[2];
+	t_tree *root;
 
 	if (!(begin = prepare_array(line)))
 	{
@@ -93,34 +91,12 @@ void		treat(char *line)
 		get_all_st(NULL)->state = 1;
 		return ;
 	}
-	tmp = begin;
-	pipe(fd);
-	while (tmp)
-	{
-		next = find_next_type(tmp);
-		if (!next || next->type == 1)
-		{
-			dup2(get_all_st(NULL)->fd[1], 1);
-			close(fd[0]);
-			close(fd[1]);
-			handler(prep_cmd(tmp, 0), get_all_st(NULL), get_env_st(NULL), 0);
-			dup2(get_all_st(NULL)->fd[0], 0);
-		}
-		else if (next->type == 2)
-		{
-			dup2(fd[1], 1);
-			dup2(fd[0], 0);
-			close(fd[0]);
-			close(fd[1]);
-			handler(prep_cmd(tmp, 0), get_all_st(NULL), get_env_st(NULL), 0);
-		}
-		else if (next->type > 2 && next->type < 6)
-			ft_printf("Redirect please !\n");
-		tmp = next ? next->next : next;
-	}
-	close(fd[0]);
-	close(fd[1]);
+	if (!(root = wrmalloc(sizeof(t_tree))))
+		ft_exit(MALLOC);
+	build_tree(begin, root);
 }
+
+
 
 void		loop(int fd)
 {
@@ -176,6 +152,7 @@ int			main(int ac, char **av, char **envp)
 	if (ac == 2)
 		fd = open(av[1], O_RDONLY);
 	env = init_env(envp);
+	env_edit_value(env_find(env, "SHLVL"), ft_itoa(ft_atoi(env_find(env, "SHLVL")->value) + 1));
 	get_env_st(env);
 	loop(fd);
 	if (ac == 2)

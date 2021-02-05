@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 16:33:58 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/05 15:35:15 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
+
 typedef struct			s_all
 {
 	int		state;
@@ -41,6 +42,7 @@ typedef struct			s_all
 	int		flag_esc;
 	int		fd[3];
 }						t_all;
+
 
 /*
 **	STATE 2 ="blabla"
@@ -72,7 +74,12 @@ typedef struct			s_type
 	struct s_type	*next;
 	struct s_type	*prev;
 }						t_type;
-
+typedef struct s_tree
+{
+	t_type	*cmd;
+	struct s_tree *right;
+	struct s_tree *left;
+}				t_tree;
 void			welcome(char **env);
 void			loop(int fd);
 /*
@@ -103,7 +110,7 @@ void			ft_remove_elem(t_env **ptr_back, t_env **ptr);
 /*
 **
 */
-int				handler(char **cmd, t_all *all, t_env *env,int ret);
+int				handler(char **cmd, t_env *env,int ret);
 char			**trim_args(char *line, char c);
 void			ft_exit(int code);
 char			*ft_translate( char *s, t_env *env, t_all *all, int i);
@@ -120,4 +127,6 @@ char		*add_one(char *s, char c);
 int			main_donut(void);
 t_env		*get_env_st(t_env *env);
 char	*check_translation(char *s);
+t_type		*find_next_type(t_type *begin);
+void    build_tree(t_type *begin, t_tree *root);
 #endif

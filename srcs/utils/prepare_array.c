@@ -202,7 +202,7 @@ t_type *prepare_array(char *line)
 	tmp = first_type;
 	while (tmp)
 	{
-		ft_printf("|%s|               %i\n", tmp->content, tmp->type);
+		//ft_printf("|%s|               %i\n", tmp->content, tmp->type);
 		if (tmp->type == 0 || tmp->type == 7)
 		{
 			if (tmp->type == 0 && tmp->content[0] == '~' && (!tmp->content[1] || tmp->content[1] == '/'))
