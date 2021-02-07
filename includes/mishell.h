@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/05 15:35:15 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/07 01:06:05 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,14 @@
 # include <errno.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <signal.h>
 # include <curses.h>
 # include <term.h>
 # include <unistd.h>
 # include <fcntl.h>
 
-
-typedef struct			s_all
-{
-	int		state;
-	int		flag_quote;
-	int		flag_cmd;
-	int		flag_esc;
-	int		fd[3];
-}						t_all;
-
-
+int g_ret;
 /*
 **	STATE 2 ="blabla"
 **	STATE 1 =""
@@ -80,17 +71,27 @@ typedef struct s_tree
 	struct s_tree *right;
 	struct s_tree *left;
 }				t_tree;
+
+typedef struct			s_all
+{
+	int		state;
+	int		flag_quote;
+	int		flag_cmd;
+	int		flag_esc;
+	int		fd[3];
+	t_tree	*last_node;
+}						t_all;
 void			welcome(char **env);
 void			loop(int fd);
 /*
 **	BUILTINS
 */
-int				get_pwd(void);
-int				get_env(t_env *envp);
-int				change_dir(t_env *env, char **args);
-int				export_env(t_env *env, char **args);
-int				unset(t_env *env, char **args);
-int				do_echo(char **args);
+void				get_pwd(void);
+void				get_env(t_env *envp);
+void			change_dir(t_env *env, char **args);
+void				export_env(t_env *env, char **args);
+void				unset(t_env *env, char **args);
+void				do_echo(char **args);
 /*
 **	ENV LIST
 */
@@ -110,7 +111,7 @@ void			ft_remove_elem(t_env **ptr_back, t_env **ptr);
 /*
 **
 */
-int				handler(char **cmd, t_env *env,int ret);
+int				handler(char **cmd, t_env *env);
 char			**trim_args(char *line, char c);
 void			ft_exit(int code);
 char			*ft_translate( char *s, t_env *env, t_all *all, int i);
@@ -128,5 +129,12 @@ int			main_donut(void);
 t_env		*get_env_st(t_env *env);
 char	*check_translation(char *s);
 t_type		*find_next_type(t_type *begin);
-void    build_tree(t_type *begin, t_tree *root);
+void    build_tree(t_type *begin);
+void				exec_cmd(t_tree *root);
+void    exec_pipe(t_tree *root, int backfd, int count);
+char		**prep_cmd(t_type *begin, int i);
+void	sig_c(int sig);
+char	*get_tild(void);
+int		create_file(int type, char **file_name);
+void				redirections(t_tree *root);
 #endif

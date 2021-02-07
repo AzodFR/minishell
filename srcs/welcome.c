@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 17:10:18 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 18:44:08 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/06 19:17:09 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,16 @@ void	welc_msg(void)
 void	welcome(char **env)
 {
 	pid_t		prog;
-	char		*teub[1];
-
+	char		*teub[2];
+	char		**tuub;
+	
 	teub[0] = NULL;
 	if (!(prog = fork()))
 		execve("/usr/bin/clear", teub, env);
+	wait(&prog);
+	tuub = ft_split("stty -echoctl", ' ');
+	if (!(prog = fork()))
+		execve("/bin/stty", tuub, env);
 	wait(&prog);
 	welc_msg();
 }

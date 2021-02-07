@@ -6,13 +6,13 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/05 11:39:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/07 11:05:28 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-int		search_cmd_local(t_env *env, char **args)
+char 	*search_cmd_local(char **args)
 {
 	struct stat	buff;
 	char		test[10000];
@@ -22,16 +22,46 @@ int		search_cmd_local(t_env *env, char **args)
 	tmp = ft_strjoin(getcwd(test, 10000), "/");
 	tmp2 = ft_strjoin(tmp, args[0]);
 	if (!stat(tmp2, &buff))
-	{
-		execve(tmp2, args, env_to_tab(env));
-		wrfree(tmp2);
-		return (0);
-	}
+		return (tmp2);
 	wrfree(tmp2);
-	return (-1);
+	return (NULL);
 }
 
-int		search_cmd(t_env *env, char **args, int i)
+void			child(char *path, char **args, char**env)
+{
+	int			ret;
+	ret = execve(path, args, env);
+	get_all_st(NULL)->state = ret;
+	exit(ret);
+}
+
+void			father(int child_pid)
+{
+	int			child_status;
+
+	child_status = 0;
+	signal(SIGINT, SIG_IGN);
+	wait(&child_status);
+	if (WIFSIGNALED(child_status) && ft_printf("\n"))
+		get_all_st(NULL)->state = 130;
+	if (WIFEXITED(child_status))
+		get_all_st(NULL)->state = child_status;
+	get_all_st(NULL)->state = WEXITSTATUS(child_status);
+	(void)child_pid;
+}
+
+int	exec_cmd_parents(char *path, char **args, char**env)
+{
+	int pid;
+
+	if ((pid = fork()) == 0)
+		child(path, args, env);
+	else
+		father(pid);
+	return (get_all_st(NULL)->state);
+}
+
+void		search_cmd(t_env *env, char **args, int i)
 {
 	struct stat	buff;
 	char		**path;
@@ -46,13 +76,21 @@ int		search_cmd(t_env *env, char **args, int i)
 		wrfree(tmp);
 		if (!stat(tmp2, &buff))
 		{
-			execve(tmp2, args, env_to_tab(env));
+			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
 			wrfree(tmp2);
-			return (1);
+			return ;
 		}
 		wrfree(tmp2);
 	}
-	return (search_cmd_local(env, args));
+	if ((tmp2 = search_cmd_local(args)))
+	{
+			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
+			wrfree(tmp2);
+			return ;
+	}
+	else
+		get_all_st(NULL)->state = 127;
+	return ;
 }
 
 void	underscore(t_env *env, char **args)
@@ -66,19 +104,19 @@ void	underscore(t_env *env, char **args)
 	env_edit_value(env_find(env, "_"), args[i]);
 }
 
-int		end_ling(t_all *all, int ret, char *s)
+int		end_ling(int ret, char *s)
 {
-	if (ret < 0)
+	if (ret == 127)
 	{
-		ret = 127;
 		ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
 		ft_printf("%s: command not found\n", s);
 	}
-	all->state = ret;
+	if (ret == 256)
+		get_all_st(NULL)->state = 1;
 	return (ret);
 }
 
-int		handler(char **args, t_env *env, int ret)
+int		handler(char **args, t_env *env)
 {
 	t_all *all;
 
@@ -87,22 +125,22 @@ int		handler(char **args, t_env *env, int ret)
 		return (1);
 	underscore(env, args);
 	if (!ft_strncmp(ft_tolowers(args[0]), "pwd", 4))
-		ret = get_pwd();
+		get_pwd();
 	else if (!ft_strncmp(ft_tolowers(args[0]), "env", 4))
-		ret = get_env(env);
+		get_env(env);
 	else if (!ft_strncmp(ft_tolowers(args[0]), "cd", 3))
-		ret = change_dir(env, args);
+		change_dir(env, args);
 	else if (!ft_strncmp(ft_tolowers(args[0]), "export", 7))
-		ret = export_env(env, args);
+		export_env(env, args);
 	else if (!ft_strncmp(ft_tolowers(args[0]), "unset", 6))
-		ret = unset(env, args);
+		unset(env, args);
 	else if (!ft_strncmp(ft_tolowers(args[0]), "echo", 5))
-		ret = do_echo(args);
+		do_echo(args);
 	else if (!ft_strncmp(ft_tolowers(args[0]), "donut", 6))
-		ret = main_donut();
+		get_all_st(NULL)->state = main_donut();
 	else if (!ft_strncmp(ft_tolowers(args[0]), "exit", 6))
 		ft_exit(EXIT_SUCCESS);
 	else
-		ret = search_cmd(env, args, -1);
-	return (end_ling(all, ret, args[0]));
+		search_cmd(env, args, -1);
+	return (end_ling(get_all_st(NULL)->state, args[0]));
 }

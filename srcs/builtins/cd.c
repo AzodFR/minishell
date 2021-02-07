@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/02 16:13:02 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/06 18:24:07 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*home(t_env *env, char *s)
 	return (tmp);
 }
 
-int		change_dir(t_env *env, char **args)
+void		change_dir(t_env *env, char **args)
 {
 	char *path;
 	char test[10000];
@@ -51,7 +51,8 @@ int		change_dir(t_env *env, char **args)
 		ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0m");
 		ft_dprintf(2,"cd: %s: %s\n", path, strerror(errno));
 		wrfree(path);
-		return (FAILED);
+		get_all_st(NULL)->state = 1;
+		return ;
 	}
 	if (env_find(env, "OLDPWD"))
 		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD")->value);
@@ -59,5 +60,5 @@ int		change_dir(t_env *env, char **args)
 		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD")->value)));
 	env_edit_value(env_find(env, "PWD"), getcwd(test, 10000));
 	wrfree(path);
-	return (SUCCESS);
+	get_all_st(NULL)->state = 0;
 }

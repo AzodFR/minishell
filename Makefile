@@ -22,7 +22,9 @@ FILES = mishell.c welcome.c \
 		utils/init_env.c utils/translate.c \
 		utils/splitter.c utils/splitter_count.c \
 		utils/prepare_array.c \
-		perso/donut.c tree/build_tree.c
+		perso/donut.c tree/build_tree.c \
+		exec/exec_cmd.c exec/piped.c exec/redir.c \
+		signals/sig_c.c utils/file_opener.c
 
 RM = rm -f
 

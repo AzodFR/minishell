@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/05 14:24:48 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/07 12:31:49 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ char		**prep_cmd(t_type *begin, int i)
 					begin = begin->next;
 		if (!begin)
 			break;
-		//if (j + 1 == i)
-		//	args[last++] = ft_strdup(begin->content);
 		else if ((begin->type < 1 || (begin->type < 8 && begin->type > 5)))
 		{
 			if (begin->next && ((begin->next->type > 5 && begin->next->type < 8) || begin->next->type < 1) && ++j)
@@ -78,12 +76,14 @@ char		**prep_cmd(t_type *begin, int i)
 		begin = begin->next;
 	}
 	args[last] = 0;
+	j = -1;
+	while (args[++j])
+		printf("args: %s\n", args[j]);
 	return (args);
 }
 void		treat(char *line)
 {
 	t_type *begin;
-	t_tree *root;
 
 	if (!(begin = prepare_array(line)))
 	{
@@ -91,9 +91,7 @@ void		treat(char *line)
 		get_all_st(NULL)->state = 1;
 		return ;
 	}
-	if (!(root = wrmalloc(sizeof(t_tree))))
-		ft_exit(MALLOC);
-	build_tree(begin, root);
+	build_tree(begin);
 }
 
 
@@ -112,7 +110,9 @@ void		loop(int fd)
 	get_all_st(&a);
 	while (ret)
 	{
-		ft_printf("\033[32mMiShell \033[%dm~ \033[0m", !a.state ? 36 : 31);
+		signal(SIGINT, &sig_c);
+		signal(SIGQUIT, SIG_IGN);
+		//ft_printf("\033[32mMiShell %s", get_tild());
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
 			treat(line);
@@ -147,7 +147,7 @@ int			main(int ac, char **av, char **envp)
 	int		fd;
 
 	(void)av[ac];
-	welcome(envp);
+	//welcome(envp);
 	fd = 0;
 	if (ac == 2)
 		fd = open(av[1], O_RDONLY);

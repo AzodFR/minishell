@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 16:28:47 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/07 01:12:48 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int		moov_type(int u, char *line)
 	{
 		while (y > 0 && line[y] == '>')
 			y--;
-		while (y > 0 && ft_isalnum(line[y]))
+		while (y > 0 && ft_isdigit(line[y]))
 			y--;
 		if (y > 0 && line[y] == ' ')
 			return (y + 1);

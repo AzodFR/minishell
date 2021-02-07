@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:55:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 09:33:06 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/06 18:25:48 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,13 +97,13 @@ int		treat_export(char *arg, t_env *env)
 	return (1);
 }
 
-int		export_env(t_env *env, char **args)
+void		export_env(t_env *env, char **args)
 {
 	int		i;
 	int		ret;
 
-	if (!args[1])
-		return (print_export(env));
+	if (!args[1] && !print_export(env) && get_all_st(NULL)->state == 0)
+		return ;
 	i = 0;
 	ret = 1;
 	while (args[++i])
@@ -116,5 +116,5 @@ int		export_env(t_env *env, char **args)
 		else
 			ret = treat_export(args[i], env);
 	}
-	return (ret);
+	get_all_st(NULL)->state = ret;
 }

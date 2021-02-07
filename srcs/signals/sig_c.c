@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   sig_c.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 11:36:44 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/06 18:42:06 by thjacque         ###   ########lyon.fr   */
+/*   Created: 2021/02/06 15:27:31 by thjacque          #+#    #+#             */
+/*   Updated: 2021/02/06 18:39:25 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-void	get_pwd(void)
+void	sig_c(int sig)
 {
-	char	path[10000];
-
-	getcwd(path, 10000);
-	ft_printf("%s\n", path);
-	get_all_st(NULL)->state = 0;
+	get_all_st(NULL)->state = 130;
+	ft_printf("\n\033[32mMiShell %s", get_tild());
+	(void)sig;
 }
