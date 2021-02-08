@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mishell.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 09:17:46 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 10:58:51 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,12 @@ char		**prep_cmd(t_type *begin, int i)
 void		treat(char *line)
 {
 	t_type *begin;
-
+	
+	if (ft_strlen(line) == 0)
+	{
+		get_all_st(NULL)->state = 0;
+		return ;
+	}
 	if (!(begin = prepare_array(line)))
 	{
 		

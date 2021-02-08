@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 10:47:41 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 13:11:24 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,25 @@ void    tmp_redir(t_type **red, t_type **cmd)
     (*cmd) = fd;
 }
 
+t_type	*destroy_t_type(t_type *type)
+{
+	t_type *save_prev;
+	t_type *save_next;
+
+	save_prev = type->prev;
+	save_next = type->next;
+	wrfree(type->content);
+	wrfree(type);
+	if (save_next != NULL)
+		save_next->prev = save_prev;
+	if (save_prev != NULL)
+	{
+		save_prev->next = save_next;
+		return (save_prev);
+	}
+	return (save_next);
+}
+
 void create_tree(t_type *cmd, t_tree **tree)
 {
     t_type *redir;
@@ -189,20 +208,25 @@ void create_tree(t_type *cmd, t_tree **tree)
         if (cmd->type > 1 && cmd->type < 6)
         {
             if (cmd->type == 2)
-                insert_tree(tree, cmd);
-            else
+				insert_tree(tree, cmd);
+			else
             {
                 back = cmd->prev ? cmd->prev : NULL;
                 tmp_redir(&redir, &cmd);
+                if (cmd->type == 0)
+                    cmd = destroy_t_type(cmd);
+                if (cmd->type == 8)
+                    cmd = destroy_t_type(cmd);
+
             }
             cmd = cmd->next;
-            if (cmd && cmd->type > 2 && back)
-            {
-                back->next = cmd;
-               // ft_printf("back next: %s\n", cmd->content);
-            }
-            while ((*tree) && back && cmd && (cmd->type == 0 || cmd->type > 6)) 
-                cmd = cmd->next; 
+            // if (cmd && cmd->type > 2 && back)
+            // {
+            //     back->next = cmd;
+            //    // ft_printf("back next: %s\n", cmd->content);
+            // }
+            // while ((*tree) && back && cmd && (cmd->type == 0 || cmd->type > 6)) 
+            //     cmd = cmd->next; 
             if (!(*tree) && (cmd = cmd->next))
                 insert_tree(tree, cmd);
         }

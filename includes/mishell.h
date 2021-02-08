@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mishell.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 09:34:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 11:44:30 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct			s_env
 }						t_env;
 
 /*
+**	TYPE 8 = space
 **	TYPE 7 = "blabla"
 **	TYPE 6 = 'blabla'
 **	TYPE 5 = >>
