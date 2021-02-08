@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/07 12:22:32 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 10:47:41 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ void create_tree(t_type *cmd, t_tree **tree)
             if (cmd && cmd->type > 2 && back)
             {
                 back->next = cmd;
-                ft_printf("back next: %s\n", cmd->content);
+               // ft_printf("back next: %s\n", cmd->content);
             }
             while ((*tree) && back && cmd && (cmd->type == 0 || cmd->type > 6)) 
                 cmd = cmd->next; 
@@ -227,9 +227,10 @@ void    build_tree(t_type *begin)
     root = NULL;
     while (begin)
     {
+        translate_only(begin);
         create_tree(begin, &root);
-       print_tree(root);
-       //exec_cmd(root);
+       //print_tree(root);
+       exec_cmd(root);
         wrfree(root);
         root = NULL;
         while (begin && begin->type != 1)

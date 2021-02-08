@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/07 12:31:49 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 09:17:46 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ char		**prep_cmd(t_type *begin, int i)
 	}
 	args[last] = 0;
 	j = -1;
-	while (args[++j])
-		printf("args: %s\n", args[j]);
+//	while (args[++j])
+		//printf("args: %s\n", args[j]);
 	return (args);
 }
 void		treat(char *line)

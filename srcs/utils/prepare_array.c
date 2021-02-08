@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/07 01:12:48 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 09:36:44 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,22 +202,30 @@ t_type *prepare_array(char *line)
 	tmp = first_type;
 	while (tmp)
 	{
-		//ft_printf("|%s|               %i\n", tmp->content, tmp->type);
+		if (tmp->type == 2)
+			if (!ft_strncmp(tmp->content, "||", 2) || !tmp->next)
+			{
+				ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0msyntax error near unexpected token `|'\n");
+				return (NULL);
+			}
+		tmp = tmp->next;
+	}
+	return (first_type);
+}
+
+void	translate_only(t_type *begin)
+{
+	t_type	*tmp;
+
+	tmp = begin;
+	while (tmp && tmp->type != 1)
+	{
 		if (tmp->type == 0 || tmp->type == 7)
 		{
 			if (tmp->type == 0 && tmp->content[0] == '~' && (!tmp->content[1] || tmp->content[1] == '/'))
 				tmp->content = ft_strjoin(env_find(get_env_st(NULL), "HOME")->value, tmp->content + 1);
 			tmp->content =  check_translation(tmp->content);
 		}
-		else if (tmp->type == 2)
-			if (!ft_strncmp(tmp->content, "||", 2) || !tmp->next)
-			{
-				ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0msyntax error near unexpected token `|'\n");
-				return (NULL);
-			}
-	//	ft_printf("-----------------------\n");
 		tmp = tmp->next;
 	}
-	tmp = first_type;
-	return (first_type);
 }

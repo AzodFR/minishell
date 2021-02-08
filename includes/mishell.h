@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/07 01:06:05 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 09:34:44 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,4 +137,5 @@ void	sig_c(int sig);
 char	*get_tild(void);
 int		create_file(int type, char **file_name);
 void				redirections(t_tree *root);
+void	translate_only(t_type *begin);
 #endif
