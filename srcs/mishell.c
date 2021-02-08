@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mishell.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 10:58:51 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 13:59:40 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,7 @@ void		treat(char *line)
 	}
 	if (!(begin = prepare_array(line)))
 	{
-		
-		get_all_st(NULL)->state = 1;
+		get_all_st(NULL)->state = 2;
 		return ;
 	}
 	build_tree(begin);

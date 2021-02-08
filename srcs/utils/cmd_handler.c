@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/07 11:05:28 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 15:07:58 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ int	exec_cmd_parents(char *path, char **args, char**env)
 	return (get_all_st(NULL)->state);
 }
 
+int is_directory(const char *path)
+{
+   struct stat statbuf;
+   
+	stat(path, &statbuf);
+	return S_ISDIR(statbuf.st_mode);
+}
+
 void		search_cmd(t_env *env, char **args, int i)
 {
 	struct stat	buff;
@@ -68,6 +76,14 @@ void		search_cmd(t_env *env, char **args, int i)
 	char		*tmp;
 	char		*tmp2;
 
+	if (is_directory(args[0]))
+	{
+		if (!ft_strncmp(args[0], "..", 3))
+			get_all_st(NULL)->state = 127;
+		else
+			get_all_st(NULL)->state = 126;
+			return ;
+	}
 	path = ft_split(env_find(env, "PATH")->value, ':');
 	while (path[++i])
 	{
@@ -89,7 +105,7 @@ void		search_cmd(t_env *env, char **args, int i)
 			return ;
 	}
 	else
-		get_all_st(NULL)->state = 127;
+			get_all_st(NULL)->state = 127;
 	return ;
 }
 
@@ -106,14 +122,36 @@ void	underscore(t_env *env, char **args)
 
 int		end_ling(int ret, char *s)
 {
+	if (ret == 2)
+	{
+		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2, "%s: not enough arguments\n", s);
+	}
 	if (ret == 127)
 	{
-		ft_printf("\033[32mMiShell \033[31m✘ \033[0m");
-		ft_printf("%s: command not found\n", s);
+		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2, "%s: command not found\n", s);
+	}
+	if (ret == 126)
+	{
+		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2, "%s: is a directory\n", s);
 	}
 	if (ret == 256)
 		get_all_st(NULL)->state = 1;
 	return (ret);
+}
+
+void	dot(char **args)
+{
+	if (!args[1])
+		get_all_st(NULL)->state = 2;
+	else
+	{
+		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2, ".: no such file or directory: %s\n", args[1]);
+		get_all_st(NULL)->state = 1;
+	}
 }
 
 int		handler(char **args, t_env *env)
@@ -140,6 +178,8 @@ int		handler(char **args, t_env *env)
 		get_all_st(NULL)->state = main_donut();
 	else if (!ft_strncmp(ft_tolowers(args[0]), "exit", 6))
 		ft_exit(EXIT_SUCCESS);
+	else if ((!ft_strncmp(ft_tolowers(args[0]), ".", 2)))
+		dot(args);
 	else
 		search_cmd(env, args, -1);
 	return (end_ling(get_all_st(NULL)->state, args[0]));

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 09:36:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 15:08:43 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,51 @@ char	*check_translation(char *s)
 	return (r);
 }
 
+int		no_prev(t_type *begin)
+{
+	t_type *cmd;
+
+	cmd = begin->prev;
+	while(cmd)
+	{
+		if (cmd->type == 0 || cmd->type == 6 || cmd->type == 7)
+			return (0);
+		else if (cmd->type == 8)
+			cmd = cmd->prev;
+		else
+			return (1);
+	}
+	return (1);
+}
+
+int		no_next(t_type *begin)
+{
+	t_type *cmd;
+
+	cmd = begin->next;
+	while(cmd)
+	{
+		if (cmd->type == 0 || cmd->type == 6 || cmd->type == 7)
+			return (0);
+		else if (cmd->type == 8)
+			cmd = cmd->next;
+		else
+			return (1);
+	}
+	return (1);
+}
+int		no_cmd(t_type *begin)
+{
+	return (no_prev(begin) || no_next(begin));
+}
+
+
+t_type *errornear(char *s)
+{
+	ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0msyntax error near unexpected token `%s'\n", s);
+	return (NULL);
+}
+
 t_type *prepare_array(char *line)
 {
 //	LAUCHER DE MA FONCTION
@@ -202,12 +247,20 @@ t_type *prepare_array(char *line)
 	tmp = first_type;
 	while (tmp)
 	{
+		//ft_printf("|%s| -->%d", tmp->content, tmp->type);
 		if (tmp->type == 2)
-			if (!ft_strncmp(tmp->content, "||", 2) || !tmp->next)
-			{
-				ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0msyntax error near unexpected token `|'\n");
-				return (NULL);
-			}
+			if (!ft_strncmp(tmp->content, "||", 2) || !tmp->next || no_cmd(tmp))
+				return (errornear("|"));
+		if (tmp->type == 1)
+		{
+			if (!ft_strncmp(tmp->content, ";;", 2))
+				return (errornear(";;"));
+			else if (no_prev(tmp))
+				return (errornear(";"));
+		}
+		if (tmp->type > 2 && tmp->type < 6)
+			if (no_cmd(tmp))
+				return (errornear(tmp->content));
 		tmp = tmp->next;
 	}
 	return (first_type);
