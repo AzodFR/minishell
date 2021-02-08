@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 10:39:51 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 12:24:57 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		check_slash(char *s)
 	while (s[++i])
 		if (s[i] != '/' && i > 1)
 			return (0);
-	return (1);
+	return (i > 2 ? i : 0);
 }
 
 char	*suprslash(char *s)
@@ -73,13 +73,11 @@ char	*suprslash(char *s)
 void		change_dir(t_env *env, char **args)
 {
 	char *path;
-	char test[10000];
 
 	if (!args[1])
 		path = ft_strdup(env_find(env, "HOME")->value);
 	else
-		path = ft_strdup(args[1]);
-	//dprintf(1, "%s|")
+		path = ft_strdup(ft_strlen(args[1]) ? args[1] : ".");
 	if (args[1] && args[1][0] == '~')
 		path = home(env, path);
 	path = suprslash(path);
@@ -92,13 +90,15 @@ void		change_dir(t_env *env, char **args)
 		return ;
 	}
 	if (env_find(env, "OLDPWD"))
-		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD")->value);
+		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD") ? env_find(env, "PWD")->value : getcwd(NULL, 0));
 	else
-		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD")->value)));
+		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD") ? env_find(env, "PWD")->value : getcwd(NULL, 0))));
 	if (!ft_strncmp(path, "//", 2))
 		env_edit_value(env_find(env, "PWD"), path);
-	else
-		env_edit_value(env_find(env, "PWD"), suprslash(getcwd(test, 10000)));
+	else if (env_find(env, "PWD"))
+		env_edit_value(env_find(env, "PWD"), getcwd(NULL, 10000));
+	else 
+		ft_envadd_back(&env, ft_envnew("PWD", getcwd(NULL, 10000)));
 	wrfree(path);
 	get_all_st(NULL)->state = 0;
 	get_env_st(env);
