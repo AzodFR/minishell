@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mishell.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 11:44:30 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 16:15:09 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,4 +139,9 @@ char	*get_tild(void);
 int		create_file(int type, char **file_name);
 void				redirections(t_tree *root);
 void	translate_only(t_type *begin);
+int		check_cmd(t_env *env, char **args, int i);
+int		end_ling(int ret, char *s);
+int is_directory(const char *path);
+char 	*search_cmd_local(char **args);
+int			check_identifier(char *s, char *type);
 #endif

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 15:23:27 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 16:13:11 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,41 @@ void create_tree(t_type *cmd, t_tree **tree)
     }
 }
 
+int check_all(t_tree *root)
+{
+    t_tree *right;
+    t_tree *left;
+    t_tree *node;
+    char **cmd;
+    
+    node = root;
+    left = node->left;
+    right = node->right;
+    while (node)
+    {
+        left = node->left;
+        right = node->right;
+        while (left)
+        {
+            if (left->right && left->right->cmd->type == 0 && !check_cmd(get_env_st(NULL), prep_cmd(left->right->cmd, 0), 0))
+            {
+                cmd = prep_cmd(left->right->cmd, 0);
+                end_ling(get_all_st(NULL)->state, cmd[0]);
+                return (0);
+            }
+            left = left->left;
+        }
+        if (right && right->cmd->type == 0 && !check_cmd(get_env_st(NULL), prep_cmd(right->cmd, 0), 0))
+        {
+            cmd = prep_cmd(right->cmd, 0);
+            end_ling(get_all_st(NULL)->state, cmd[0]);
+            return (0);
+        }
+        node = right;
+    }
+    return (1);
+}
+
 void    build_tree(t_type *begin)
 {
     t_tree *root;
@@ -254,7 +289,8 @@ void    build_tree(t_type *begin)
         translate_only(begin);
         create_tree(begin, &root);
        //print_tree(root);
-       exec_cmd(root);
+       if (check_all(root))
+            exec_cmd(root);
         wrfree(root);
         root = NULL;
         while (begin && begin->type != 1)
