@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:55:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/06 18:25:48 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 16:19:22 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,12 @@ void		export_env(t_env *env, char **args)
 	ret = 1;
 	while (args[++i])
 	{
-		if (args[i][0] == '=' && !(ret = 0))
+		if (!ft_strncmp(args[1], "-", 1))
 		{
-			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
-			ft_dprintf(2, "export: `%s`: not a valid identifier\n", args[i]);
+			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m export: -%c: invalid option\n", args[1][1]);
+			get_all_st(NULL)->state = 2;
 		}
-		else
+		else if (check_identifier(args[i], "export") && !(get_all_st(NULL)->state = 0))
 			ret = treat_export(args[i], env);
 	}
 	get_all_st(NULL)->state = ret;

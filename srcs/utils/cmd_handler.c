@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 15:07:58 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 15:53:02 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,9 @@ void	underscore(t_env *env, char **args)
 
 int		end_ling(int ret, char *s)
 {
-	if (ret == 2)
+	if (ret == 32257 || ret == 127)
 	{
-		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
-		ft_dprintf(2, "%s: not enough arguments\n", s);
-	}
-	if (ret == 127)
-	{
+		get_all_st(NULL)->state = 127;
 		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
 		ft_dprintf(2, "%s: command not found\n", s);
 	}
@@ -145,7 +141,11 @@ int		end_ling(int ret, char *s)
 void	dot(char **args)
 {
 	if (!args[1])
+	{
+		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2, ".: not enough arguments\n");
 		get_all_st(NULL)->state = 2;
+	}
 	else
 	{
 		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");

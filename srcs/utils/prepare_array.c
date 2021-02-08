@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 15:08:43 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/08 15:39:45 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,7 +247,6 @@ t_type *prepare_array(char *line)
 	tmp = first_type;
 	while (tmp)
 	{
-		//ft_printf("|%s| -->%d", tmp->content, tmp->type);
 		if (tmp->type == 2)
 			if (!ft_strncmp(tmp->content, "||", 2) || !tmp->next || no_cmd(tmp))
 				return (errornear("|"));
