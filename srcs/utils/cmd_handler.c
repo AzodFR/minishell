@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 15:53:02 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 12:15:46 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,28 @@ void		search_cmd(t_env *env, char **args, int i)
 	return ;
 }
 
+char *find_path(char *s, t_env *env)
+{
+	char **path;
+	char *tmp;
+	char *tmp2;
+	struct stat	buff;
+	int i;
+	
+	i = -1;
+	path = ft_split(env_find(env, "PATH")->value, ':');
+	while (path[++i])
+	{
+		tmp = ft_strjoin(path[i], "/");
+		tmp2 = ft_strjoin(tmp, s);
+		wrfree(tmp);
+		if (!stat(tmp2, &buff))
+			return (tmp2);
+		wrfree(tmp2);
+	}
+	return (s);
+}
+
 void	underscore(t_env *env, char **args)
 {
 	int	i;
@@ -117,7 +139,7 @@ void	underscore(t_env *env, char **args)
 	while (args[++i])
 		;
 		--i;
-	env_edit_value(env_find(env, "_"), args[i]);
+	env_edit_value(env_find(env, "_"), find_path(args[i], env));
 }
 
 int		end_ling(int ret, char *s)

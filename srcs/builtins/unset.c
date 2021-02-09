@@ -6,27 +6,48 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:47:47 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 16:14:59 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 11:08:44 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
+
+int			isalldigit(char *s)
+{
+	int i;
+
+	i = -1;
+	while(s[++i])
+		if (!ft_isdigit(s[i]))
+			return (0);
+	return (1);
+}
 
 int			check_identifier(char *s, char *type)
 {
 	int i;
 
 	i = -1;
+	if (isalldigit(s) || !ft_strlen(s))
+	{
+			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m %s: `%s': not a valid identifier\n", type, s);
+			get_all_st(NULL)->state = 1;
+			return (0);
+	}
+	
 	while (s[++i])
+	{
 		if (s[i] == '.' || s[i] == '\\' || s[i] == '|' || s[i] == '*' ||
-		s[i] == '/' || s[i] == '=' || s[i] == '@' || s[i] == '+' || s[i] == '&'
+		s[i] == '/' || s[i] == '@' || s[i] == '+' || s[i] == '&'
 		|| s[i] == '}' || s[i] == '{' || s[i] == ']' || s[i] == '[' || s[i] == '!'
-		|| s[i] == '^' || s[i] == '~' || s[i] == '#' || s[i] == '-')
+		|| s[i] == '^' || s[i] == '~' || s[i] == '#' || s[i] == '-' || s[i] == '=')
 		{
 			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m %s: `%s': not a valid identifier\n", type, s);
 			get_all_st(NULL)->state = 1;
 			return (0);
 		}
+
+	}
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 13:59:40 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 11:37:29 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,11 @@ int			main(int ac, char **av, char **envp)
 		fd = open(av[1], O_RDONLY);
 	env = init_env(envp);
 	env_edit_value(env_find(env, "SHLVL"), ft_itoa(ft_atoi(env_find(env, "SHLVL")->value) + 1));
+	if (!env_find(env, "OLDPWD"))
+	{
+		ft_envadd_back(&env, ft_envnew("OLDPWD", ""));
+		env_edit_state(env_find(env, "OLDPWD"), 0);
+	}
 	get_env_st(env);
 	loop(fd);
 	if (ac == 2)

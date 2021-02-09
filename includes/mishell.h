@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 16:15:09 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 11:09:04 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,4 +144,5 @@ int		end_ling(int ret, char *s);
 int is_directory(const char *path);
 char 	*search_cmd_local(char **args);
 int			check_identifier(char *s, char *type);
+int			isalldigit(char *s);
 #endif
