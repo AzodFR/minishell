@@ -6,7 +6,7 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 14:00:02 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 17:06:31 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,13 @@ void create_tree(t_type *cmd, t_tree **tree)
         if (cmd->type > 1 && cmd->type < 6)
         {
 			insert_tree(tree, cmd);
-            cmd = cmd->next;
+           cmd = cmd->next;
+        //    while (cmd && cmd->type == 8)
+        //       cmd = cmd->next;
+        //    if (cmd && (cmd->type == 0 ||cmd->type == 6 || cmd->type == 7))
+        //       cmd = cmd->next;
+        //     while (cmd && cmd->type == 8)
+        //        cmd = cmd->next;
         }
         else if (cmd->type == 8)
             cmd = cmd->next;
@@ -219,6 +225,7 @@ void create_tree(t_type *cmd, t_tree **tree)
         }
     }
 }
+
 
 int check_all(t_tree *root)
 {
@@ -257,6 +264,8 @@ int check_all(t_tree *root)
 
 t_type      *moov_t_type(t_type *moov, t_type *dest)
 {
+
+    printf("%s\n", moov->content);
     t_type  *dest_next;
     moov->prev->next = moov->next;
     moov->next->prev = moov->prev;
@@ -269,21 +278,37 @@ t_type      *moov_t_type(t_type *moov, t_type *dest)
     return (moov);
 }
 
-int		init_tree(t_type *begin)
+int		add_space(t_type *begin, t_type *prev)
 {
 	t_type	*temp;
 
-	while (begin && begin->next && begin->next)
-		begin = begin->next;
-	temp = wrmalloc(sizeof(t_type));
-	temp->content = wrmalloc(1);
-	temp->content[0] = 0;
+    temp = wrmalloc(sizeof(t_type));
+	temp->content = wrmalloc(2);
+	temp->content[0] = ' ';
+	temp->content[1] = 0;
 	temp->type = 8;
+	temp->next = NULL;
+    prev = NULL;
+    if (prev)
+    {
+        begin = prev;
+        if (prev->next)
+        {
+            prev = prev->next;
+            prev->prev = temp;
+            temp->next = prev;
+        }
+    }
+    else
+    {
+    	while (begin && begin->next)
+        	begin = begin->next;
+    }
 	begin->next = temp;
 	temp->prev = begin;
-	temp->next = NULL;
 	return (0);
 }
+
 
 
 t_type    *post_tree(t_type *begin)
@@ -291,10 +316,9 @@ t_type    *post_tree(t_type *begin)
 	t_type *last;
 	t_type *temp;
 	t_type *temp2;
-	t_type *temp3;
     temp = begin;
     int i;
-	init_tree(begin);
+	add_space(begin, NULL);
 
     while (begin && begin->next)
 	{
@@ -303,35 +327,61 @@ t_type    *post_tree(t_type *begin)
 		i = 0;
 		while (temp->next)
 		{
-			if (temp->type <= 5 && temp->type >= 3)
+			if (temp->type == 5 || temp->type == 3)
 				i++;
 			temp = temp->next;
 		}
+        printf("i = %i\n", i);
+
 		temp = begin;
 		while(i > 0)
 		{
 			temp = begin;
-			while(temp->next && temp->type != 3 && temp->type != 4 && temp->type != 5)
+			while(temp->next && temp->type != 3 && temp->type != 5)
 				temp = temp->next;
-			if (temp->type >= 3 && temp->type <= 5)
+			if (temp->type == 3 || temp->type == 5)
 			{
 				last = temp;
 				while(last->next && last->next->type  != 1 && last->next->type != 2)
 					last = last->next;
 				temp2 = temp->next;
 				last = moov_t_type(temp, last);
-				temp3 = temp2->next;
-				last = moov_t_type(temp2, last);
-				temp2 = temp3->next;
-				last = moov_t_type(temp3, last);
-				temp3 = temp2->next;
-				last = moov_t_type(temp2, last);
+                if (temp2->type != 8)
+				    last = moov_t_type(temp2, last);
+            	else
+				    last = moov_t_type(temp2->next, last);
 			}
-		i--;
-		}
+    		i--;
+            temp2 = last;
+            if (i == 0)
+		    {
+               while(temp2->prev && temp2->type != 5 && temp2->type != 3 && temp2 != begin)
+                   temp2 = temp2->prev;
+               if (temp2->type == 3 || temp2->type == 5)
+                   temp = temp2;
+               while(temp2 != begin)
+               {
+                   temp2 = temp2->prev;
+                   if (temp2->type == 3 || temp2->type == 5)
+                   {
+                        wrfree(temp2->content);
+                        temp2->content = ft_strdup(temp->content);
+                        temp2->type = temp->type;
+                        destroy_t_type(temp);
+                        temp = temp2;
+                   }
+               }
+            }
+        }
 		begin = last;
-		while (begin != NULL && begin->next != NULL && (begin->next->type > 5 || begin->next->type < 3))
+		while (begin != NULL && begin->next != NULL && begin->next->type != 5 && begin->next->type != 3)
 			begin = begin->next;
+
+        
+
+//emp2 = temp2- > prev ;
+
+
 	}
 	return (NULL);
 }
@@ -340,12 +390,46 @@ void    build_tree(t_type *begin)
 {
     t_tree *root;
     root = NULL;
+
+    t_type *temp;
+
+
+    temp = begin;
+printf("\n\n\n\n");
+    temp = begin;
+    while(temp)
+    {
+        printf("%i     %s\n", temp->type, temp->content);
+        temp = temp->next;
+    }
+printf("\n\n\n\n");
+
+printf("\n\n\n\n");
     post_tree(begin);
+printf("\n\n\n\n");
+
+
+
+    temp = begin;
+
+
+
+
+    temp = begin;
+    while(temp)
+    {
+        printf("%i     %s\n", temp->type, temp->content);
+        temp = temp->next;
+    }
+printf("\n\n\n\n");
+
+
+
     while (begin)
     {
         translate_only(begin);
         create_tree(begin, &root);
-       //print_tree(root);
+       print_tree(root);
        if (check_all(root))
             exec_cmd(root);
         wrfree(root);
