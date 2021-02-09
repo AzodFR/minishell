@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 12:15:46 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 15:58:20 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ char 	*search_cmd_local(char **args)
 	if (!stat(tmp2, &buff))
 		return (tmp2);
 	wrfree(tmp2);
+	return (NULL);
+}
+
+char 	*search_cmd_abs(char **args)
+{
+	struct stat	buff;
+	
+	if (!stat(args[0], &buff))
+		return (args[0]);
 	return (NULL);
 }
 
@@ -99,6 +108,12 @@ void		search_cmd(t_env *env, char **args, int i)
 		wrfree(tmp2);
 	}
 	if ((tmp2 = search_cmd_local(args)))
+	{
+			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
+			wrfree(tmp2);
+			return ;
+	}
+	else if ((tmp2 = search_cmd_abs(args)))
 	{
 			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
 			wrfree(tmp2);
