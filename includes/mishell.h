@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 15:56:22 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 16:24:53 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct			s_all
 	int		flag_cmd;
 	int		flag_esc;
 	int		fd[3];
+	int		exit;
 	t_tree	*last_node;
 }						t_all;
 void			welcome(char **env);
