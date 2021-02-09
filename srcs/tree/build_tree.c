@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 16:13:11 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 14:00:02 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,28 +207,8 @@ void create_tree(t_type *cmd, t_tree **tree)
     {
         if (cmd->type > 1 && cmd->type < 6)
         {
-            if (cmd->type == 2)
-				insert_tree(tree, cmd);
-			else
-            {
-                back = cmd->prev ? cmd->prev : NULL;
-                tmp_redir(&redir, &cmd);
-                if (cmd->type == 0)
-                    cmd = destroy_t_type(cmd);
-                if (cmd->type == 8)
-                    cmd = destroy_t_type(cmd);
-
-            }
+			insert_tree(tree, cmd);
             cmd = cmd->next;
-            // if (cmd && cmd->type > 2 && back)
-            // {
-            //     back->next = cmd;
-            //    // ft_printf("back next: %s\n", cmd->content);
-            // }
-            // while ((*tree) && back && cmd && (cmd->type == 0 || cmd->type > 6)) 
-            //     cmd = cmd->next; 
-            if (!(*tree) && (cmd = cmd->next))
-                insert_tree(tree, cmd);
         }
         else if (cmd->type == 8)
             cmd = cmd->next;
@@ -237,11 +217,6 @@ void create_tree(t_type *cmd, t_tree **tree)
             insert_tree(tree, cmd);
             cmd = find_next_type(cmd);
         }
-    }
-    if (redir)
-    {
-        insert_tree(tree, redir);
-        insert_tree(tree, redir->next);
     }
 }
 
@@ -280,10 +255,92 @@ int check_all(t_tree *root)
     return (1);
 }
 
+t_type      *moov_t_type(t_type *moov, t_type *dest)
+{
+    t_type  *dest_next;
+    moov->prev->next = moov->next;
+    moov->next->prev = moov->prev;
+    dest_next = dest->next;
+    dest->next = moov;
+	if (dest_next)
+	    dest_next->prev = moov;
+    moov->next = dest_next;
+    moov->prev = dest;
+    return (moov);
+}
+
+int		init_tree(t_type *begin)
+{
+	t_type	*temp;
+
+	while (begin && begin->next && begin->next)
+		begin = begin->next;
+	temp = wrmalloc(sizeof(t_type));
+	temp->content = wrmalloc(1);
+	temp->content[0] = 0;
+	temp->type = 8;
+	begin->next = temp;
+	temp->prev = begin;
+	temp->next = NULL;
+	return (0);
+}
+
+
+t_type    *post_tree(t_type *begin)
+{
+	t_type *last;
+	t_type *temp;
+	t_type *temp2;
+	t_type *temp3;
+    temp = begin;
+    int i;
+	init_tree(begin);
+
+    while (begin && begin->next)
+	{
+		last = NULL;
+		temp = begin;
+		i = 0;
+		while (temp->next)
+		{
+			if (temp->type <= 5 && temp->type >= 3)
+				i++;
+			temp = temp->next;
+		}
+		temp = begin;
+		while(i > 0)
+		{
+			temp = begin;
+			while(temp->next && temp->type != 3 && temp->type != 4 && temp->type != 5)
+				temp = temp->next;
+			if (temp->type >= 3 && temp->type <= 5)
+			{
+				last = temp;
+				while(last->next && last->next->type  != 1 && last->next->type != 2)
+					last = last->next;
+				temp2 = temp->next;
+				last = moov_t_type(temp, last);
+				temp3 = temp2->next;
+				last = moov_t_type(temp2, last);
+				temp2 = temp3->next;
+				last = moov_t_type(temp3, last);
+				temp3 = temp2->next;
+				last = moov_t_type(temp2, last);
+			}
+		i--;
+		}
+		begin = last;
+		while (begin != NULL && begin->next != NULL && (begin->next->type > 5 || begin->next->type < 3))
+			begin = begin->next;
+	}
+	return (NULL);
+}
+
 void    build_tree(t_type *begin)
 {
     t_tree *root;
     root = NULL;
+    post_tree(begin);
     while (begin)
     {
         translate_only(begin);
