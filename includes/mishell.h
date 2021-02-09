@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 11:09:04 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/09 16:24:53 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct			s_all
 	int		flag_cmd;
 	int		flag_esc;
 	int		fd[3];
+	int		exit;
 	t_tree	*last_node;
 }						t_all;
 void			welcome(char **env);
@@ -145,4 +146,6 @@ int is_directory(const char *path);
 char 	*search_cmd_local(char **args);
 int			check_identifier(char *s, char *type);
 int			isalldigit(char *s);
+
+char 	*search_cmd_abs(char **args);
 #endif
