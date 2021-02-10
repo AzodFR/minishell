@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 16:25:04 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 14:34:19 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ char		**prep_cmd(t_type *begin, int i)
 	get_all_st(NULL)->flag_quote = 0;
 	while (++j < i && begin)
 	{
+		if (begin->type == 3 || begin->type == 5)
+			break;
 		if(begin && begin->type == 0 && !ft_strlen(begin->content))
 				while (begin && begin->type == 0 && !ft_strlen(begin->content))
 					begin = begin->next;

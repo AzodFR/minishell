@@ -24,7 +24,7 @@ FILES = mishell.c welcome.c \
 		utils/prepare_array.c \
 		perso/donut.c tree/build_tree.c \
 		exec/exec_cmd.c exec/piped.c exec/redir.c \
-		signals/sig_c.c utils/file_opener.c
+		signals/sig_c.c utils/file_opener.c tree/test.c
 
 RM = rm -f
 

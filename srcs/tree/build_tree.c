@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 17:06:31 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 14:35:30 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,14 +240,20 @@ int check_all(t_tree *root)
     while (node)
     {
         left = node->left;
-        right = node->right;
+        if (node->cmd->type > 2 && node->cmd->type < 6)
+            right = NULL;
+        else
+            right = node->right;
         while (left)
         {
-            if (left->right && left->right->cmd->type == 0 && !check_cmd(get_env_st(NULL), prep_cmd(left->right->cmd, 0), 0))
+            if (left->cmd->type < 3 || left->cmd->type > 5)
             {
-                cmd = prep_cmd(left->right->cmd, 0);
-                end_ling(get_all_st(NULL)->state, cmd[0]);
-                return (0);
+                if (left->right && left->right->cmd->type == 0 && !check_cmd(get_env_st(NULL), prep_cmd(left->right->cmd, 0), 0))
+                {
+                    cmd = prep_cmd(left->right->cmd, 0);
+                    end_ling(get_all_st(NULL)->state, cmd[0]);
+                    return (0);
+                }
             }
             left = left->left;
         }
@@ -265,7 +271,7 @@ int check_all(t_tree *root)
 t_type      *moov_t_type(t_type *moov, t_type *dest)
 {
 
-    printf("%s\n", moov->content);
+   // printf("%s\n", moov->content);
     t_type  *dest_next;
     moov->prev->next = moov->next;
     moov->next->prev = moov->prev;
@@ -341,6 +347,7 @@ t_type    *post_tree(t_type *begin)
 				temp = temp->next;
 			if (temp->type == 3 || temp->type == 5)
 			{
+                add_space(temp->next, temp);
 				last = temp;
 				while(last->next && last->next->type  != 1 && last->next->type != 2)
 					last = last->next;
@@ -350,6 +357,7 @@ t_type    *post_tree(t_type *begin)
 				    last = moov_t_type(temp2, last);
             	else
 				    last = moov_t_type(temp2->next, last);
+                
 			}
     		i--;
             temp2 = last;
@@ -359,6 +367,8 @@ t_type    *post_tree(t_type *begin)
                    temp2 = temp2->prev;
                if (temp2->type == 3 || temp2->type == 5)
                    temp = temp2;
+                
+                
                while(temp2 != begin)
                {
                    temp2 = temp2->prev;
@@ -369,7 +379,8 @@ t_type    *post_tree(t_type *begin)
                         temp2->type = temp->type;
                         destroy_t_type(temp);
                         temp = temp2;
-                   }
+                        printf("je suis sur %s\n", temp->content);
+                   }   
                }
             }
         }
@@ -391,37 +402,40 @@ void    build_tree(t_type *begin)
     t_tree *root;
     root = NULL;
 
-    t_type *temp;
+   // t_type *temp;
 
 
-    temp = begin;
-printf("\n\n\n\n");
-    temp = begin;
-    while(temp)
+   // temp = begin;
+//printf("\n\n\n\n");
+prep(begin);
+ /*   temp = begin;
+   while(temp)
     {
         printf("%i     %s\n", temp->type, temp->content);
         temp = temp->next;
     }
-printf("\n\n\n\n");
+printf("\n\n\n\n");*/
 
-printf("\n\n\n\n");
-    post_tree(begin);
-printf("\n\n\n\n");
-
-
-
-    temp = begin;
+//printf("\n\n\n\n");
+   
+//printf("\n\n\n\n");
 
 
 
+  //  temp = begin;
 
-    temp = begin;
+
+
+
+  /*  temp = begin;
     while(temp)
     {
         printf("%i     %s\n", temp->type, temp->content);
+            if (temp->type == 5)
+                add_space(temp, temp->prev);
         temp = temp->next;
     }
-printf("\n\n\n\n");
+printf("\n\n\n\n");*/
 
 
 
@@ -429,9 +443,9 @@ printf("\n\n\n\n");
     {
         translate_only(begin);
         create_tree(begin, &root);
-       print_tree(root);
+       //print_tree(root);
        if (check_all(root))
-            exec_cmd(root);
+          exec_cmd(root);
         wrfree(root);
         root = NULL;
         while (begin && begin->type != 1)
