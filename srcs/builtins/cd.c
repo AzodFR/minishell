@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 12:24:57 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 15:44:44 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,4 @@ void		change_dir(t_env *env, char **args)
 		ft_envadd_back(&env, ft_envnew("PWD", getcwd(NULL, 10000)));
 	wrfree(path);
 	get_all_st(NULL)->state = 0;
-	get_env_st(env);
 }

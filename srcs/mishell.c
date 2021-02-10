@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 14:34:19 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 15:06:57 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void		loop(int fd)
 	a.fd[0] = dup(0);
 	a.fd[1] = dup(1);
 	a.fd[2] = dup(2);
+	a.path = NULL;
 	a.exit = 0;
 	get_all_st(&a);
 	while (ret)

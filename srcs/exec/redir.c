@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:30:50 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/07 11:47:29 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 15:45:18 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,9 @@
 
 void			exec_redirection(t_tree *root, int fd, int redirection)
 {
-	int				child_status;
-
-	child_status = 0;
-	if (fork() == 0)
-	{
 		dup2(fd, redirection);
 		close(fd);
 		exec_cmd(root->left);
-		exit(get_all_st(NULL)->state);
-	}
-	else
-	{
-		wait(&child_status);
-		get_all_st(NULL)->state = WEXITSTATUS(child_status);
-	}
-	get_all_st(NULL)->state = child_status;
 }
 
 void				redirections(t_tree *root)

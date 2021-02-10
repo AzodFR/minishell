@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 14:35:30 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 15:43:55 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,6 +397,15 @@ t_type    *post_tree(t_type *begin)
 	return (NULL);
 }
 
+
+void get_fd_back(int fd[3])
+{
+    dup2(fd[0], 0);
+    dup2(fd[1], 1);
+    dup2(fd[2], 2);
+}
+
+
 void    build_tree(t_type *begin)
 {
     t_tree *root;
@@ -436,9 +445,6 @@ printf("\n\n\n\n");*/
         temp = temp->next;
     }
 printf("\n\n\n\n");*/
-
-
-
     while (begin)
     {
         translate_only(begin);
@@ -448,6 +454,7 @@ printf("\n\n\n\n");*/
           exec_cmd(root);
         wrfree(root);
         root = NULL;
+        get_fd_back(get_all_st(NULL)->fd);
         while (begin && begin->type != 1)
         {
             begin = find_next_type(begin);
