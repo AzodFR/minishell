@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 15:44:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/10 16:14:11 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ char	*suprslash(char *s)
 	return (newstring);
 }
 
+int		is_sym(char *path)
+{
+	struct stat buf;
+
+	lstat (path, &buf);
+	return (S_ISLNK(buf.st_mode));
+}
+
 void		change_dir(t_env *env, char **args)
 {
 	char *path;
@@ -89,6 +97,7 @@ void		change_dir(t_env *env, char **args)
 		get_all_st(NULL)->state = 1;
 		return ;
 	}
+	//dprintf(1, "link: %d for %s\n", is_sym(ft_strjoin(ft_strjoin(env_find(env, "PWD")->value, "/"),path)), ft_strjoin(ft_strjoin(env_find(env, "PWD")->value, "/"),path));
 	if (env_find(env, "OLDPWD"))
 		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD") ? env_find(env, "PWD")->value : getcwd(NULL, 0));
 	else
