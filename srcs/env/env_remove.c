@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env_remove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:51:49 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/13 13:24:15 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:45:38 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-void	ft_env_remove_if(t_env **begin_list, void *name_ref, int (*cmp)())
+static void	ft_remove_elem(t_env **ptr_back, t_env **ptr)
+{
+	(*ptr_back)->next = (*ptr)->next;
+	wrfree((*ptr)->name);
+	wrfree((*ptr)->value);
+	wrfree(*ptr);
+	*ptr = (*ptr_back)->next;
+}
+
+void		ft_env_remove_if(t_env **begin_list, void *name_ref, int (*cmp)())
 {
 	t_env	*ptr;
 	t_env	*ptr_back;
@@ -39,13 +48,4 @@ void	ft_env_remove_if(t_env **begin_list, void *name_ref, int (*cmp)())
 		wrfree(*begin_list);
 		*begin_list = ptr;
 	}
-}
-
-void	ft_remove_elem(t_env **ptr_back, t_env **ptr)
-{
-	(*ptr_back)->next = (*ptr)->next;
-	wrfree((*ptr)->name);
-	wrfree((*ptr)->value);
-	wrfree(*ptr);
-	*ptr = (*ptr_back)->next;
 }

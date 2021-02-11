@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_to_tab.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:21:55 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 18:45:19 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:46:13 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-int			env_size(t_env *env)
+static int	env_size(t_env *env)
 {
 	t_env	*begin;
 	int		i;
