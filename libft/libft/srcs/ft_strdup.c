@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:18:57 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 13:19:31 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:26:13 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*ft_strdup(const char *s)
 	ptr[i] = 0;
 	return (ptr);
 }
-
 
 char	*ft_strndup(const char *s, int n)
 {

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:09:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 10:25:57 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:26:34 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_atoi(const char *nbtr)
+int			ft_atoi(const char *nbtr)
 {
 	long int	nb;
 	int			neg;
@@ -39,7 +39,7 @@ int		ft_atoi(const char *nbtr)
 	return (neg ? -nb : nb);
 }
 
-long long		ft_atoll(const char *nbtr)
+long long	ft_atoll(const char *nbtr)
 {
 	long long	nb;
 	int			neg;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:05:23 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 10:26:27 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:30:50 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,6 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 void				*wrmalloc(unsigned long size);
 int					wrfree(void *ptr);
 void				wrdestroy(void);
-char		*ft_tolowers(char *s);
-long long		ft_atoll(const char *nbtr);
+char				*ft_tolowers(char *s);
+long long			ft_atoll(const char *nbtr);
 #endif

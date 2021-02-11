@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_advanced_sort_tab.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/21 11:52:39 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/12 18:43:29 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:24:57 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 

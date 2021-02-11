@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wrmalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:21:21 by thjacque          #+#    #+#             */
-/*   Updated: 2021/01/08 16:23:06 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:30:05 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
