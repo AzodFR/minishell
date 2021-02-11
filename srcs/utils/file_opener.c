@@ -6,13 +6,13 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:23:41 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 10:56:27 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 14:46:55 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-int			open_one_right(char **teub)
+int					open_one_right(char **teub)
 {
 	int				i;
 	int				fd;
@@ -25,8 +25,8 @@ int			open_one_right(char **teub)
 		if (fd == -1)
 		{
 			join = ft_strjoin(teub[i], ": ");
-			ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0m");
-		    ft_dprintf(2,"%s %s\n", join, strerror(errno));
+			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+			ft_dprintf(2, "%s %s\n", join, strerror(errno));
 			get_all_st(NULL)->state = 1;
 			wrfree(join);
 			return (fd);
@@ -35,7 +35,7 @@ int			open_one_right(char **teub)
 	return (fd);
 }
 
-int			open_double_right(char **teub)
+int					open_double_right(char **teub)
 {
 	int				i;
 	int				fd;
@@ -48,8 +48,8 @@ int			open_double_right(char **teub)
 		if (fd == -1)
 		{
 			join = ft_strjoin(teub[i], ": ");
-			ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0m");
-		    ft_dprintf(2,"%s %s\n", join, strerror(errno));
+			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+			ft_dprintf(2, "%s %s\n", join, strerror(errno));
 			get_all_st(NULL)->state = 1;
 			wrfree(join);
 			return (fd);
@@ -58,7 +58,7 @@ int			open_double_right(char **teub)
 	return (fd);
 }
 
-int			open_one_left(char **teub)
+int					open_one_left(char **teub)
 {
 	int				i;
 	int				fd;
@@ -71,8 +71,8 @@ int			open_one_left(char **teub)
 		if (fd == -1)
 		{
 			join = ft_strjoin(teub[i], ": ");
-			ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0m");
-		    ft_dprintf(2,"%s %s\n", join, strerror(errno));
+			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+			ft_dprintf(2, "%s %s\n", join, strerror(errno));
 			get_all_st(NULL)->state = 1;
 			wrfree(join);
 			return (fd);

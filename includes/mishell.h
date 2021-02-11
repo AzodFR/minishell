@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 14:12:36 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:52:00 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 # define MISHELL_H
 # include "extern.h"
 
-void			welcome(char **env);
-void			loop(int fd);
+void				welcome(char **env);
 /*
 **	BUILTINS
 */
@@ -52,6 +51,8 @@ void			create_nodes(t_type *begin, t_tree *root);
 /*
 **	CMD EXECUTION
 */
+void				treat(char *line);
+t_type				*find_next_type(t_type *begin);
 void				exec_cmd(t_tree *root);
 void				exec_pipe(t_tree *root, int backfd, int count);
 void				exec_redir(t_tree *root);
@@ -62,14 +63,20 @@ int					exec_cmd_parents(char *path, char **args, char**env);
 */
 char 			*search_cmd_local(char **args);
 char 			*search_cmd_abs(char **args);
+int				se_path(t_env *env, int i, char **args, int launch);
+int				se_local(t_env *env, char **args, int launch);
+int				se_abs(t_env *env, char **args, int launch);
 void			search_cmd(t_env *env, char **args, int i);
 int				is_directory(const char *path);
 int				isalldigit(char *s);
-int				check_identifier(char *s, char *type, int i);
 int				check_cmd(t_env *env, char **args, int i);
 /*
 ** PREPARE CMD
 */
+int		no_prev(t_type *begin);
+int		no_next(t_type *begin);
+int		no_cmd(t_type *begin);
+t_type	*errornear(char *s);
 char		*translate(char *s, int *i, t_all *all, char *string);
 char				**prep_cmd(t_type *begin, int i);
 char			**trim_args(char *line, char c);
@@ -78,8 +85,11 @@ int				splitter_counter_cmd(char *s, t_all *a, int i);
 int				splitter_counter_args(char *s, t_all *a, int *j);
 t_type *prepare_array(char *line);
 t_all			*get_all_st(t_all *all);
-
-
+t_type	*create_struc(char *line, int i, char type, t_type *str_type);
+char	check_type(char *str, int i, char c);
+int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u);
+int		moov_type(int u, char *line);
+t_type	*split_type(char *line, char *line_p, int u);
 char		*add_one(char *s, char c);
 
 int			main_donut(void);

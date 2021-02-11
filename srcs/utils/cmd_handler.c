@@ -6,30 +6,20 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 11:59:52 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 14:44:30 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-
-
-int is_directory(const char *path)
+char		*find_path(char *s, t_env *env)
 {
-   struct stat statbuf;
-   
-	stat(path, &statbuf);
-	return S_ISDIR(statbuf.st_mode);
-}
+	char			**path;
+	char			*tmp;
+	char			*tmp2;
+	struct stat		buff;
+	int				i;
 
-char *find_path(char *s, t_env *env)
-{
-	char **path;
-	char *tmp;
-	char *tmp2;
-	struct stat	buff;
-	int i;
-	
 	i = -1;
 	path = ft_split(env_find(env, "PATH")->value, ':');
 	while (path[++i])
@@ -51,11 +41,11 @@ static void	underscore(t_env *env, char **args)
 	i = -1;
 	while (args[++i])
 		;
-		--i;
+	--i;
 	env_edit_value(env_find(env, "_"), find_path(args[i], env));
 }
 
-int		end_ling(int ret, char *s)
+int			end_ling(int ret, char *s)
 {
 	if (ret == 32257 || ret == 127)
 	{
@@ -73,7 +63,7 @@ int		end_ling(int ret, char *s)
 	return (ret);
 }
 
-void	dot(char **args)
+void		dot(char **args)
 {
 	if (!args[1])
 	{
@@ -89,11 +79,8 @@ void	dot(char **args)
 	}
 }
 
-int		handler(char **args, t_env *env)
+int			handler(char **args, t_env *env)
 {
-	t_all *all;
-
-	all = get_all_st(NULL);
 	if (!args[0])
 		return (1);
 	underscore(env, args);

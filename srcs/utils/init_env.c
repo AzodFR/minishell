@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:14:19 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 11:58:14 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:21:31 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*get_name(char *s)
 	i = -1;
 	while (s[++i] != '=' && s[i])
 		name[i] = s[i];
-	if ( i && (s[i] && s[i] == '=') && (s[i - 1] && s[i - 1] == '+'))
+	if (i && (s[i] && s[i] == '=') && (s[i - 1] && s[i - 1] == '+'))
 		name[i - 1] = 0;
 	name[i] = 0;
 	return (name);
