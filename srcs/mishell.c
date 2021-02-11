@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 15:06:57 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 11:57:49 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,6 @@ char		**prep_cmd(t_type *begin, int i)
 		begin = begin->next;
 	}
 	args[last] = 0;
-	j = -1;
-//	while (args[++j])
-		//printf("args: %s\n", args[j]);
 	return (args);
 }
 void		treat(char *line)
@@ -119,8 +116,8 @@ void		loop(int fd)
 	while (ret)
 	{
 		signal(SIGINT, &sig_c);
-		signal(SIGQUIT, SIG_IGN);
-		//ft_printf("\033[32mMiShell %s", get_tild());
+		signal(SIGQUIT, &sig_quit);
+		ft_printf("\033[32mMiShell %s", get_tild());
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
 			treat(line);
@@ -155,7 +152,7 @@ int			main(int ac, char **av, char **envp)
 	int		fd;
 
 	(void)av[ac];
-	//welcome(envp);
+	welcome(envp);
 	fd = 0;
 	if (ac == 2)
 		fd = open(av[1], O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 15:42:15 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 11:28:48 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ char	*check_translation(char *s)
 		if (!s[i])
 			break;
 		while (s[i] == '$' && !esc && s[i + 1] && s[i + 1] != ' ')
-			r = stran(s, &i, get_all_st(NULL), r);
+			r = translate(s, &i, get_all_st(NULL), r);
 		if (!s[i])
 			break;
 		r = add_one(r, s[i]);

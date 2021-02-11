@@ -6,13 +6,13 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 18:11:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 09:48:16 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 10:50:22 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-t_donut		init_donut(void)
+static t_donut		init_donut(void)
 {
 	t_donut d;
 
@@ -22,7 +22,7 @@ t_donut		init_donut(void)
 	return (d);
 }
 
-void		donut2(t_donut *d)
+static void		donut2(t_donut *d)
 {
 	d->c = sin(d->i);
 	d->d = cos(d->j);
@@ -48,7 +48,7 @@ void		donut2(t_donut *d)
 	d->i += 0.02;
 }
 
-void		donut3(t_donut *d)
+static void		donut3(t_donut *d)
 {
 	while (1761 > d->k)
 	{
@@ -61,7 +61,7 @@ void		donut3(t_donut *d)
 		d->theo += 1;
 }
 
-void		donut1(void)
+static void		donut1(void)
 {
 	t_donut	*d;
 	t_donut	b;
@@ -92,10 +92,13 @@ void		donut1(void)
 
 int			main_donut(void)
 {
-	pid_t		prog;
-
-	if (!(prog = fork()))
+	pid_t pid;
+	
+	signal(SIGINT, &sig_c);
+	signal(SIGQUIT, &sig_quit);
+	if (!(pid = fork()))
 		donut1();
-	wait(&prog);
+	else
+		wait(&pid);
 	return (1);
 }

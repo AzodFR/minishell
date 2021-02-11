@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:47:47 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/09 11:08:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 10:10:33 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,12 @@ int			isalldigit(char *s)
 
 	i = -1;
 	while(s[++i])
-		if (!ft_isdigit(s[i]))
+	{
+		if (i == 0 && (s[i] == '+' || s[i] == '-'))
+			continue ;
+		else if (!ft_isdigit(s[i]))
 			return (0);
+	}
 	return (1);
 }
 

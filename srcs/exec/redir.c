@@ -6,31 +6,31 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:30:50 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 15:45:18 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 11:19:04 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-void			exec_redirection(t_tree *root, int fd, int redirection)
+static void			redirections(t_tree *root, int fd, int redirection)
 {
 		dup2(fd, redirection);
 		close(fd);
 		exec_cmd(root->left);
 }
 
-void				redirections(t_tree *root)
+void				exec_redir(t_tree *root)
 {
 	int				fd;
 	int				redirection;
 
-    redirection = ft_atoi(root->cmd->content);
-    if (!redirection)
-        redirection = 1;
+	redirection = ft_atoi(root->cmd->content);
+	if (!redirection)
+		redirection = 1;
 	if (root->cmd->type == 4)
 		redirection = 0;
 	fd = create_file(root->cmd->type, prep_cmd(root->right->cmd, 0));
 	if (fd == -1)
 		return ;
-	exec_redirection(root, fd, redirection);
+	redirections(root, fd, redirection);
 }

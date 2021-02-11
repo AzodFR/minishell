@@ -6,20 +6,20 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:23:41 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/06 19:37:58 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 10:56:27 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-int			fd_simple_redirection_right(char **teub)
+int			open_one_right(char **teub)
 {
 	int				i;
 	int				fd;
 	char			*join;
 
-	i = 0;
-	while (teub[i])
+	i = -1;
+	while (teub[++i])
 	{
 		fd = open(teub[i], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd == -1)
@@ -31,19 +31,18 @@ int			fd_simple_redirection_right(char **teub)
 			wrfree(join);
 			return (fd);
 		}
-		i++;
 	}
 	return (fd);
 }
 
-int			fd_double_redirection_right(char **teub)
+int			open_double_right(char **teub)
 {
 	int				i;
 	int				fd;
 	char			*join;
 
-	i = 0;
-	while (teub[i])
+	i = -1;
+	while (teub[++i])
 	{
 		fd = open(teub[i], O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (fd == -1)
@@ -55,19 +54,18 @@ int			fd_double_redirection_right(char **teub)
 			wrfree(join);
 			return (fd);
 		}
-		i++;
 	}
 	return (fd);
 }
 
-int			fd_simple_redirection_left(char **teub)
+int			open_one_left(char **teub)
 {
 	int				i;
 	int				fd;
 	char			*join;
 
-	i = 0;
-	while (teub[i])
+	i = -1;
+	while (teub[++i])
 	{
 		fd = open(teub[i], O_RDONLY);
 		if (fd == -1)
@@ -79,7 +77,6 @@ int			fd_simple_redirection_left(char **teub)
 			wrfree(join);
 			return (fd);
 		}
-		i++;
 	}
 	return (fd);
 }
@@ -90,10 +87,10 @@ int					create_file(int type, char **file_name)
 
 	fd = -1;
 	if (type == 3)
-		fd = fd_simple_redirection_right(file_name);
+		fd = open_one_right(file_name);
 	else if (type == 5)
-		fd = fd_double_redirection_right(file_name);
+		fd = open_double_right(file_name);
 	else if (type == 4)
-		fd = fd_simple_redirection_left(file_name);
+		fd = open_one_left(file_name);
 	return (fd);
 }

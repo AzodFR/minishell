@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 11:05:23 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 09:55:22 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 10:26:27 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,5 @@ void				*wrmalloc(unsigned long size);
 int					wrfree(void *ptr);
 void				wrdestroy(void);
 char		*ft_tolowers(char *s);
+long long		ft_atoll(const char *nbtr);
 #endif

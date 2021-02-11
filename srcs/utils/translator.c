@@ -1,58 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   splitter.c                                         :+:      :+:    :+:   */
+/*   translator.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/07 00:54:06 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 11:41:06 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-char		*sep_blocks(char *s, int *i, char c, char *string, t_all *a)
-{
-	char	*tmp;
-	char	*tmp2;
-	int		j;
-
-	j = 0;
-	while (s[j])
-	{
-		if (s[j - 1] == '\\' && s[j] == c)
-			j++;
-		else if (s[j] == c)
-			break ;
-		else
-			j++;
-	}
-	if (s[j] != c)
-		return (NULL);
-	tmp = ft_strndup(s, j);
-	if (c == '\"')
-		tmp = ft_translate(tmp, get_env_st(NULL), a, -1);
-	tmp2 = ft_strjoin(string, tmp);
-	wrfree(tmp);
-	wrfree(string);
-	*i = *i + j + 1;
-	return (tmp2);
-}
-
-char		*add_one(char *s, char c)
-{
-	char	new[2];
-	char	*tmp;
-
-	new[0] = c;
-	new[1] = 0;
-	tmp = ft_strjoin(s, new);
-	wrfree(s);
-	return (tmp);
-}
-
-char		*stran(char *s, int *i, t_all *all, char *string)
+char		*translate(char *s, int *i, t_all *all, char *string)
 {
 	int		j;
 	char	*tmp;
@@ -81,4 +41,16 @@ char		*stran(char *s, int *i, t_all *all, char *string)
 	wrfree(tmp);
 	wrfree(ret);
 	return (string);
+}
+
+char		*add_one(char *s, char c)
+{
+	char	new[2];
+	char	*tmp;
+
+	new[0] = c;
+	new[1] = 0;
+	tmp = ft_strjoin(s, new);
+	wrfree(s);
+	return (tmp);
 }

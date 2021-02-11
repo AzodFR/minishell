@@ -1,53 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   file_searcher.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 16:25:27 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 10:48:02 by thjacque         ###   ########lyon.fr   */
+/*   Created: 2021/02/11 11:21:45 by thjacque          #+#    #+#             */
+/*   Updated: 2021/02/11 11:22:21 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-char	*get_tild(void)
+char 	*search_cmd_local(char **args)
 {
-	int state;
+	struct stat	buff;
+	char		test[10000];
+	char		*tmp;
+	char		*tmp2;
 
-	state = get_all_st(NULL)->state;
-	if (state == 0 || state == 130 || state == 131)
-		return ("\033[36m~ \033[0m");
-	else
-		return ("\033[31m~ \033[0m");
-}
-
-char	*get_msg(int code)
-{
-	if (code == EXIT_SUCCESS)
-		return ("SUCCESS");
-	if (code == EXIT_FAILED)
-		return ("EXIT FAILED");
-	if (code == MALLOC)
-		return ("MALLOC ERROR");
-	if (code == QUIT)
-		return ("SUCCESS");
-	if (code == BAD_ENV)
-		return ("CORRUPTED ENV");
+	tmp = ft_strjoin(getcwd(test, 10000), "/");
+	tmp2 = ft_strjoin(tmp, args[0]);
+	if (!stat(tmp2, &buff))
+		return (tmp2);
+	wrfree(tmp2);
 	return (NULL);
 }
 
-void	ft_exit(int code)
+char 	*search_cmd_abs(char **args)
 {
-	ft_dprintf(2,"exit\n");
-	if (code != 0 && code != 4)
-		ft_dprintf(2,"Status: %s\n", get_msg(code));
-	wrdestroy();
-	exit(get_all_st(NULL)->state);
+	struct stat	buff;
+	
+	if (!stat(args[0], &buff))
+		return (args[0]);
+	return (NULL);
 }
 
-int		check_cmd(t_env *env, char **args, int i)
+void		search_cmd(t_env *env, char **args, int i)
 {
 	struct stat	buff;
 	char		**path;
@@ -60,7 +49,7 @@ int		check_cmd(t_env *env, char **args, int i)
 			get_all_st(NULL)->state = 127;
 		else
 			get_all_st(NULL)->state = 126;
-		return (0);
+			return ;
 	}
 	path = ft_split(env_find(env, "PATH")->value, ':');
 	while (path[++i])
@@ -70,17 +59,25 @@ int		check_cmd(t_env *env, char **args, int i)
 		wrfree(tmp);
 		if (!stat(tmp2, &buff))
 		{
+			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
 			wrfree(tmp2);
-			return (1);
+			return ;
 		}
 		wrfree(tmp2);
 	}
 	if ((tmp2 = search_cmd_local(args)))
 	{
+			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
 			wrfree(tmp2);
-			return (1);
+			return ;
+	}
+	else if ((tmp2 = search_cmd_abs(args)))
+	{
+			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
+			wrfree(tmp2);
+			return ;
 	}
 	else
 			get_all_st(NULL)->state = 127;
-	return (0);
+	return ;
 }

@@ -6,69 +6,13 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 15:02:55 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 11:59:52 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-char 	*search_cmd_local(char **args)
-{
-	struct stat	buff;
-	char		test[10000];
-	char		*tmp;
-	char		*tmp2;
 
-	tmp = ft_strjoin(getcwd(test, 10000), "/");
-	tmp2 = ft_strjoin(tmp, args[0]);
-	if (!stat(tmp2, &buff))
-		return (tmp2);
-	wrfree(tmp2);
-	return (NULL);
-}
-
-char 	*search_cmd_abs(char **args)
-{
-	struct stat	buff;
-	
-	if (!stat(args[0], &buff))
-		return (args[0]);
-	return (NULL);
-}
-
-void			child(char *path, char **args, char**env)
-{
-	int			ret;
-	ret = execve(path, args, env);
-	get_all_st(NULL)->state = ret;
-	exit(ret);
-}
-
-void			father(int child_pid)
-{
-	int			child_status;
-
-	child_status = 0;
-	signal(SIGINT, SIG_IGN);
-	wait(&child_status);
-	if (WIFSIGNALED(child_status) && ft_printf("\n"))
-		get_all_st(NULL)->state = 130;
-	if (WIFEXITED(child_status))
-		get_all_st(NULL)->state = child_status;
-	get_all_st(NULL)->state = WEXITSTATUS(child_status);
-	(void)child_pid;
-}
-
-int	exec_cmd_parents(char *path, char **args, char**env)
-{
-	int pid;
-
-	if ((pid = fork()) == 0)
-		child(path, args, env);
-	else
-		father(pid);
-	return (get_all_st(NULL)->state);
-}
 
 int is_directory(const char *path)
 {
@@ -76,52 +20,6 @@ int is_directory(const char *path)
    
 	stat(path, &statbuf);
 	return S_ISDIR(statbuf.st_mode);
-}
-
-void		search_cmd(t_env *env, char **args, int i)
-{
-	struct stat	buff;
-	char		**path;
-	char		*tmp;
-	char		*tmp2;
-
-	if (is_directory(args[0]))
-	{
-		if (!ft_strncmp(args[0], "..", 3))
-			get_all_st(NULL)->state = 127;
-		else
-			get_all_st(NULL)->state = 126;
-			return ;
-	}
-	path = ft_split(env_find(env, "PATH")->value, ':');
-	while (path[++i])
-	{
-		tmp = ft_strjoin(path[i], "/");
-		tmp2 = ft_strjoin(tmp, args[0]);
-		wrfree(tmp);
-		if (!stat(tmp2, &buff))
-		{
-			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
-			wrfree(tmp2);
-			return ;
-		}
-		wrfree(tmp2);
-	}
-	if ((tmp2 = search_cmd_local(args)))
-	{
-			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
-			wrfree(tmp2);
-			return ;
-	}
-	else if ((tmp2 = search_cmd_abs(args)))
-	{
-			get_all_st(NULL)->state = exec_cmd_parents(tmp2, args, env_to_tab(env));
-			wrfree(tmp2);
-			return ;
-	}
-	else
-			get_all_st(NULL)->state = 127;
-	return ;
 }
 
 char *find_path(char *s, t_env *env)
@@ -146,7 +44,7 @@ char *find_path(char *s, t_env *env)
 	return (s);
 }
 
-void	underscore(t_env *env, char **args)
+static void	underscore(t_env *env, char **args)
 {
 	int	i;
 
@@ -214,7 +112,7 @@ int		handler(char **args, t_env *env)
 	else if (!ft_strncmp(ft_tolowers(args[0]), "donut", 6))
 		get_all_st(NULL)->state = main_donut();
 	else if (!ft_strncmp(ft_tolowers(args[0]), "exit", 6))
-		ft_exit(EXIT_SUCCESS);
+		cmd_exit(args);
 	else if ((!ft_strncmp(ft_tolowers(args[0]), ".", 2)))
 		dot(args);
 	else

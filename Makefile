@@ -15,16 +15,19 @@ FILES = mishell.c welcome.c \
 		builtins/pwd.c builtins/env.c \
 		builtins/cd.c builtins/export.c \
 		builtins/unset.c builtins/echo.c \
+		builtins/exit.c \
 		env/env_lst.c env/env_edit.c \
 		env/env_to_tab.c env/env_remove.c \
 		utils/cmd_handler.c \
 		utils/trim_args.c utils/exit.c \
-		utils/init_env.c utils/translate.c \
-		utils/splitter.c utils/splitter_count.c \
+		utils/init_env.c \
+		utils/translator.c utils/file_searcher.c \
 		utils/prepare_array.c \
 		perso/donut.c tree/build_tree.c \
+		tree/node_control.c \
 		exec/exec_cmd.c exec/piped.c exec/redir.c \
-		signals/sig_c.c utils/file_opener.c tree/test.c
+		signals/sig_c.c utils/file_opener.c tree/test.c \
+		exec/process.c
 
 RM = rm -f
 
