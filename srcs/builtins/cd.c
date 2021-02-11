@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/10 16:14:11 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 12:39:30 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int		check_slash(char *s)
 
 char	*suprslash(char *s)
 {
-	int	i;
-	int j;
-	char *newstring;
+	int		i;
+	int		j;
+	char	*newstring;
 
 	i = -1;
 	j = 0;
@@ -74,11 +74,29 @@ int		is_sym(char *path)
 {
 	struct stat buf;
 
-	lstat (path, &buf);
+	lstat(path, &buf);
 	return (S_ISLNK(buf.st_mode));
 }
 
-void		change_dir(t_env *env, char **args)
+void	change_dir_utils(t_env *env, char *path)
+{
+	if (env_find(env, "OLDPWD"))
+		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD") ?
+			env_find(env, "PWD")->value : getcwd(NULL, 0));
+	else
+		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD")
+			? env_find(env, "PWD")->value : getcwd(NULL, 0))));
+	if (!ft_strncmp(path, "//", 2))
+		env_edit_value(env_find(env, "PWD"), path);
+	else if (env_find(env, "PWD"))
+		env_edit_value(env_find(env, "PWD"), getcwd(NULL, 10000));
+	else
+		ft_envadd_back(&env, ft_envnew("PWD", getcwd(NULL, 10000)));
+	wrfree(path);
+	get_all_st(NULL)->state = 0;
+}
+
+void	change_dir(t_env *env, char **args)
 {
 	char *path;
 
@@ -91,23 +109,11 @@ void		change_dir(t_env *env, char **args)
 	path = suprslash(path);
 	if (chdir(path) < 0)
 	{
-		ft_dprintf(2,"\033[32mMiShell \033[31m✘ \033[0m");
-		ft_dprintf(2,"cd: %s: %s\n", path, strerror(errno));
+		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2, "cd: %s: %s\n", path, strerror(errno));
 		wrfree(path);
 		get_all_st(NULL)->state = 1;
 		return ;
 	}
-	//dprintf(1, "link: %d for %s\n", is_sym(ft_strjoin(ft_strjoin(env_find(env, "PWD")->value, "/"),path)), ft_strjoin(ft_strjoin(env_find(env, "PWD")->value, "/"),path));
-	if (env_find(env, "OLDPWD"))
-		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD") ? env_find(env, "PWD")->value : getcwd(NULL, 0));
-	else
-		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD") ? env_find(env, "PWD")->value : getcwd(NULL, 0))));
-	if (!ft_strncmp(path, "//", 2))
-		env_edit_value(env_find(env, "PWD"), path);
-	else if (env_find(env, "PWD"))
-		env_edit_value(env_find(env, "PWD"), getcwd(NULL, 10000));
-	else 
-		ft_envadd_back(&env, ft_envnew("PWD", getcwd(NULL, 10000)));
-	wrfree(path);
-	get_all_st(NULL)->state = 0;
+	change_dir_utils(env, path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:47:47 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 10:10:33 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 13:48:54 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			isalldigit(char *s)
 	int i;
 
 	i = -1;
-	while(s[++i])
+	while (s[++i])
 	{
 		if (i == 0 && (s[i] == '+' || s[i] == '-'))
 			continue ;
@@ -27,30 +27,29 @@ int			isalldigit(char *s)
 	return (1);
 }
 
-int			check_identifier(char *s, char *type)
+int			check_identifier(char *s, char *type, int i)
 {
-	int i;
-
-	i = -1;
 	if (isalldigit(s) || !ft_strlen(s))
 	{
-			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m %s: `%s': not a valid identifier\n", type, s);
-			get_all_st(NULL)->state = 1;
-			return (0);
+		ft_dprintf(2,
+"\033[32mMiShell \033[31m✘ \033[0m %s: `%s': not a valid identifier\n",
+type, s);
+		get_all_st(NULL)->state = 1;
+		return (0);
 	}
-	
 	while (s[++i])
 	{
 		if (s[i] == '.' || s[i] == '\\' || s[i] == '|' || s[i] == '*' ||
-		s[i] == '/' || s[i] == '@' || s[i] == '+' || s[i] == '&'
-		|| s[i] == '}' || s[i] == '{' || s[i] == ']' || s[i] == '[' || s[i] == '!'
-		|| s[i] == '^' || s[i] == '~' || s[i] == '#' || s[i] == '-' || s[i] == '=')
+s[i] == '/' || s[i] == '@' || s[i] == '+' || s[i] == '&' || s[i] == '}' ||
+s[i] == '{' || s[i] == ']' || s[i] == '[' || s[i] == '!' || s[i] == '^' ||
+s[i] == '~' || s[i] == '#' || s[i] == '-' || s[i] == '=')
 		{
-			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m %s: `%s': not a valid identifier\n", type, s);
+			ft_dprintf(2,
+"\033[32mMiShell \033[31m✘ \033[0m %s: `%s': not a valid identifier\n",
+type, s);
 			get_all_st(NULL)->state = 1;
 			return (0);
 		}
-
 	}
 	return (1);
 }
@@ -64,12 +63,14 @@ void		unset(t_env *env, char **args)
 	{
 		if (!ft_strncmp(args[1], "-", 1))
 		{
-			ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m unset: -%c: invalid option\n", args[1][1]);
+			ft_dprintf(2,
+"\033[32mMiShell \033[31m✘ \033[0m unset: -%c: invalid option\n", args[1][1]);
 			get_all_st(NULL)->state = 2;
 		}
 		else
 			while (args[++i])
-				if (check_identifier(args[i], "unset") && !(get_all_st(NULL)->state = 0))
+				if (check_identifier(args[i], "unset", -1) &&
+						!(get_all_st(NULL)->state = 0))
 					ft_env_remove_if(&env, args[i], ft_strcmp);
 	}
 }
