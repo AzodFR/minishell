@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   donut.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 18:11:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 10:50:22 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:54:08 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-static t_donut		init_donut(void)
+static t_donut	init_donut(void)
 {
 	t_donut d;
 
@@ -90,10 +90,10 @@ static void		donut1(void)
 	}
 }
 
-int			main_donut(void)
+int				main_donut(void)
 {
 	pid_t pid;
-	
+
 	signal(SIGINT, &sig_c);
 	signal(SIGQUIT, &sig_quit);
 	if (!(pid = fork()))
