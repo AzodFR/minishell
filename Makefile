@@ -29,7 +29,7 @@ FILES = mishell.c welcome.c \
 		signals/sig_c.c utils/file_opener.c tree/test.c \
 		exec/process.c utils/preparator.c utils/treat.c \
 		utils/search_exec.c utils/prep_checker.c \
-		utils/tokenize.c
+		utils/tokenize.c tree/pre_tree.c
 
 RM = rm -f
 

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 16:08:21 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 16:19:55 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,9 @@ int		end_ling(int ret, char *s);
 
 void prep(t_type *begin);
 void	sig_quit(int sig);
-
+int		is_right_redir(t_type *tmp);
+t_type	*add_space_t(t_type *prev);
+t_type	*add_file(t_type *prev, t_type *toadd);
+void	add_back(t_type **redir, t_type *toadd);
+t_type	*lastredir(t_type *redir);
 #endif
