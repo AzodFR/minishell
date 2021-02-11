@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:52:00 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 16:08:21 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void				get_pwd(void);
 void				get_env(t_env *envp);
 void				change_dir(t_env *env, char **args);
 void				export_env(t_env *env, char **args);
+int					print_export(t_env *env);
 void				unset(t_env *env, char **args);
 void				do_echo(char **args);
 void 				cmd_exit(char **args);	
@@ -41,7 +42,6 @@ char			*get_name(char *s);
 char			*get_value(char *s);
 void			ft_env_remove_if(t_env **begin_list, void *name_ref,
 				int (*cmp)());
-void			ft_remove_elem(t_env **ptr_back, t_env **ptr);
 /*
 **	TREE BUILD
 */

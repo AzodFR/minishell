@@ -15,7 +15,7 @@ FILES = mishell.c welcome.c \
 		builtins/pwd.c builtins/env.c \
 		builtins/cd.c builtins/export.c \
 		builtins/unset.c builtins/echo.c \
-		builtins/exit.c \
+		builtins/exit.c builtins/export_utils.c\
 		env/env_lst.c env/env_edit.c \
 		env/env_to_tab.c env/env_remove.c \
 		utils/cmd_handler.c \
