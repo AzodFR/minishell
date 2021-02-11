@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 11:31:18 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 13:50:02 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int				check_cmd(t_env *env, char **args, int i);
 ** PREPARE CMD
 */
 char		*translate(char *s, int *i, t_all *all, char *string);
-
+char				**prep_cmd(t_type *begin, int i);
 char			**trim_args(char *line, char c);
 void			ft_exit(int code);
 int				splitter_counter_cmd(char *s, t_all *a, int i);
@@ -88,7 +88,6 @@ char	*check_translation(char *s);
 t_type		*find_next_type(t_type *begin);
 
 
-char		**prep_cmd(t_type *begin, int i);
 void	sig_c(int sig);
 char	*get_tild(void);
 int		create_file(int type, char **file_name);

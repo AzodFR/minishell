@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 11:57:49 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 13:45:23 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_type		*find_next_type(t_type *begin)
 {
-	t_type *tmp;
-	
+	t_type	*tmp;
+
 	tmp = begin;
 	while (tmp)
 	{
@@ -26,64 +26,11 @@ t_type		*find_next_type(t_type *begin)
 	return (NULL);
 }
 
-char		**prep_cmd(t_type *begin, int i)
-{
-	t_type *tmp;
-	char 	**args;
-	int		j;
-	int		last;
 
-	tmp = begin;
-	while (tmp)
-	{
-		++i;
-		if (tmp->type  > 0 && tmp->type < 6)
-			break;
-		tmp = tmp->next;
-	}
-	if (!(args = wrmalloc((i + 1) * sizeof(char *))))
-		ft_exit(MALLOC);
-	if (!(args[i] = wrmalloc(1 * sizeof(char))))
-		ft_exit(MALLOC);
-	args[i] = 0;
-	j = -1;
-	last = 0;
-	get_all_st(NULL)->flag_quote = 0;
-	while (++j < i && begin)
-	{
-		if (begin->type == 3 || begin->type == 5)
-			break;
-		if(begin && begin->type == 0 && !ft_strlen(begin->content))
-				while (begin && begin->type == 0 && !ft_strlen(begin->content))
-					begin = begin->next;
-		if (!begin)
-			break;
-		else if ((begin->type < 1 || (begin->type < 8 && begin->type > 5)))
-		{
-			if (begin->next && ((begin->next->type > 5 && begin->next->type < 8) || begin->next->type < 1) && ++j)
-			{
-				args[++last - 1] = ft_strjoin(begin->content, begin->next->content);
-				begin = begin->next;
-				while (begin->next && ((begin->next->type > 5 && begin->next->type < 8) || begin->next->type < 1) && ++j)
-				{
-					args[last - 1] = ft_strjoin(args[last - 1], begin->next->content);
-					begin = begin->next;
-				}
-			}
-			else
-				args[last++] = ft_strdup(begin->content);
-		}
-		if (j + 1 == i && begin->type >= 6)
-			get_all_st(NULL)->flag_quote = 1;
-		begin = begin->next;
-	}
-	args[last] = 0;
-	return (args);
-}
 void		treat(char *line)
 {
-	t_type *begin;
-	
+	t_type	*begin;
+
 	if (ft_strlen(line) == 0)
 	{
 		get_all_st(NULL)->state = 0;
@@ -96,8 +43,6 @@ void		treat(char *line)
 	}
 	build_tree(begin);
 }
-
-
 
 void		loop(int fd)
 {
@@ -157,7 +102,8 @@ int			main(int ac, char **av, char **envp)
 	if (ac == 2)
 		fd = open(av[1], O_RDONLY);
 	env = init_env(envp);
-	env_edit_value(env_find(env, "SHLVL"), ft_itoa(ft_atoi(env_find(env, "SHLVL")->value) + 1));
+	env_edit_value(env_find(env, "SHLVL"),
+	ft_itoa(ft_atoi(env_find(env, "SHLVL")->value) + 1));
 	if (!env_find(env, "OLDPWD"))
 	{
 		ft_envadd_back(&env, ft_envnew("OLDPWD", ""));
