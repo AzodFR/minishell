@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:30:50 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 11:19:04 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:51:22 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 
 static void			redirections(t_tree *root, int fd, int redirection)
 {
-		dup2(fd, redirection);
-		close(fd);
-		exec_cmd(root->left);
+	dup2(fd, redirection);
+	close(fd);
+	exec_cmd(root->left);
 }
 
 void				exec_redir(t_tree *root)
 {
-	int				fd;
-	int				redirection;
+	int		fd;
+	int		redirection;
 
 	redirection = ft_atoi(root->cmd->content);
 	if (!redirection)

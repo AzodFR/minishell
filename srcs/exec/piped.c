@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   piped.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:31:25 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/08 15:47:55 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:51:25 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-void				exec_pipe(t_tree *root, int count, int backup_fd)
+void	exec_pipe(t_tree *root, int count, int backup_fd)
 {
 	int				fd[2];
 	int				pid;

@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 11:19:42 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 11:20:19 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:51:24 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-static void			child(char *path, char **args, char**env)
+static void		child(char *path, char **args, char **env)
 {
-	int			ret;
+	int		ret;
+
 	ret = execve(path, args, env);
 	get_all_st(NULL)->state = ret;
 	exit(ret);
 }
 
-static void			father(int child_pid)
+static void		father(int child_pid)
 {
-	int			child_status;
+	int		child_status;
 
 	child_status = 0;
 	wait(&child_status);
@@ -32,9 +33,9 @@ static void			father(int child_pid)
 	(void)child_pid;
 }
 
-int					exec_cmd_parents(char *path, char **args, char**env)
+int				exec_cmd_parents(char *path, char **args, char **env)
 {
-	int pid;
+	int		pid;
 
 	if ((pid = fork()) == 0)
 		child(path, args, env);
