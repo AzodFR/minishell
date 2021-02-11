@@ -6,7 +6,7 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 18:11:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:54:08 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 16:29:06 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static t_donut	init_donut(void)
 {
 	t_donut d;
 
-	d.A = 0;
-	d.B = 0;
+	d.a = 0;
+	d.q = 0;
 	d.color = 30;
 	return (d);
 }
@@ -26,24 +26,24 @@ static void		donut2(t_donut *d)
 {
 	d->c = sin(d->i);
 	d->d = cos(d->j);
-	d->e = sin(d->A);
+	d->e = sin(d->a);
 	d->f = sin(d->j);
-	d->g = cos(d->A);
+	d->g = cos(d->a);
 	d->h = d->d + 2;
-	d->D = 1 / (d->c * d->h * d->e + d->f * d->g + 5);
+	d->w = 1 / (d->c * d->h * d->e + d->f * d->g + 5);
 	d->l = cos(d->i);
-	d->m = cos(d->B);
-	d->n = sin(d->B);
+	d->m = cos(d->q);
+	d->n = sin(d->q);
 	d->t = d->c * d->h * d->g - d->f * d->e;
-	d->x = 40 + 30 * d->D * (d->l * d->h * d->m - d->t * d->n);
-	d->y = 12 + 15 * d->D * (d->l * d->h * d->n + d->t * d->m);
+	d->x = 40 + 30 * d->w * (d->l * d->h * d->m - d->t * d->n);
+	d->y = 12 + 15 * d->w * (d->l * d->h * d->n + d->t * d->m);
 	d->o = d->x + 80 * d->y;
-	d->N = 8 * ((d->f * d->e - d->c * d->d * d->g) * d->m - d->c * d->d * d->e -
+	d->s = 8 * ((d->f * d->e - d->c * d->d * d->g) * d->m - d->c * d->d * d->e -
 			d->f * d->g - d->l * d->d * d->n);
-	if (22 > d->y && d->y > 0 && d->x > 0 && 80 > d->x && d->D > d->z[d->o])
+	if (22 > d->y && d->y > 0 && d->x > 0 && 80 > d->x && d->w > d->z[d->o])
 	{
-		d->z[d->o] = d->D;
-		d->b[d->o] = "0123456789ABCD"[d->N > 0 ? d->N : 0];
+		d->z[d->o] = d->w;
+		d->b[d->o] = "0123456789ABCD"[d->s > 0 ? d->s : 0];
 	}
 	d->i += 0.02;
 }
@@ -55,8 +55,8 @@ static void		donut3(t_donut *d)
 		ft_putchar_fd(d->k % 80 ? d->b[d->k] : 10, 1);
 		d->k += 1;
 	}
-	d->A += 0.04;
-	d->B += 0.02;
+	d->a += 0.04;
+	d->q += 0.02;
 	while (d->theo < 7483647)
 		d->theo += 1;
 }
