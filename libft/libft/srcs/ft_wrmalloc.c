@@ -6,7 +6,7 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:21:21 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 12:30:05 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:12:30 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,14 @@ void			*wrmalloc(unsigned long size)
 	if (!(buffer = malloc(size)))
 	{
 		wrdestroy();
-		return (0);
+		ft_putstr_fd("malloc error", 2);
+		exit(1);
 	}
 	if (!(new_elem = malloc(sizeof(t_list))))
 	{
 		free(buffer);
 		wrdestroy();
+		ft_putstr_fd("malloc error", 2);
 		exit(1);
 	}
 	new_elem->content = buffer;

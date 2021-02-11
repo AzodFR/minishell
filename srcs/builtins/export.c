@@ -6,13 +6,13 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:55:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 13:38:26 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:21:55 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-void		stop_at_equal(char **teub, int i)
+static void	stop_at_equal(char **teub, int i)
 {
 	int		j;
 
@@ -25,7 +25,7 @@ void		stop_at_equal(char **teub, int i)
 	}
 }
 
-char		*escape(char *s)
+static char	*escape(char *s)
 {
 	char	*tmp;
 	int		i;
@@ -50,7 +50,7 @@ char		*escape(char *s)
 	return (tmp);
 }
 
-int			print_export(t_env *env)
+static int	print_export(t_env *env)
 {
 	int		i;
 	char	**envlist;
@@ -100,7 +100,7 @@ static int	check_export_utils(char *s, int i, int *j)
 	return (1);
 }
 
-int			check_export(char *s)
+static int	check_export(char *s)
 {
 	int	i;
 	int j;
@@ -121,7 +121,7 @@ int			check_export(char *s)
 	return (1);
 }
 
-int			is_cat(char *s)
+static int	is_cat(char *s)
 {
 	int i;
 
@@ -133,7 +133,7 @@ int			is_cat(char *s)
 	return (0);
 }
 
-int			treat_export(char *arg, t_env *env)
+static int	treat_export(char *arg, t_env *env)
 {
 	if (!check_export(arg))
 		return (1);

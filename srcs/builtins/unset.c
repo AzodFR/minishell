@@ -6,7 +6,7 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/12 10:47:47 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 13:48:54 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:23:30 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			isalldigit(char *s)
 	return (1);
 }
 
-int			check_identifier(char *s, char *type, int i)
+static int	check_identifier(char *s, char *type, int i)
 {
 	if (isalldigit(s) || !ft_strlen(s))
 	{

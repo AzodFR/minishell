@@ -6,13 +6,13 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 13:04:59 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 13:50:24 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:21:59 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-int		no_return(char *str, int *j, int k)
+static int	no_return(char *str, int *j, int k)
 {
 	if (k)
 		return (0);
@@ -29,7 +29,7 @@ int		no_return(char *str, int *j, int k)
 	return (1);
 }
 
-void	trim_arg(char **args)
+static void	trim_arg(char **args)
 {
 	int		i;
 
@@ -40,7 +40,7 @@ void	trim_arg(char **args)
 		args[i] = 0;
 }
 
-void	do_echo(char **args)
+void		do_echo(char **args)
 {
 	int i;
 	int j;

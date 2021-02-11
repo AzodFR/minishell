@@ -6,13 +6,13 @@
 /*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 12:39:30 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 15:19:44 by jedelfos         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-char	*home(t_env *env, char *s)
+static char	*home(t_env *env, char *s)
 {
 	char	*tmp;
 	char	*home_p;
@@ -20,7 +20,8 @@ char	*home(t_env *env, char *s)
 	int		j;
 
 	i = 0;
-	home_p = ft_strdup(env_find(env, "HOME")->value);
+	if (!(home_p = ft_strdup(env_find(env, "HOME")->value)))
+		ft_exit(MALLOC);
 	if (!(tmp = wrmalloc(ft_strlen(s) + ft_strlen(home_p) + 1 * sizeof(char))))
 		ft_exit(MALLOC);
 	j = -1;
@@ -35,7 +36,7 @@ char	*home(t_env *env, char *s)
 	return (tmp);
 }
 
-int		check_slash(char *s)
+static int	check_slash(char *s)
 {
 	int i;
 
@@ -46,7 +47,7 @@ int		check_slash(char *s)
 	return (i > 2 ? i : 0);
 }
 
-char	*suprslash(char *s)
+static char	*suprslash(char *s)
 {
 	int		i;
 	int		j;
@@ -70,15 +71,7 @@ char	*suprslash(char *s)
 	return (newstring);
 }
 
-int		is_sym(char *path)
-{
-	struct stat buf;
-
-	lstat(path, &buf);
-	return (S_ISLNK(buf.st_mode));
-}
-
-void	change_dir_utils(t_env *env, char *path)
+static void	change_dir_utils(t_env *env, char *path)
 {
 	if (env_find(env, "OLDPWD"))
 		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD") ?
@@ -96,7 +89,7 @@ void	change_dir_utils(t_env *env, char *path)
 	get_all_st(NULL)->state = 0;
 }
 
-void	change_dir(t_env *env, char **args)
+void		change_dir(t_env *env, char **args)
 {
 	char *path;
 
@@ -106,7 +99,8 @@ void	change_dir(t_env *env, char **args)
 		path = ft_strdup(ft_strlen(args[1]) ? args[1] : ".");
 	if (args[1] && args[1][0] == '~')
 		path = home(env, path);
-	path = suprslash(path);
+	if (!(path = suprslash(path)))
+		ft_exit(MALLOC);
 	if (chdir(path) < 0)
 	{
 		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
