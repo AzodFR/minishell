@@ -27,7 +27,7 @@ FILES = mishell.c welcome.c \
 		tree/node_control.c \
 		exec/exec_cmd.c exec/piped.c exec/redir.c \
 		signals/sig_c.c utils/file_opener.c tree/test.c \
-		exec/process.c
+		exec/process.c utils/preparator.c
 
 RM = rm -f
 

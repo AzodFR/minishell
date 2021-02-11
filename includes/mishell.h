@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 13:50:02 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/11 14:12:36 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char 			*search_cmd_abs(char **args);
 void			search_cmd(t_env *env, char **args, int i);
 int				is_directory(const char *path);
 int				isalldigit(char *s);
-int				check_identifier(char *s, char *type);
+int				check_identifier(char *s, char *type, int i);
 int				check_cmd(t_env *env, char **args, int i);
 /*
 ** PREPARE CMD
