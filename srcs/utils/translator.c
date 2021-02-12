@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:48:24 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 15:08:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@ static	char	*free_ret_char(char *tmp, char *ret, char *string)
 	wrfree(tmp);
 	wrfree(ret);
 	return (string);
+}
+
+char			*switch_tmp(char *tmp, char *string, int j, int *i)
+{
+	wrfree(string);
+	*i += j;
+	return (tmp);
 }
 
 char			*translate(char *s, int *i, t_all *all, char *string)
@@ -30,17 +37,17 @@ char			*translate(char *s, int *i, t_all *all, char *string)
 	if (!ft_isdigit(s[*i + j]) && s[*i + j] != ' ')
 	{
 		while (s[*i + j] && (ft_isalnum(s[*i + j]) ||
-		(j == 1 && s[*i + j] == '?') || s[*i + j] == '_'))
-			if ((j++ == 1 && s[*i + j - 1] == '?'))
+	(j == 1 && (s[*i + j] == '?' || s[*i + j] == '$')) || s[*i + j] == '_'))
+			if ((j++ == 1 && (s[*i + j - 1] == '?' || s[*i + j - 1] == '$')))
 				break ;
 	}
 	else
 		++j;
-	tmp = ft_strndup(&s[*i + 1], j - 1);
-	wrfree(string);
-	*i += j;
+	tmp = switch_tmp(ft_strndup(&s[*i + 1], j - 1), string, j, i);
 	if (!ft_strncmp(tmp, "?", 1))
 		string = ft_strjoin(ret, ft_itoa(all->state));
+	else if (!ft_strncmp(tmp, "$", 1))
+		string = ft_strjoin(ret, ft_itoa(all->pid));
 	else if (env_find(get_env_st(NULL), tmp))
 		string = ft_strjoin(ret, env_find(get_env_st(NULL), tmp)->value);
 	else

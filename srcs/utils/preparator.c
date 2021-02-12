@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:31 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:26:48 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 14:51:44 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,4 +87,21 @@ char				**prep_cmd(t_type *begin, int i)
 	last = prep_args(i, &begin, args, 0);
 	args[last] = 0;
 	return (args);
+}
+
+int					get_mpid(void)
+{
+	char	*c;
+	int		fd;
+	char	*line;
+
+	c = ft_strdup(
+		"ps | grep minishell | head -1 | xargs -n 1 | head -1 > wjwfklcnldknv");
+	treat(c);
+	fd = open("wjwfklcnldknv", O_RDONLY);
+	get_next_line(fd, &line);
+	wrfree(c);
+	c = ft_strdup("rm wjwfklcnldknv");
+	treat(c);
+	return (ft_atoi(line));
 }

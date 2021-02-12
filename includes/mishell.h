@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 12:19:49 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 14:51:41 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,4 +119,5 @@ int		not_good_right(t_tree *right);
 void		father(int child_pid);
 void		exit_donut(int sig);
 int		too_much(t_type *tmp);
+int					get_mpid(void);
 #endif
