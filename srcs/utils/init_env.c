@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 17:14:19 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:21:31 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 12:19:18 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,25 @@ t_env	*init_env(char **env)
 	while (env[++i])
 		ft_envadd_back(&lst, ft_envnew(get_name(env[i]), get_value(env[i])));
 	return (lst);
+}
+
+int		too_much(t_type *tmp)
+{
+	int		i;
+	int		j;
+	int		type;
+	char	set[2];
+
+	i = 0;
+	j = 0;
+	set[0] = '>';
+	set[1] = '<';
+	type = 0;
+	if (tmp->type == 4)
+		type = 1;
+	while (tmp->content[i])
+		i++;
+	while (i > 0 && tmp->content[--i] && tmp->content[i] == set[type])
+		j++;
+	return (type ? j > 1 : j > 2);
 }

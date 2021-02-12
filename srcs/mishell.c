@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 16:10:08 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 13:41:00 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void		loop(int fd)
 	a.fd[0] = dup(0);
 	a.fd[1] = dup(1);
 	a.fd[2] = dup(2);
-	a.path = NULL;
 	a.exit = 0;
 	get_all_st(&a);
 	while (ret)
 	{
+		get_all_st(NULL)->prog = 0;
 		signal(SIGINT, &sig_c);
 		signal(SIGQUIT, &sig_quit);
-		//ft_printf("\033[32mMiShell %s", get_tild());
+	//	ft_printf("\033[32mMiShell %s", get_tild());
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
 			treat(line);

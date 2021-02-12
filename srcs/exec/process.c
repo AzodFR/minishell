@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 11:19:42 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:51:24 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 13:40:39 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@ static void		child(char *path, char **args, char **env)
 	exit(ret);
 }
 
-static void		father(int child_pid)
+void			father(int child_pid)
 {
 	int		child_status;
 
 	child_status = 0;
 	wait(&child_status);
-	if (WIFEXITED(child_status))
-		get_all_st(NULL)->state = child_status;
 	get_all_st(NULL)->state = WEXITSTATUS(child_status);
+	if (child_status == 2)
+		get_all_st(NULL)->state = 130;
+	else if (child_status == 3)
+		get_all_st(NULL)->state = 131;
 	(void)child_pid;
 }
 

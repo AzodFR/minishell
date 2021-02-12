@@ -26,10 +26,10 @@ FILES = mishell.c welcome.c \
 		perso/donut.c tree/build_tree.c \
 		tree/node_control.c \
 		exec/exec_cmd.c exec/piped.c exec/redir.c \
-		signals/sig_c.c utils/file_opener.c tree/test.c \
+		signals/sig_c.c utils/file_opener.c tree/recreate_parse.c \
 		exec/process.c utils/preparator.c utils/treat.c \
 		utils/search_exec.c utils/prep_checker.c \
-		utils/tokenize.c tree/pre_tree.c
+		utils/tokenize.c tree/prep_tree.c tree/build_utils.c
 
 RM = rm -f
 

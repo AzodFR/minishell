@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   donut.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 18:11:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 16:29:06 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 12:18:22 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void		donut2(t_donut *d)
 
 static void		donut3(t_donut *d)
 {
+	d->theo = 0;
 	while (1761 > d->k)
 	{
 		ft_putchar_fd(d->k % 80 ? d->b[d->k] : 10, 1);
@@ -61,19 +62,18 @@ static void		donut3(t_donut *d)
 		d->theo += 1;
 }
 
-static void		donut1(void)
+static void		donut1(int time, int j)
 {
 	t_donut	*d;
 	t_donut	b;
-	int		i;
 
 	b = init_donut();
 	d = &b;
 	ft_printf("\x1b[2J");
-	i = 1;
-	while (1)
+	while (time ? j++ < time * 40 : 1)
 	{
-		d->theo = 0;
+		signal(SIGINT, &exit_donut);
+		signal(SIGQUIT, &exit_donut);
 		ft_memset(d->b, 32, 1760);
 		ft_memset(d->z, 0, 7040);
 		d->j = 0;
@@ -88,17 +88,29 @@ static void		donut1(void)
 		d->k = 0;
 		donut3(d);
 	}
+	exit(0);
 }
 
-int				main_donut(void)
+int				main_donut(char **args)
 {
-	pid_t pid;
+	int		pid;
+	int		time;
 
-	signal(SIGINT, &sig_c);
-	signal(SIGQUIT, &sig_quit);
-	if (!(pid = fork()))
-		donut1();
+	time = 0;
+	if (!args[1])
+		time = 0;
+	if (args[1] && isalldigit(args[1]))
+		time = ft_atoi(args[1]);
+	else if (args[1])
+	{
+		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
+		ft_dprintf(2, "donut: numerical value excepted\n");
+		get_all_st(NULL)->state = 1;
+		return (get_all_st(NULL)->state);
+	}
+	if ((pid = fork()) == 0)
+		donut1(time, 0);
 	else
-		wait(&pid);
-	return (1);
+		father(pid);
+	return (get_all_st(NULL)->state);
 }

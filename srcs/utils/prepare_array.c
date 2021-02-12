@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:51:35 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 12:18:46 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,22 @@ static t_type	*close_quotes(void)
 	return (NULL);
 }
 
+char			**prep_line(char *line, char *line_p)
+{
+	char	**linep;
+
+	linep = wrmalloc(2 * sizeof(char *));
+	linep[0] = ft_strdup(line);
+	linep[1] = ft_strdup(line_p);
+	return (linep);
+}
+
 t_type			*prepare_array(char *line)
 {
 	t_type	*first_type;
 	t_type	*tmp;
 
-	if (!(first_type = split_type(line, line_pre(line), 0)))
+	if (!(first_type = split_type(prep_line(line, line_pre(line)), 0)))
 		return (close_quotes());
 	tmp = first_type;
 	while (tmp)
@@ -59,7 +69,7 @@ t_type			*prepare_array(char *line)
 			else if (no_prev(tmp))
 				return (errornear(";"));
 		}
-		if (tmp->type > 2 && tmp->type < 6 && no_next(tmp))
+		if (tmp->type > 2 && tmp->type < 6 && (no_next(tmp) || too_much(tmp)))
 			return (errornear(tmp->content));
 		tmp = tmp->next;
 	}

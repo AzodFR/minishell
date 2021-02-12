@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 16:19:55 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 12:19:49 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,12 @@ t_type *prepare_array(char *line);
 t_all			*get_all_st(t_all *all);
 t_type	*create_struc(char *line, int i, char type, t_type *str_type);
 char	check_type(char *str, int i, char c);
-int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u);
+int		jump_cote(char **line, int i, t_type **str_type, int *u);
 int		moov_type(int u, char *line);
-t_type	*split_type(char *line, char *line_p, int u);
+t_type	*split_type(char **linep, int u);
 char		*add_one(char *s, char c);
 
-int			main_donut(void);
+int			main_donut(char **args);
 t_env		*get_env_st(t_env *env);
 char	*check_translation(char *s);
 t_type		*find_next_type(t_type *begin);
@@ -112,4 +112,11 @@ t_type	*add_space_t(t_type *prev);
 t_type	*add_file(t_type *prev, t_type *toadd);
 void	add_back(t_type **redir, t_type *toadd);
 t_type	*lastredir(t_type *redir);
+void	get_fd_back(int fd[3]);
+int		go_next_begin(t_type **begin);
+void	check_exit(void);
+int		not_good_right(t_tree *right);
+void		father(int child_pid);
+void		exit_donut(int sig);
+int		too_much(t_type *tmp);
 #endif

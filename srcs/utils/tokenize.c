@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:35:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:53:36 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 11:06:33 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,27 +61,27 @@ char	check_type(char *str, int i, char c)
 	return (0);
 }
 
-int		jump_cote(char *line, int i, char *line_p, t_type **str_type, int *u)
+int		jump_cote(char **line, int i, t_type **str_type, int *u)
 {
 	char	c;
 	int		y;
 
 	y = i + 1;
-	if ((line[i] == '\'' || line[i] == '\"') && line_p[i] == '0')
+	if ((line[0][i] == '\'' || line[0][i] == '\"') && line[1][i] == '0')
 	{
-		c = line[i];
+		c = line[0][i];
 		if (i > u[0])
-			str_type[0] = create_struc(&line[u[0]], i - 1 - u[0],
-				check_type(line, 0, '0'), str_type[0]);
+			str_type[0] = create_struc(&line[0][u[0]], i - 1 - u[0],
+				check_type(line[0], 0, '0'), str_type[0]);
 		i++;
-		while (line[i] && (!(line[i] == c && line_p[i] == '0')))
+		while (line[0][i] && (!(line[0][i] == c && line[1][i] == '0')))
 			i++;
-		if (!(line[i]))
+		if (!(line[0][i]))
 			return (-1);
-		else if (line[i] == '\"')
-			str_type[0] = create_struc(line + y, i - y - 1, 7, str_type[0]);
+		else if (line[0][i] == '\"')
+			str_type[0] = create_struc(line[0] + y, i - y - 1, 7, str_type[0]);
 		else
-			str_type[0] = create_struc(line + y, i - y - 1, 6, str_type[0]);
+			str_type[0] = create_struc(line[0] + y, i - y - 1, 6, str_type[0]);
 		u[0] = i + 1;
 	}
 	return (i + 1);
@@ -104,7 +104,7 @@ int		moov_type(int u, char *line)
 	return (u);
 }
 
-t_type	*split_type(char *line, char *line_p, int u)
+t_type	*split_type(char **linep, int u)
 {
 	t_type	*f_type;
 	int		i;
@@ -112,22 +112,23 @@ t_type	*split_type(char *line, char *line_p, int u)
 
 	f_type = NULL;
 	i = 0;
-	while (line[i])
+	while (linep[0][i])
 	{
-		type = check_type(line, i, line_p[i]);
-		if ((i = jump_cote(line, i, line_p, &f_type, &u)) == -1)
+		type = check_type(linep[0], i, linep[1][i]);
+		if ((i = jump_cote(linep, i, &f_type, &u)) == -1)
 			return (0);
-		if (line_p[i] == '0' && check_type(line, i, '0') != type)
+		if (linep[1][i] == '0' && check_type(linep[0], i, '0') != type)
 		{
-			f_type = create_struc(line + moov_type(u, line),
-				moov_type(i, line) - moov_type(u, line) - 1,
-					check_type(line, i - 1, '0'), f_type);
+			f_type = create_struc(linep[0] + moov_type(u, linep[0]),
+				moov_type(i, linep[0]) - moov_type(u, linep[0]) - 1,
+					check_type(linep[0], i - 1, '0'), f_type);
 			u = i;
 		}
 	}
 	if (u != i)
-		f_type = create_struc(line + moov_type(u, line), moov_type(i, line)
-			- moov_type(u, line) - 1, check_type(line, i - 1, '0'), f_type);
-	wrfree(line_p);
+		f_type = create_struc(linep[0] + moov_type(u, linep[0]),
+		moov_type(i, linep[0]) - moov_type(u, linep[0]) - 1,
+		check_type(linep[0], i - 1, '0'), f_type);
+	wrfree(linep[1]);
 	return (f_type);
 }

@@ -6,16 +6,15 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 16:57:47 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 13:36:08 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
 
-
 void	insert_tree(t_tree **root, t_type *cmd)
 {
-	t_tree  *node;
+	t_tree	*node;
 
 	node = NULL;
 	if (!(*root))
@@ -32,10 +31,11 @@ void	insert_tree(t_tree **root, t_type *cmd)
 		insert_tree(&(*root)->right, cmd);
 }
 
-void create_tree(t_type *cmd, t_tree **tree)
+void	create_tree(t_type *cmd, t_tree **tree)
 {
 	t_type *redir;
 	t_type *back;
+
 	redir = NULL;
 	back = NULL;
 	while (cmd && cmd->type != 1)
@@ -55,14 +55,30 @@ void create_tree(t_type *cmd, t_tree **tree)
 	}
 }
 
-
-int check_all(t_tree *root)
+int		check_left(t_tree **left)
 {
-	t_tree *right;
-	t_tree *left;
-	t_tree *node;
 	char **cmd;
-	
+
+	if ((*left)->cmd->type < 3 || (*left)->cmd->type > 5)
+	{
+		if ((*left)->right && (*left)->right->cmd->type == 0 &&
+		!check_cmd(get_env_st(NULL), prep_cmd((*left)->right->cmd, 0), 0))
+		{
+			cmd = prep_cmd((*left)->right->cmd, 0);
+			end_ling(get_all_st(NULL)->state, cmd[0]);
+			return (0);
+		}
+	}
+	(*left) = (*left)->left;
+	return (1);
+}
+
+int		check_all(t_tree *root)
+{
+	t_tree	*right;
+	t_tree	*left;
+	t_tree	*node;
+
 	node = root;
 	left = node->left;
 	right = node->right;
@@ -74,43 +90,22 @@ int check_all(t_tree *root)
 		else
 			right = node->right;
 		while (left)
-		{
-			if (left->cmd->type < 3 || left->cmd->type > 5)
-			{
-				if (left->right && left->right->cmd->type == 0 && !check_cmd(get_env_st(NULL), prep_cmd(left->right->cmd, 0), 0))
-				{
-					cmd = prep_cmd(left->right->cmd, 0);
-					end_ling(get_all_st(NULL)->state, cmd[0]);
-					return (0);
-				}
-			}
-			left = left->left;
-		}
-		if (right && right->cmd->type == 0 && !check_cmd(get_env_st(NULL), prep_cmd(right->cmd, 0), 0))
-		{
-			cmd = prep_cmd(right->cmd, 0);
-			end_ling(get_all_st(NULL)->state, cmd[0]);
-			return (0);
-		}
+			check_left(&left);
+		if (right && right->cmd->type == 0 && !check_cmd(get_env_st(NULL),
+		prep_cmd(right->cmd, 0), 0))
+			return (not_good_right(right));
 		node = right;
 	}
 	return (1);
 }
 
-void get_fd_back(int fd[3])
+void	build_tree(t_type *begin)
 {
-	dup2(fd[0], 0);
-	dup2(fd[1], 1);
-	dup2(fd[2], 2);
-}
+	t_tree	*root;
 
-void    build_tree(t_type *begin)
-{
-	t_tree *root;
 	root = NULL;
-	int state;
-
 	prep(begin);
+	get_all_st(NULL)->prog = 1;
 	while (begin)
 	{
 		translate_only(begin);
@@ -120,27 +115,14 @@ void    build_tree(t_type *begin)
 		wrfree(root);
 		root = NULL;
 		get_fd_back(get_all_st(NULL)->fd);
-		if (get_all_st(NULL)->exit == 1)
-		{
-			state = get_all_st(NULL)->state;
-			wrdestroy();
-			exit(state);
-		}
-		else if (get_all_st(NULL)->exit == -1)
+		check_exit();
+		if (get_all_st(NULL)->exit == -1)
 		{
 			get_all_st(NULL)->exit = 0;
 			return ;
 		}
 		while (begin && begin->type != 1)
-		{
-			begin = find_next_type(begin);
-			if (begin && begin->type == 1)
-			{
-				begin = begin->next;
+			if (!go_next_begin(&begin))
 				break ;
-			}
-			else if (begin)
-				begin = begin->next;
-		}
 	}
 }

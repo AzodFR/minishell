@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 14:44:30 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/12 11:50:59 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int			handler(char **args, t_env *env)
 	else if (!ft_strncmp(ft_tolowers(args[0]), "echo", 5))
 		do_echo(args);
 	else if (!ft_strncmp(ft_tolowers(args[0]), "donut", 6))
-		get_all_st(NULL)->state = main_donut();
+		get_all_st(NULL)->state = main_donut(args);
 	else if (!ft_strncmp(ft_tolowers(args[0]), "exit", 6))
 		cmd_exit(args);
 	else if ((!ft_strncmp(ft_tolowers(args[0]), ".", 2)))
