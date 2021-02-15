@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 11:09:51 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 14:44:30 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 09:59:15 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,19 +44,17 @@ typedef struct			s_type
 	struct s_type	*next;
 	struct s_type	*prev;
 }						t_type;
-typedef struct s_tree
+typedef struct			s_tree
 {
-	t_type	*cmd;
-	struct s_tree *right;
-	struct s_tree *left;
-}				t_tree;
+	t_type			*cmd;
+	struct s_tree	*right;
+	struct s_tree	*left;
+}						t_tree;
 
 typedef struct			s_all
 {
 	int		state;
 	int		flag_quote;
-	int		flag_cmd;
-	int		flag_esc;
 	int		fd[3];
 	int		exit;
 	int		prog;

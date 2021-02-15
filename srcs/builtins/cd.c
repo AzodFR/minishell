@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:19:44 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 09:43:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,10 @@ static void	change_dir_utils(t_env *env, char *path)
 		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD")
 			? env_find(env, "PWD")->value : getcwd(NULL, 0))));
 	if (!ft_strncmp(path, "//", 2))
+		env_edit_value(env_find(env, "PWD"), path);
+	else if (!ft_strncmp(path, "/etc", 4) || !ft_strncmp(path, "/var", 4))
+		env_edit_value(env_find(env, "PWD"), path);
+	else if (!ft_strncmp(path, "/private", 8))
 		env_edit_value(env_find(env, "PWD"), path);
 	else if (env_find(env, "PWD"))
 		env_edit_value(env_find(env, "PWD"), getcwd(NULL, 10000));
