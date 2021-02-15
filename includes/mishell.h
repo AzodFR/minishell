@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/15 10:08:38 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 10:21:42 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int				handler(char **cmd, t_env *env);
 int				exec_cmd_parents(char *path, char **args, char**env);
 int				create_file(int type, char **file_name);
 void			check_exit(void);
+void			father(int pid);
 /*
 **	CHECKER
 */
