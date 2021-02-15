@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:13:01 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 15:09:10 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/15 10:20:17 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void		loop(int fd, int ret)
 		get_all_st(NULL)->prog = 0;
 		signal(SIGINT, &sig_c);
 		signal(SIGQUIT, &sig_quit);
-		//ft_printf("\033[32mMiShell %s", get_tild());
+		ft_printf("\033[32mMiShell %s", get_tild());
 		ret = get_next_line(fd, &line);
 		if (ret > 0)
 			treat(line);
@@ -73,7 +73,7 @@ int			main(int ac, char **av, char **envp)
 	t_env	*env;
 	int		fd;
 
-//	welcome(envp);
+	welcome(envp);
 	fd = 0;
 	if (ac == 2)
 		fd = open(av[1], O_RDONLY);
