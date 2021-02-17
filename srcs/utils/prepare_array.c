@@ -24,10 +24,8 @@ char			*line_pre(char *line)
 	line_temp[i] = '0';
 	while (line[i])
 	{
-		if (line[i] == '\'' && sk == 0)
-			sk = 1;
-		else if (line[i] == '\'' && sk == 1)
-			sk = 0;
+		if (line[i] == '\'')
+			sk = sk ? 0 : 1;
 		if (line[i] == '\\' && line_temp[i] != '1' && sk == 0)
 			line_temp[i + 1] = '1';
 		else
