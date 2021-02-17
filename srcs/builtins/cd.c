@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:52:26 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/15 09:43:17 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 16:06:59 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,18 @@ static char	*suprslash(char *s)
 
 static void	change_dir_utils(t_env *env, char *path)
 {
+	char	*test;
+
 	if (env_find(env, "OLDPWD"))
 		env_edit_value(env_find(env, "OLDPWD"), env_find(env, "PWD") ?
 			env_find(env, "PWD")->value : getcwd(NULL, 0));
 	else
 		ft_envadd_back(&env, ft_envnew("OLDPWD", ft_strdup(env_find(env, "PWD")
 			? env_find(env, "PWD")->value : getcwd(NULL, 0))));
+	if (getcwd(NULL, 10000))
+		test = getcwd(NULL, 10000);
+	else
+		test = ft_strjoin(ft_strdup(env_find(env, "OLDPWD")->value), "/.");
 	if (!ft_strncmp(path, "//", 2))
 		env_edit_value(env_find(env, "PWD"), path);
 	else if (!ft_strncmp(path, "/etc", 4) || !ft_strncmp(path, "/var", 4))
@@ -86,9 +92,9 @@ static void	change_dir_utils(t_env *env, char *path)
 	else if (!ft_strncmp(path, "/private", 8))
 		env_edit_value(env_find(env, "PWD"), path);
 	else if (env_find(env, "PWD"))
-		env_edit_value(env_find(env, "PWD"), getcwd(NULL, 10000));
+		env_edit_value(env_find(env, "PWD"), test);
 	else
-		ft_envadd_back(&env, ft_envnew("PWD", getcwd(NULL, 10000)));
+		ft_envadd_back(&env, ft_envnew("PWD", test));
 	wrfree(path);
 	get_all_st(NULL)->state = 0;
 }

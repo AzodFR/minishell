@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/12 10:30:16 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 10:31:23 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 11:10:12 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	get_fd_back(int fd[3])
 {
-	dup2(fd[0], 0);
-	dup2(fd[1], 1);
-	dup2(fd[2], 2);
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+	dup2(fd[2], STDERR_FILENO);
 }
 
 int		go_next_begin(t_type **begin)
@@ -51,4 +51,14 @@ int		not_good_right(t_tree *right)
 	cmd = prep_cmd(right->cmd, 0);
 	end_ling(get_all_st(NULL)->state, cmd[0]);
 	return (0);
+}
+
+void	check_left_redir(t_type **tmp)
+{
+	if ((*tmp)->type == 4)
+	{
+		if (get_all_st(NULL)->flag_quote)
+			(*tmp)->type = 8;
+		get_all_st(NULL)->flag_quote = 1;
+	}
 }

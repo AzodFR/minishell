@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:55:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:38:52 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 16:46:11 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int			print_export(t_env *env)
 		act = env_find(env, envlist[i]);
 		if (act->state == 1)
 			ft_printf("declare -x %s=""\n", act->name);
-		if (act->state == 2)
+		else if (act->state == 2)
 			ft_printf("declare -x %s=\"%s\"\n", act->name, escape(act->value));
 		else
 			ft_printf("declare -x %s\n", act->name);

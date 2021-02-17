@@ -7,9 +7,12 @@ INCLUDES = includes/
 
 SRC = srcs/
 
-FLAGS = -Wall -Wextra -Werror -g3 -ltermcap -lncurses -L. -lftprintf -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g3 -L. -lftprintf -fsanitize=address
 
 CC = gcc $(FLAGS)
+
+I := 1
+
 
 FILES = mishell.c welcome.c \
 		builtins/pwd.c builtins/env.c \
@@ -35,23 +38,31 @@ RM = rm -f
 
 OBJ = $(addprefix $(SRC), $(FILES))
 
-$(NAME): $(LIBFT) 
-	@$(CC) $(OBJ) -o $@ -I$(INCLUDES) -Ilibft/${INCLUDES}
-	@printf "$(notdir $@) [\033[32m✔️\033[0m]\n"
+OBJS = $(OBJ:.c=.o)
+
+$(NAME): $(LIBFT) $(OBJS)
+	@$(CC) $(OBJS) -o $@ -I$(INCLUDES) -Ilibft/${INCLUDES}
+	@printf "\n\e[36mMI\e[33mSHELL \e[92mis ready !\e[0m\n"
 
 $(LIBFT):
-	make -C libft/
+	@make -C libft/
 	@cp libft/$(LIBFT) .
+
+%.o: %.c $(INCLUDES) libft/${INCLUDES}
+	@gcc -Wall -Wextra -Werror -g3 -o $@ -c $< -I$(INCLUDES) -Ilibft/${INCLUDES}
+	@printf "\e[?25l\e[JCreated \e[92m$(notdir $@)\e[0m\r"
 
 all: $(NAME)
 
 clean:
 	@make clean -C libft/
 	@$(RM) $(LIBFT)
+	@$(RM) $(OBJS)
 	@printf "$(LIBFT) [\033[31mX\033[0m]\n"
 
 fclean: clean
 	@make fclean -C libft/
+	@$(RM) $(OBJS)
 	@$(RM) $(NAME)
 	@printf "$(NAME) [\033[31mX\033[0m]\n"
 

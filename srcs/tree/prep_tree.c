@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   prep_tree.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 12:16:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 10:41:09 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 16:08:14 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_type	*prep_redir(void)
 		ft_exit(MALLOC);
 	redir->prev = NULL;
 	redir->next = NULL;
+	redir->type = 0;
 	return (redir);
 }
 
@@ -37,21 +38,21 @@ int		prep3(t_type **redir, t_type **tmp, t_type **prev, t_type *begin)
 	found = 0;
 	if (is_right_redir(*tmp) && (found = 1))
 	{
-		(*redir)->type = (*tmp)->type;
+		if (!(*redir)->type)
+			(*redir)->type = (*tmp)->type;
 		(*redir)->content = ft_strdup((*tmp)->content);
 		tmp2 = (*tmp)->next;
+		(*tmp)->type = 8;
 		while (tmp2->type == 8)
 			tmp2 = tmp2->next;
-		if (tmp2)
-		{
-			add_back(redir, tmp2);
+		if (tmp2 && add_back(redir, tmp2))
 			tmp2->prev->next = tmp2->next;
-		}
 		if ((*tmp)->prev)
 			(*tmp)->prev->next = (*tmp)->next;
 		if ((*tmp) == begin && ((*tmp)->type = 8))
 			begin->content = ft_strfdup(" ", begin->content);
 	}
+	check_left_redir(tmp);
 	(*prev) = (*tmp);
 	(*tmp) = (*tmp)->next;
 	return (found);
@@ -81,6 +82,6 @@ void	prep(t_type *begin)
 	t_type *tmp;
 
 	tmp = begin;
-	while (tmp)
+	while (tmp && !(get_all_st(NULL)->flag_quote = 0))
 		tmp = prep2(tmp, 0);
 }

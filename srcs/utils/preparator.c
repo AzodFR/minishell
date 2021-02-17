@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 13:45:31 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 14:51:44 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 15:58:19 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int			prep_args(int i, t_type **begin, char **args, int last)
 			while ((*begin) && (*begin)->type == 0 &&
 				!ft_strlen((*begin)->content))
 				(*begin) = (*begin)->next;
-		if (!(*begin))
+		if (!(*begin) || (*begin)->type == 1)
 			break ;
 		else if (((*begin)->type < 1 || ((*begin)->type < 8 &&
 			(*begin)->type > 5)))
@@ -96,12 +96,13 @@ int					get_mpid(void)
 	char	*line;
 
 	c = ft_strdup(
-		"ps | grep minishell | head -1 | xargs -n 1 | head -1 > wjwfklcnldknv");
+		"ps | grep minishell | head -1 | xargs -n 1 | head -1 > .minishell_h");
 	treat(c);
-	fd = open("wjwfklcnldknv", O_RDONLY);
+	fd = open(".minishell_h", O_RDONLY);
 	get_next_line(fd, &line);
 	wrfree(c);
-	c = ft_strdup("rm wjwfklcnldknv");
+	c = ft_strdup("rm .minishell_h");
 	treat(c);
+	close(fd);
 	return (ft_atoi(line));
 }

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/01 15:51:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/03 13:43:02 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 10:42:56 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,15 @@ int		ft_dprintf(int fd, const char *format, ...)
 	va_list ap;
 
 	ret = 0;
-	back = dup(1);
-	dup2(fd, 1);
+	back = dup(STDOUT_FILENO);
+	dup2(fd, STDOUT_FILENO);
 	va_start(ap, format);
 	if (!read_format(format, ap))
 		ret = print_direct(format);
 	else
 		ret = prepare_string(format, ap);
 	va_end(ap);
-	dup2(back, 1);
+	dup2(back, STDOUT_FILENO);
+	close(back);
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 15:27:31 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 13:40:07 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 12:55:42 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	sig_quit(int sig)
 {
 	if (!get_all_st(NULL)->prog)
 		return ;
-	ft_printf("Quit: %d\n\033[32mMiShell %s", sig, get_tild());
+	ft_printf("Quit: %d\n", sig);
 	(void)sig;
 }
 

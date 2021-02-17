@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pre_tree.c                                         :+:      :+:    :+:   */
+/*   recreate_parse.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 16:16:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 16:18:03 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 16:08:00 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_type	*add_file(t_type *prev, t_type *toadd)
 	return (file);
 }
 
-void	add_back(t_type **redir, t_type *toadd)
+int		add_back(t_type **redir, t_type *toadd)
 {
 	t_type	*begin;
 	int		i;
@@ -55,6 +55,7 @@ void	add_back(t_type **redir, t_type *toadd)
 	begin->next = add_space_t(begin);
 	begin = begin->next;
 	begin->next = add_file(begin, toadd);
+	return (1);
 }
 
 t_type	*lastredir(t_type *redir)

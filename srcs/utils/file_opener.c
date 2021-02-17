@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 19:23:41 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 14:46:55 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 17:04:03 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int					open_one_right(char **teub)
 			wrfree(join);
 			return (fd);
 		}
+		if (teub[i + 1])
+			close(fd);
 	}
 	return (fd);
 }
@@ -54,6 +56,8 @@ int					open_double_right(char **teub)
 			wrfree(join);
 			return (fd);
 		}
+		if (teub[i + 1])
+			close(fd);
 	}
 	return (fd);
 }
@@ -77,6 +81,8 @@ int					open_one_left(char **teub)
 			wrfree(join);
 			return (fd);
 		}
+		if (teub[i + 1])
+			close(fd);
 	}
 	return (fd);
 }

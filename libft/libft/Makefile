@@ -49,7 +49,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 %.o: %.c ${HFILES}
 		@${CC} ${CFLAGS} -c $< -o ${<:.c=.o} -I${INCLUDE}
-		@printf "$(notdir $<) [\033[32m✔️\033[0m]\n"
+		@printf "\e[?25l\e[JCreated \e[92m$(notdir $@) \e[0m\r"
 
 
 
@@ -61,7 +61,6 @@ ${NAME}: ${OBJS}
 
 bonus : ${NAME} ${BONUS}
 		@ar rcs ${NAME} ${BONUS}
-		@printf "\033[1m\033[32mBONUS ADDED !\n\033[0m"
 
 
 all:	${NAME}

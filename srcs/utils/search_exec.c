@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 14:51:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:23:23 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 16:54:39 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int		se_path(t_env *env, int i, char **args, int launch)
 	char		*tmp2;
 	struct stat	buff;
 
+	if (!env_find(env, "PATH"))
+		return (0);
 	path = ft_split(env_find(env, "PATH")->value, ':');
 	while (path[++i])
 	{

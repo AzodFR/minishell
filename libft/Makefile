@@ -33,7 +33,7 @@ all: $(NAME)
 
 %.o: %.c $(INCLUDES) libft/includes/libft.h
 	@$(CC) -c $< -o $(<:.c=.o) -I${INC} -Ilibft/${INC}
-	@printf "$(notdir $<) [\033[32m✔️\033[0m]\n"
+	@printf "\e[?25l\e[JCreated \e[92m$(notdir $@) \e[0m\r"
 
 $(LIBFT): $(INCLUDES) libft/includes/libft.h
 		@make bonus -C libft/

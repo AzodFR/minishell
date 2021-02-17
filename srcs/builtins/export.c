@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/11 11:55:34 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:35:22 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/16 16:38:11 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ static int	treat_export(char *arg, t_env *env)
 {
 	if (!check_export(arg))
 		return (1);
-	if (!ft_strchr(arg, '=') && !env_find(env, arg))
+	if (!ft_strchr(arg, '='))
 	{
+		if (env_find(env, arg))
+			return (0);
 		ft_envadd_back(&env, ft_envnew(arg, ""));
 		env_edit_state(env_find(env, arg), 0);
 		return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piped.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jedelfos <jedelfos@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 12:31:25 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 15:51:25 by jedelfos         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 11:10:00 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	exec_pipe(t_tree *root, int count, int backup_fd)
 	pipe(fd);
 	if ((pid = fork()) == 0)
 	{
-		dup2(backup_fd, 0);
+		dup2(backup_fd, STDIN_FILENO);
 		if (count)
-			dup2(fd[1], 1);
+			dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
 		if (count)
 			exec_cmd(root->left);
@@ -37,4 +37,5 @@ void	exec_pipe(t_tree *root, int count, int backup_fd)
 	pid = wait(&(get_all_st(NULL)->state));
 	if (get_all_st(NULL)->state > 255)
 		get_all_st(NULL)->state -= 255;
+	close(fd[0]);
 }

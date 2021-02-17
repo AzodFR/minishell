@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 15:35:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/12 11:06:33 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/17 13:48:16 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,31 @@ t_type	*create_struc(char *line, int i, char type, t_type *str_type)
 	return (save_first);
 }
 
-char	check_type(char *str, int i, char c)
+char	check_type(char **str, int i)
 {
-	if (c == '1')
+	if (str[1][i] == '1')
 		return (0);
-	if (str[i] == '>' && str[i + 1] == '>')
+	if (str[0][i] == '>' && str[0][i + 1] == '>')
+	{
+		if (str[1][i] && str[1][i] == '1')
+			return (0);
 		return (5);
-	else if (i > 0 && (str[i] == '>' && str[i - 1] == '>'))
+	}
+	else if (i > 0 && (str[0][i] == '>' && str[0][i - 1] == '>'))
+	{
+		if (str[1][i - 1] && str[1][i - 1] == '1')
+			return (0);
 		return (5);
-	else if (str[i] == '<')
+	}
+	else if (str[0][i] == '<')
 		return (4);
-	else if (str[i] == '>')
+	else if (str[0][i] == '>')
 		return (3);
-	else if (str[i] == '|')
+	else if (str[0][i] == '|')
 		return (2);
-	else if (str[i] == ';')
+	else if (str[0][i] == ';')
 		return (1);
-	else if (str[i] == ' ' || str[i] == '\t')
+	else if (str[0][i] == ' ' || str[0][i] == '\t')
 		return (8);
 	return (0);
 }
@@ -72,7 +80,7 @@ int		jump_cote(char **line, int i, t_type **str_type, int *u)
 		c = line[0][i];
 		if (i > u[0])
 			str_type[0] = create_struc(&line[0][u[0]], i - 1 - u[0],
-				check_type(line[0], 0, '0'), str_type[0]);
+				check_type(line, 0), str_type[0]);
 		i++;
 		while (line[0][i] && (!(line[0][i] == c && line[1][i] == '0')))
 			i++;
@@ -98,7 +106,7 @@ int		moov_type(int u, char *line)
 			y--;
 		while (y > 0 && ft_isdigit(line[y]))
 			y--;
-		if (y > 0 && line[y] == ' ')
+		if (y > 0 && (line[y] == ' ' || line[y] == '\t'))
 			return (y + 1);
 	}
 	return (u);
@@ -114,21 +122,21 @@ t_type	*split_type(char **linep, int u)
 	i = 0;
 	while (linep[0][i])
 	{
-		type = check_type(linep[0], i, linep[1][i]);
+		type = check_type(linep, i);
 		if ((i = jump_cote(linep, i, &f_type, &u)) == -1)
 			return (0);
-		if (linep[1][i] == '0' && check_type(linep[0], i, '0') != type)
+		if (linep[1][i] == '0' && check_type(linep, i) != type)
 		{
 			f_type = create_struc(linep[0] + moov_type(u, linep[0]),
 				moov_type(i, linep[0]) - moov_type(u, linep[0]) - 1,
-					check_type(linep[0], i - 1, '0'), f_type);
+					check_type(linep, i - 1), f_type);
 			u = i;
 		}
 	}
 	if (u != i)
 		f_type = create_struc(linep[0] + moov_type(u, linep[0]),
 		moov_type(i, linep[0]) - moov_type(u, linep[0]) - 1,
-		check_type(linep[0], i - 1, '0'), f_type);
+		check_type(linep, i - 1), f_type);
 	wrfree(linep[1]);
 	return (f_type);
 }
