@@ -7,7 +7,7 @@ INCLUDES = includes/
 
 SRC = srcs/
 
-FLAGS = -Wall -Wextra -Werror -g3 -L. -lftprintf -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -g3
 
 CC = gcc $(FLAGS)
 
@@ -41,7 +41,7 @@ OBJ = $(addprefix $(SRC), $(FILES))
 OBJS = $(OBJ:.c=.o)
 
 $(NAME): $(LIBFT) $(OBJS)
-	@$(CC) $(OBJS) -o $@ -I$(INCLUDES) -Ilibft/${INCLUDES}
+	@$(CC) $(OBJS) -L. -lftprintf -o $@ -I$(INCLUDES) -Ilibft/${INCLUDES}
 	@printf "\n\e[36mMI\e[33mSHELL \e[92mis ready !\e[0m\n"
 
 $(LIBFT):

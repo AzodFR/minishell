@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/17 16:24:36 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 11:23:03 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char			*line_pre(char *line)
 	line_temp[i] = '0';
 	while (line[i])
 	{
-		if (line[i] == '\'')
+		if (line[i] == '\'' && line_temp[i] == '0')
 			sk = sk ? 0 : 1;
 		if (line[i] == '\\' && line_temp[i] != '1' && sk == 0)
 			line_temp[i + 1] = '1';

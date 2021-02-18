@@ -46,10 +46,8 @@ t_type	*add_file(t_type *prev, t_type *toadd)
 int		add_back(t_type **redir, t_type *toadd)
 {
 	t_type	*begin;
-	int		i;
 
 	begin = *redir;
-	i = 1;
 	while (begin->next)
 		begin = begin->next;
 	begin->next = add_space_t(begin);

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/11 14:32:36 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/17 15:57:29 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 11:11:00 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int			is_directory(const char *path)
 {
 	struct stat statbuf;
 
+	statbuf.st_mode = 0;
 	stat(path, &statbuf);
 	return (S_ISDIR(statbuf.st_mode));
 }

@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/17 16:26:49 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 14:21:54 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char			*check_translation(char *s)
 		if (!s[i])
 			break ;
 		while (s[i] == '$' && !esc && s[i + 1] && s[i + 1] != ' '
-				&& (s[i + 1] == '?' || s[i + 1] == '\'' || s[i + 1] == '\"' || 
+				&& (s[i + 1] == '?' || s[i + 1] == '\'' || s[i + 1] == '\"' ||
 				ft_isalnum(s[i + 1])))
 			r = translate(s, &i, get_all_st(NULL), r);
 		if (!s[i])

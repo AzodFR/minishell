@@ -6,17 +6,11 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/10 12:16:35 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/17 16:08:14 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 14:15:23 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mishell.h"
-
-char	*ft_strfdup(char *s, char *bef)
-{
-	wrfree(bef);
-	return (ft_strdup(s));
-}
 
 t_type	*prep_redir(void)
 {
@@ -28,6 +22,17 @@ t_type	*prep_redir(void)
 	redir->next = NULL;
 	redir->type = 0;
 	return (redir);
+}
+
+void	space_betweens(t_type *b, t_type *n)
+{
+	t_type *space;
+
+	space = add_space_t(b);
+	b->next = space;
+	if (n)
+		n->prev = space;
+	space->next = n;
 }
 
 int		prep3(t_type **redir, t_type **tmp, t_type **prev, t_type *begin)
@@ -42,18 +47,19 @@ int		prep3(t_type **redir, t_type **tmp, t_type **prev, t_type *begin)
 			(*redir)->type = (*tmp)->type;
 		(*redir)->content = ft_strdup((*tmp)->content);
 		tmp2 = (*tmp)->next;
-		(*tmp)->type = 8;
+		space_betweens((*tmp), tmp2);
 		while (tmp2->type == 8)
 			tmp2 = tmp2->next;
 		if (tmp2 && add_back(redir, tmp2))
 			tmp2->prev->next = tmp2->next;
+		(*tmp)->type = 8;
 		if ((*tmp)->prev)
 			(*tmp)->prev->next = (*tmp)->next;
 		if ((*tmp) == begin && ((*tmp)->type = 8))
 			begin->content = ft_strfdup(" ", begin->content);
 	}
 	check_left_redir(tmp);
-	(*prev) = (*tmp);
+	(*prev) = *tmp;
 	(*tmp) = (*tmp)->next;
 	return (found);
 }

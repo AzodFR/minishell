@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 11:40:46 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/16 16:53:54 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 12:37:35 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,6 @@ int			end_ling(int ret, char *s)
 		get_all_st(NULL)->state = 127;
 		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
 		ft_dprintf(2, "%s: command not found\n", s);
-	}
-	if (ret == 126)
-	{
-		ft_dprintf(2, "\033[32mMiShell \033[31m✘ \033[0m");
-		ft_dprintf(2, "%s: is a directory\n", s);
 	}
 	if (ret == 256)
 		get_all_st(NULL)->state = 1;

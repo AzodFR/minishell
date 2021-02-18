@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/05 14:26:24 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/17 15:29:09 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 14:00:59 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,6 @@ void	insert_tree(t_tree **root, t_type *cmd)
 
 void	create_tree(t_type *cmd, t_tree **tree)
 {
-	t_type *redir;
-	t_type *back;
-
-	redir = NULL;
-	back = NULL;
 	while (cmd && cmd->type != 1)
 	{
 		if (cmd->type > 1 && cmd->type < 6)

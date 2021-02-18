@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/17 16:08:31 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 14:14:16 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int				check_cmd(t_env *env, char **args, int i);
 /*
 **	PREPARE CMD
 */
+int				not_exec(int	i, char *s);
 int				no_prev(t_type *begin);
 int				no_next(t_type *begin);
 int				no_cmd(t_type *begin);
@@ -119,4 +120,5 @@ void			get_fd_back(int fd[3]);
 void			exit_donut(int sig);
 int				too_much(t_type *tmp);
 int				get_mpid(void);
+char			*ft_strfdup(char *s, char *bef);
 #endif

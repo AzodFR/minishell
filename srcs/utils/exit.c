@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/08 16:25:27 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/11 14:41:29 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/18 14:15:58 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,10 @@ void	ft_exit(int code)
 		ft_dprintf(2, "Status: %s\n", get_msg(code));
 	wrdestroy();
 	exit(get_all_st(NULL)->state);
+}
+
+char	*ft_strfdup(char *s, char *bef)
+{
+	wrfree(bef);
+	return (ft_strdup(s));
 }
