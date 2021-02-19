@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 11:41:28 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/18 11:23:03 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 10:58:36 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void			translate_only(t_type *begin)
 				tmp->content =
 				ft_strjoin(
 				env_find(get_env_st(NULL), "HOME")->value, tmp->content + 1);
-			tmp->content = check_translation(tmp->content);
+			tmp->content = check_translation(tmp->content, tmp->type,
+			tmp->next);
 		}
 		tmp = tmp->next;
 	}

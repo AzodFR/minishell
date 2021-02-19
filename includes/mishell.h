@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 16:12:37 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/18 14:14:16 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 10:47:30 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int				jump_cote(char **line, int i, t_type **str_type, int *u);
 int				moov_type(int u, char *line);
 t_type			*split_type(char **linep, int u);
 char			*add_one(char *s, char c);
-char			*check_translation(char *s);
+char			*check_translation(char *s, int type, t_type *next);
 t_type			*find_next_type(t_type *begin);
 void			translate_only(t_type *begin);
 void			prep(t_type *begin);

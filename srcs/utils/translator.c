@@ -6,7 +6,7 @@
 /*   By: thjacque <thjacque@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/13 14:03:32 by thjacque          #+#    #+#             */
-/*   Updated: 2021/02/18 14:21:54 by thjacque         ###   ########lyon.fr   */
+/*   Updated: 2021/02/19 10:59:18 by thjacque         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char			*add_one(char *s, char c)
 	return (tmp);
 }
 
-char			*check_translation(char *s)
+char			*check_translation(char *s, int type, t_type *next)
 {
 	int		i;
 	char	*r;
@@ -78,16 +78,15 @@ char			*check_translation(char *s)
 	while (s[++i])
 	{
 		esc = 0;
-		if (s[i] == '\\')
-		{
-			esc = 1;
+		if ((!type && s[i] == '$' && !s[i + 1] && next) || (s[i] == '\\'
+		&& (!type || (type && s[i + 1] && (s[i + 1] == '$' || s[i + 1] == '`'
+		|| s[i + 1] == '"'))) && (esc = 1)))
 			++i;
-		}
 		if (!s[i])
 			break ;
 		while (s[i] == '$' && !esc && s[i + 1] && s[i + 1] != ' '
 				&& (s[i + 1] == '?' || s[i + 1] == '\'' || s[i + 1] == '\"' ||
-				ft_isalnum(s[i + 1])))
+s[i + 1] == '_' || s[i + 1] == '@' || s[i + 1] == '*' || ft_isalnum(s[i + 1])))
 			r = translate(s, &i, get_all_st(NULL), r);
 		if (!s[i])
 			break ;
