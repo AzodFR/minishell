@@ -42,7 +42,7 @@ OBJS = $(OBJ:.c=.o)
 
 $(NAME): $(LIBFT) $(OBJS)
 	@$(CC) $(OBJS) -L. -lftprintf -o $@ -I$(INCLUDES) -Ilibft/${INCLUDES}
-	@printf "\n\e[36mMI\e[33mSHELL \e[92mis ready !\e[0m\n"
+	@printf "\n\e[36mMI\e[33mSHELL \e[92mis ready !\e[0m\e[?25h\n"
 
 $(LIBFT):
 	@make -C libft/
